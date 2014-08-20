@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<head xmlns="http://www.w3.org/1999/html">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0"/>
+        {# Stylesheets #}
+        {% block globalStylesheets %}
+            {# Fonts #}
+            <link href = "{{ asset('assets/css/blue/fonts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            {# End Of Fonts #}
+            <link href = "{{ asset('assets/css/blue/common.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/layout_outer.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        {% endblock %}
+
+        {% block pageStylesheets %}
+        {% endblock pageStylesheets %}
+        {# End Of Stylesheets #}
+
+        {# JavaScripts #}
+        {% block globalJavaScripts %}
+            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/outer.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
+        {% endblock %}
+
+        {% block pageJavaScripts %}
+        {% endblock pageJavaScripts %}
+        {# End Of JavaScripts #}
+    </head>
+    <body>
+        <div class = "wrapper">
+            <header class = "header">
+                <div class = "logo_text">AIRSIM</div>
+                <div class = "choose_lang_wrapper">
+                    Selected language: English
+                    <input type = "button" class = "choose_lang_btn" id = "choose_lang_btn" value = ""/>
+                </div>
+            </header>
+            <nav class = "menu">
+                <ul>
+                    <a href = "#" id = "about_us">
+                        <li>About us</li>
+                    </a>
+                    <a href = "#" id = "contact">
+                        <li>Contact</li>
+                    </a>
+                    <a href = "#">
+                        <li>Quick guide</li>
+                    </a>
+                    <a href = "#">
+                        <li>News archive</li>
+                    </a>
+                </ul>
+            </nav>
+            <section class = "content">
+                {# Unique Page Content #}
+                {% block pageContent %}
+                {% endblock %}
+                {# End Of Unique Page Content #}
+
+                <!-- ********** Dialog Windows ********** -->
+
+                <!-- About Us Dialog -->
+                <div id = "about_dialog" class = "dialog scale">
+                    <div class = "dialog_title">About</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                    Press Esc to exit
+                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                </span>
+                    <div class = "dialog_content">
+                        About us info
+                    </div>
+                </div>
+                <!-- End Of About Us Dialog -->
+
+                <!-- Contact Dialog -->
+                <div id = "contact_dialog" class = "dialog scale">
+                    <div class = "dialog_title">Contact</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                    Press Esc to exit
+                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                </span>
+                    <div class = "dialog_content">
+                        Contact
+                    </div>
+                </div>
+                <!-- End Of Contact Dialog -->
+
+                <!-- Select Language Dialog -->
+                <div id = "select_language_dialog" class = "dialog scale">
+                    <div class = "dialog_title">Select Language</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                    Press Esc to exit
+                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                </span>
+                    <div class = "dialog_content">
+                        List of available languages
+                    </div>
+                </div>
+                <!-- End Of Select Language Dialog -->
+
+                <div class = "dialog_background" id = "dialog_background"></div>
+
+                <!-- ********** End Of Dialog Windows ********** -->
+                <div class = "clear"></div>
+            </section>
+            <div class = "push"></div>
+        </div>
+        <footer class = "footer">
+            <div class = "footer_content">
+                <div class = "footer_left_block">
+                    AirSim © 2013<br/>
+                    <a href = "">Terms of use</a>
+                </div>
+                <div class = "footer_right_block">
+                    E-post: upcooper@gmail.com<br/>
+                    Phone number: +372 57450322<br/>
+                    Fax: +372 9999 999<br/>
+                </div>
+                <div class = "footer_middle_block">
+                    Mustamäe tee 181-120<br/>
+                    AirSim OÜ<br/>
+                    19129 Tallinn (<a href = "">Map</a>)
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

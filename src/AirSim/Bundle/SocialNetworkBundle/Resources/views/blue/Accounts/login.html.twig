@@ -1,0 +1,118 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:outer.html.twig'%}
+
+{% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/login.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+    <link href = "{{ asset('assets/css/blue/slider.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+    <script type = "text/javascript" src = "{{ asset('assets/js/blue/slider.js') }}"></script>
+    <script type = "text/javascript" src = "{{ asset('assets/js/blue/login.js') }}"></script>
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <aside class = "left_block">
+        <div class = "login_form_wrapper">
+            <h1>Login with an existing account or create a new one</h1>
+            <form>
+                <label>Username:<span class = "required">*</span></label>
+                <input type = "text" class = "login_input" name = "login_input" placeholder = "username"/><br/>
+
+                <label>Password:<span class = "required">*</span></label>
+                <input type = "password" class = "password_input" name = "pass_input" placeholder = "**********"/><br/>
+
+                <input type = "checkbox" id = "remember_me"/>
+                <label for = "remember_me">Remember me on this device<span></span></label>
+
+                <div class = "form_link">
+                    <a href = "#">Forgot Your password?</a>
+                </div>
+
+                <input type = "button" value = "Register"/>
+                Or
+                <input type = "button" id = "log_in_btn" value = "Sign in"/>
+            </form>
+            <div class = "errors">
+                <div id = "is_required_username" class = "hidden">Username is required!</div>
+                <div id = "min_length_username" class = "hidden">Minimum length for username is 5!</div>
+                <div id = "is_required_password" class = "hidden">Password is required!</div>
+                <div id = "min_length_pass" class = "hidden">Minimum length for password is 8!</div>
+                <div id = "wrong_username_or_pass" class = "hidden">Wrong username or password!</div>
+            </div>
+        </div>
+    </aside>
+    <aside class = "right_block">
+        <section class = "slider">
+            <div class = "arrow_left"></div>
+            <div class = "arrow_right"></div>
+            <ul id = "slider">
+
+                {% for i in 1..5 %}
+                    <li id = "slide{{ i }}">
+                        <img src = "{{ asset('assets/images/slides/slide'~i~'.jpg') }}" class = "slide_image"/>
+                        <div class = "slide_comment">
+                            <div class = "slide_comment_numbers">
+                                <span class = "bold_slide_number">{{ i }}</span><span class = "normal_slide_number">/5</span>
+                            </div>
+                            <article class = "slide_comment_text">
+                                some text to replace | some text to replace | some text to replace | some text to replace | some text to replace |
+                                some text to replace | some text to replace | some text to replace | some text to replace | some text to replace |
+                                some text to replace | some text to replace | some text to replace | some text to replace | some text to replace |
+                            </article>
+                        </div>
+                        <div class = "clear"></div>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </section>
+        <aside class = "advertisement">
+            Additional block for content.
+            Advertisement maybe or short description
+            of AirSim social network ...
+        </aside>
+        <section class = "updates">
+            <h1>Latest updates</h1>
+            <article class = "update">
+                <div class = "update_header">
+                    <div class = "left">Open source option wins WA cloud deal</div>
+                    <div class = "right">14.08.2014</div>
+                </div>
+                <div class = "update_content">
+                    <img src = "{{ asset('assets/images/updates/cloud.jpg') }}" class = "update_image" align = "left">
+                    The Western Australian Institute for Medical Research will today take ownership of a private cloud solution built almost entirely of open source technologies to prepare for an influx of researchers over the coming weeks. The $200 million medical research project - recently renamed the Harry Perkins Institute for Medical Research - will house over 1200 external researchers in two greenfield Perth campus buildings. These researchers, from 40+ independent research groups, aim to solve complex problems such as the genetic and environmental causes of cancer and diabetes. The project’s IT posture has been designed and delivered by independent IT consultant Titan ICT, which over recent months has built out data centres in each of the two locations, connected via high-speed fibre (MPLS) and wireless (802.1x) networks. Around 140 researchers and support staff moved in this week, with the remainder to follow in staggered groups. Titan ICT went to tender for a private cloud solution to host a set of shared services the Institute will deliver to research tenants, based on some unique requirements.
+                </div>
+                <input type = "button" class = "right read_more_button" style = "margin-right: 10px;" value = "Read more" />
+                <input type = "hidden" class = "update_id" value = "updateId"/>
+                <div class = "clear"></div>
+            </article>
+            <article class = "update">
+                <div class = "update_header">
+                    <div class = "left">Broke solid state storage maker sells assets to Toshiba</div>
+                    <div class = "right">14.08.2014</div>
+                </div>
+                <div class = "update_content">
+                    <img src = "{{ asset('assets/images/updates/toshiba.jpg') }}" class = "update_image" align = "left">
+                    Taiwanese based solid state storage and power supply maker OCZ, which is currently in the clutches of a Chapter 11 bankruptcy, claims it has reached an asset purchase agreement with Japanese electronics giant Toshiba. Under the deal, Toshiba will "substantially acquire" all of OCZ's assets for US$35 million. This includes OCZ's client and enterprise software businesses, which gives Toshiba access to intellectual property covering proprietary flash memory controllers, firmware and software. OCZ chief executive Ralph Schmitt said the company's business has failed over the past year due to NAND flash supply constraints and credit issues. Toshiba will provide debtor in possession finance to ensure that OCZ can continue its business during the sale period.
+                </div>
+                <input type = "button" class = "right read_more_button" style = "margin-right: 10px;" value = "Read more" />
+                <input type = "hidden" class = "update_id" value = "updateId"/>
+                <div class = "clear"></div>
+            </article>
+            <article class = "update">
+                <div class = "update_header">
+                    <div class = "left">Prototype malware jumps 'air gap' barrier using audio signals</div>
+                    <div class = "right">14.08.2014</div>
+                </div>
+                <div class = "update_content">
+                    <img src = "{{ asset('assets/images/updates/netCon.jpg') }}" class = "update_image" align = "left">
+                    Computer scientists have developed malware capable of establishing communications between devices that don't have active network connections, threatening the reliability of the "air gap" frequently used to protect information. Using the built-in microphones and speakers found on PCs, the lab-created prototype malware that uses inaudible audio signals to transmit small amounts of data over covert channels at distances of nearly 65 feet. The distance can be increased by creating a network of devices that repeat the signals. The proof-of-concept software, detailed in the Journal of Communications, suggests that a lack of an Internet connection isn't enough to insulate sensitive internal computer systems from the outside world. The research comes after the recent disclosure of mysterious malware that used high-frequency signals to hurdle between non-connected devices.
+                </div>
+                <input type = "button" class = "right read_more_button" style = "margin-right: 10px;" value = "Read more" />
+                <input type = "hidden" class = "update_id" value = "updateId"/>
+                <div class = "clear"></div>
+            </article>
+        </section>
+        <div class = "clear"></div>
+    </aside>
+{% endblock %}

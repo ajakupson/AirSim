@@ -1,0 +1,7 @@
+parameters:
+#    air_sim_core.example.class: AirSim\Bundle\CoreBundle\Example
+
+services:
+#    air_sim_core.example:
+#        class: %air_sim_core.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,124 @@
+@media screen and (max-width:1920px)
+{
+    .dialog_wrapper
+    {
+        width: 80%;
+        overflow: hidden;
+    }
+    .dialog
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 0px solid #4d9ff1;
+        color: #333333;
+        display: none;
+        font-size: 14px;
+        width: 100%;
+        height: auto;
+        max-height: 800px;
+        z-index: 101;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /*-ms-overflow-style: none;*/ /* Hide scrollbars in IE10+ */
+        /*overflow: -moz-scrollbars-none;*/ /* Hide scrollbars in Firefox */
+
+        transition-duration:400ms;
+
+    }
+    .dialog::-webkit-scrollbar{ width: 0 !important; } /* Hide scrollbars in Chrome and Safari */
+    .dialog.scale
+    {
+        transform:scale(0.8, 0.8);
+    }
+    .dialog_title
+    {
+        margin: 0;
+        width: 100%;
+        height: auto;
+        text-align: left;
+        padding: 10px;
+        padding-left: 15px;
+        font-weight: bold;
+        font-size: 13px;
+        color: white;
+        background-color: #27a9ff;
+        text-transform: uppercase;
+        cursor: all-scroll;
+
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .dialog_close
+    {
+        position: absolute;
+        top: 4px;
+        right: 0px;
+        width: 15px;
+        height: 20px;
+        padding: 5px;
+        font-weight: bold;
+        cursor: pointer;
+
+    }
+    .dialog_close_tooltip
+    {
+        background: none repeat scroll 0 0 #000000;
+        border-radius: 2px 2px 2px 2px;
+        color: #FFFFFF;
+        display: none;
+        font-size: 11px;
+        opacity: 0.7;
+        padding: 6px 10px 6px 10px;
+        position: absolute;
+        right: -38px;
+        text-align: center;
+        top: -35px;
+        width: auto;
+        height: 16px;
+    }
+    .dialog_arrow
+    {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 7px solid #000000;
+        display: block;
+        height: 1px;
+        right: 48px;
+        position: absolute;
+        top: 26px;
+        width: 1px;
+    }
+    .dialog_content
+    {
+        width: 100%;
+        padding: 20px;
+
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    .dialog_background
+    {
+        z-index: 100;
+        position: fixed;
+        display: none;
+        height: 100%;
+        width: 100%;
+        background: #000000;
+        top: 0px;
+        left: 0px;
+        opacity: 0.5;
+    }
+    .draggable
+    {
+        border: 10px solid darkgrey;
+        border-radius: 5px;
+    }
+}

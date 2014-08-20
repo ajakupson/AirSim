@@ -1,0 +1,86 @@
+label
+{
+    display: inline-block;
+    width: 110px;
+    margin-left: 15px;
+    text-align: left;
+}
+.required
+{
+    color: red;
+}
+input:-webkit-autofill
+{
+    -webkit-box-shadow:0 0 0 50px white inset;
+    -webkit-text-fill-color: black;
+}
+input[type = "text"], input[type = "password"]
+{
+    height: auto;
+    height: 30px;
+    width: 150px;
+    margin-top: 5px;
+    padding-left: 10px;
+    border: 1px solid #DDD;
+}
+input[type = "text"]:focus, input[type = "password"]:focus
+{
+    border: 1px solid #27a9ff;
+    outline: none;
+}
+input:focus::-webkit-input-placeholder { color: transparent; }
+input:focus:-moz-placeholder { color: transparent; }
+input:focus::-moz-placeholder { color: transparent; }
+input:focus:-ms-input-placeholder { color: transparent; }
+
+input[type = "button"]
+{
+    width: auto;
+    min-width: 100px;
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+    background-color: #27a9ff;
+    font-weight: bold;
+    color: white;
+    border: 0px;
+    cursor: pointer;
+
+    transition: background-color .2s;
+}
+input[type = "button"]:hover
+{
+    background-color: rgba(39, 169, 255, 0.51);
+}
+input[type = "button"]:focus
+{
+    outline: none;
+}
+
+input[type="checkbox"]
+{
+    display: none;
+    float: left;
+}
+input[type="checkbox"] + label
+{
+    padding: 15px 0 0 0;
+    line-height: 23px;
+    width: auto;
+}
+input[type="checkbox"] + label span
+{
+    display: inline-block;
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin-left: 15px;
+    background: url('../../images/themes/blue/input_checkbox_unchecked.png') no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+}
+input[type="checkbox"]:checked + label span
+{
+    background: url('../../images/themes/blue/input_checkbox_checked.png') no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+}

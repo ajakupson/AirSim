@@ -1,0 +1,7 @@
+@media screen and (max-width:1680px)
+{
+    .advertisement
+    {
+        display: none;
+    }
+}

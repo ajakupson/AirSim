@@ -1,0 +1,12 @@
+air_sim_admin:
+    resource: "@AirSimAdminBundle/Resources/config/routing.yml"
+    prefix:   /
+
+air_sim_social_network:
+    resource: "@AirSimSocialNetworkBundle/Resources/config/routing.yml"
+    prefix:   /
+
+air_sim_core:
+    resource: "@AirSimCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+

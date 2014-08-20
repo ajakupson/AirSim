@@ -1,0 +1,3 @@
+air_sim_social_network_accounts:
+    path:     /accounts/{action}
+    defaults: { _controller: AirSimSocialNetworkBundle:Accounts:accounts }

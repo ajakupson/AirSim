@@ -1,0 +1,169 @@
+@media screen and (max-width:1920px)
+{
+    h1
+    {
+        font-size: 1.2em;
+    }
+
+    .left_block
+    {
+        float: left;
+        width: auto;
+        max-width: 350px;
+        height: auto;
+        text-align: right;
+    }
+    .login_form_wrapper
+    {
+        margin: 15px;
+        padding: 5px 20px 15px 0;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+
+    .right_block
+    {
+        width: auto;
+        height: auto;
+        min-height: 300px;
+        margin: 15px 15px 15px 350px;
+        position: relative;
+    }
+
+    .advertisement
+    {
+        float: right;
+        width: 21%;
+        height: auto;
+        max-height: 350px;
+        font-size: 0.8em;
+        margin: 0 0 0 10px;
+        padding: 10px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+
+    /* Updates block */
+    .updates
+    {
+        width: 100%;
+        height: auto;
+        float: left;
+        margin-top: 15px;
+        padding: 0 15px 15px 15px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .update
+    {
+        position: relative;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 0.8em;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .update_header
+    {
+        float: left;
+        width: 100%;
+        padding: 10px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        background-color: #27a9ff;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    .update_content
+    {
+        width: 100%;
+        float: left;
+        padding: 10px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    .update_image
+    {
+        margin: 5px 15px 10px 5px;
+        padding: 5px;
+        width: 100px;
+        height: 100px;
+        background: #ffffff;
+        border: 1px solid #f2f2f2;
+    }
+    /* End of updates block*/
+
+    /* Inputs */
+    input[type="text"].login_input
+    {
+        width: 120px;
+        padding-right: 30px;
+        background: url('../../../../images/themes/blue/input_username_icon.png') no-repeat;
+        background-position: right 3px top 2px;
+        background-size: contain;
+        background-size: 25px 25px;
+    }
+
+    input[type="password"].password_input
+    {
+        width: 120px;
+        margin-bottom: 5px;
+        padding-right: 30px;
+        background: url('../../../../images/themes/blue/input_password_icon.png') no-repeat;
+        background-position: right 3px top 4px;
+        background-size: contain;
+        background-size: 25px 25px;
+    }
+
+    input[type="button"].read_more_button
+    {
+        padding-right: 45px;
+        background: url('../../../../images/themes/blue/read_more_icon.png') no-repeat;
+        background-position: right 5px top 3px;
+        background-size: contain;
+        background-size: 30px 30px;
+        background-color: #27a9ff;
+        position: relative;
+        text-align: left;
+
+        transition: background-color .2s, background-position .2s, padding .2s;
+    }
+    input[type="button"].read_more_button:hover
+    {
+        background-color: rgba(39, 169, 255, 0.51);
+    }
+    /* End of inputs */
+}
+
+@media screen and (max-width:1919px)
+{
+    .advertisement
+    {
+        display: none;
+    }
+}
