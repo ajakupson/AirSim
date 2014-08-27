@@ -10,3 +10,5 @@
 /bin/
 /composer.phar
 /.idea/*
+/web/public_files/*
+!web/public_files/app_default

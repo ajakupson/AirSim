@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\WallRecordLikes" table="wall_record_likes">
+    <indexes>
+      <index name="FK_wall_record_likes" columns="wall_rec_id"/>
+    </indexes>
+    <id name="recId" type="integer" column="rec_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userId" type="integer" column="user_id" nullable="false"/>
+    <field name="likeDislike" type="boolean" column="like_dislike" nullable="false"/>
+    <field name="dateRated" type="datetime" column="date_rated" nullable="false"/>
+    <many-to-one field="wallRec" target-entity="UserWallRecords">
+      <join-columns>
+        <join-column name="wall_rec_id" referenced-column-name="wall_rec_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

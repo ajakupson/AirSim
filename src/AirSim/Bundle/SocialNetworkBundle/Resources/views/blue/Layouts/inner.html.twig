@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+    <head xmlns="http://www.w3.org/1999/html">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0"/>
+        {# Stylesheets #}
+        {% block globalStylesheets %}
+            {# Fonts #}
+            <link href = "{{ asset('assets/css/blue/fonts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            {# End Of Fonts #}
+            <link href = "{{ asset('assets/css/blue/common.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/layout_inner.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        {% endblock %}
+
+        {% block pageStylesheets %}
+        {% endblock pageStylesheets %}
+        {# End Of Stylesheets #}
+
+        {# JavaScripts #}
+        {% block globalJavaScripts %}
+            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/inner.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/constants.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common.js') }}"></script>
+        {% endblock %}
+
+        {% block pageJavaScripts %}
+        {% endblock pageJavaScripts %}
+        {# End Of JavaScripts #}
+    </head>
+    <body>
+        <div class = "wrapper">
+            <input type = "hidden" id = "logged_in_user_id" value = "-1"/>
+            <header class = "header">
+                <div class = "header_content">
+                    <div class = "logo_text">AIRSIM</div>
+                    <div class = "top_nav">
+                        <div class = "user_top_data">
+                            <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            <div class = "logged">
+                                You are logged in as<br/>
+                                    <span class = "user">
+                                        Bob Marley
+                                    </span>
+                            </div>
+                        </div>
+                        <ul class = "top_nav_menu">
+                            <li><a href = "./../user/">Home page</a></li>
+                            <li><a href = "./../contacts/all_friends">Friends</a></li>
+                            <li><a href = "./../chat/available_chats">Messages</a></li>
+                            <li><a id = "log_out">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <section class = "content inner">
+                <div class = "content_left">
+                    <nav class = "menu">
+                        <ul>
+                            <li>
+                                <span class = "menu_icon home"></span>
+                                Homepage
+                            </li>
+                            <li>
+                                <span class = "menu_icon friends"></span>
+                                Friends
+                            </li>
+                            <li class = "selected">
+                                <span class = "menu_icon messages"></span>
+                                Messages
+                            </li>
+                            <li>
+                                <span class = "menu_icon photos"></span>
+                                Photos
+                            </li>
+                            <li>
+                                <span class = "menu_icon map"></span>
+                                Map
+                            </li>
+                            <li>
+                                <span class = "menu_icon news"></span>
+                                News
+                            </li>
+                            <li>
+                                <span class = "menu_icon options"></span>
+                                Options
+                            </li>
+                            <li>
+                                <span class = "menu_icon advanced"></span>
+                                Advanced
+                            </li>
+                            <li>
+                                <span class = "menu_icon safe"></span>
+                                Safe
+                            </li>
+                            <li>
+                                <span class = "menu_icon favorites"></span>
+                                Favorites
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class = "content_right">
+                    {# Unique Page Content #}
+                    {% block pageContent %}
+                    {% endblock %}
+                    {# End Of Unique Page Content #}
+                </div>
+
+                <!-- ********** Dialog Windows ********** -->
+
+                <!-- Error Dialog -->
+                <div id = "error_message_dialog" class = "error_message_dialog">
+                    <div class = "error_message_dialog_title">
+                        <span id = "error_message_dialog_title_text">Error</span>
+                        <div id = "error_message_dialog_close" class = "error_message_dialog_close">x</div>
+                    </div>
+                            <span id = "error_message_dialog_close_tooltip" class = "error_message_dialog_close_tooltip">
+                                Press Esc to exit
+                                <span id = "error_message_dialog_arrow" class = "error_message_dialog_arrow"></span>
+                            </span>
+                    <div class = "error_message_dialog_content" id = "error_message_dialog_content">
+                        Response text
+                    </div>
+                </div>
+                <!-- End Of Error Dialog -->
+
+                <div class = "dialog_background" id = "dialog_background"></div>
+                <!-- ********** End Of Dialog Windows ********** -->
+
+                <div class = "clear"></div>
+            </section>
+            <div class = "push"></div>
+        </div>
+        <footer class = "footer">
+        </footer>
+    </body>
+</html>

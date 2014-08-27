@@ -2,6 +2,7 @@
 
     var dialogBackground;
 
+    // Simple dialog
     $.fn.dialogInit = function(options)
     {
 
@@ -15,7 +16,6 @@
             width: '100%',
             height: dialog.outerHeight(),
             draggable: false
-//            animation: 'grow'
         }, options);
 
         // make dialog draggable
@@ -85,5 +85,39 @@
         this.addClass('scale');
         dialogBackground.fadeOut();
     };
+
+    // TODO : improve
+    // Error dialog
+    $.fn.errDialogInit = function(options)
+    {
+        var dialog = this;
+
+        var settings = $.extend
+        ({
+        }, options);
+
+        // close error dialog event
+        $('.error_message_dialog_close', dialog).click(function()
+        {
+            dialog.errDialogClose();
+        });
+
+    };
+
+    $.fn.errDialogOpen = function(XMLHttpRequest, status, error)
+    {
+        this.find('#error_message_dialog_title_text').html(status + ': ' + error);
+        this.find('#error_message_dialog_content').html(XMLHttpRequest.responseText);
+        this.fadeIn();
+        dialogBackground.fadeIn();
+    };
+
+    $.fn.errDialogClose = function()
+    {
+        this.find('#error_message_dialog_content').html('');
+        this.fadeOut();
+        dialogBackground.fadeOut();
+    }
+
 
 }(jQuery));

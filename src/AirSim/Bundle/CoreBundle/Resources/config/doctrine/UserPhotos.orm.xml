@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\UserPhotos" table="user_photos">
+    <indexes>
+      <index name="FK_photos_albums" columns="album_id"/>
+    </indexes>
+    <id name="photoId" type="integer" column="photo_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="photoName" type="string" column="photo_name" length="255" nullable="false"/>
+    <field name="photoTitle" type="string" column="photo_title" length="200" nullable="true"/>
+    <field name="photoDescription" type="string" column="photo_description" length="750" nullable="true"/>
+    <field name="dateAdded" type="datetime" column="date_added" nullable="false"/>
+    <field name="isCover" type="boolean" column="is_cover" nullable="false"/>
+    <field name="latitude" type="float" column="latitude" precision="10" scale="0" nullable="true"/>
+    <field name="longitude" type="float" column="longitude" precision="10" scale="0" nullable="true"/>
+    <field name="address" type="string" column="address" length="200" nullable="true"/>
+    <many-to-one field="album" target-entity="UserPhotoAlbums">
+      <join-columns>
+        <join-column name="album_id" referenced-column-name="album_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

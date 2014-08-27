@@ -1,3 +1,12 @@
 air_sim_social_network_accounts:
     path:     /accounts/{action}
     defaults: { _controller: AirSimSocialNetworkBundle:Accounts:accounts }
+# AJAX calls
+air_sim_social_network_accounts_login:
+    pattern:  /accounts_login_check
+    defaults: { _controller: AirSimSocialNetworkBundle:Accounts:loginCheck }
+
+air_sim_social_network_user:
+    path:     /user/{username}
+    defaults: { _controller: AirSimSocialNetworkBundle:User:user }
+# AJAX calls

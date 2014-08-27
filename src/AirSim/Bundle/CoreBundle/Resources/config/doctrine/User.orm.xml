@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\User" table="user">
+    <indexes>
+      <index name="FK_user_config" columns="config_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="login" columns="login,phone_number,email"/>
+    </unique-constraints>
+    <id name="userId" type="integer" column="user_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="login" type="string" column="login" length="30" nullable="false"/>
+    <field name="password" type="string" column="password" length="32" nullable="false"/>
+    <field name="phoneNumber" type="string" column="phone_number" length="30" nullable="false"/>
+    <field name="operator" type="string" column="operator" length="15" nullable="false"/>
+    <field name="firstName" type="string" column="first_name" length="35" nullable="false"/>
+    <field name="lastName" type="string" column="last_name" length="35" nullable="false"/>
+    <field name="gender" type="string" column="gender" length="1" nullable="false"/>
+    <field name="birthdate" type="date" column="birthdate" nullable="true"/>
+    <field name="email" type="string" column="email" length="100" nullable="true"/>
+    <field name="country" type="string" column="country" length="100" nullable="true"/>
+    <field name="city" type="string" column="city" length="100" nullable="true"/>
+    <field name="address" type="string" column="address" length="100" nullable="true"/>
+    <field name="website" type="string" column="website" length="50" nullable="true"/>
+    <field name="webProfilePic" type="string" column="web_profile_pic" length="150" nullable="true"/>
+    <field name="phoneProfilePic" type="string" column="phone_profile_pic" length="150" nullable="true"/>
+    <field name="profileCover" type="string" column="profile_cover" length="150" nullable="true"/>
+    <field name="loggedInTime" type="datetime" column="logged_in_time" nullable="false"/>
+    <many-to-one field="config" target-entity="UserConfig">
+      <join-columns>
+        <join-column name="config_id" referenced-column-name="config_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,12 +1,37 @@
-security:
-    providers:
-        in_memory:
-            memory: ~
-
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        default:
-            anonymous: ~
+#security:
+#    providers:
+#        in_memory:
+#            memory: ~
+#
+#    firewalls:
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
+#
+#        default:
+#            anonymous: ~
+## Security Configuration
+#security:
+#    encoders:
+#        AirSim\CoreBundle\Entity\User:
+#            algorithm: sha512
+#            encode-as-base64: true
+#            iterations: 10
+#
+#    providers:
+#        main:
+#            entity: { class: AirSimCoreBundle:User, property: username }
+#
+#    firewalls:
+#        main:
+#            pattern: /.*
+#            form_login:
+#                check_path: /accounts_login_check
+#                login_path: /accounts_login
+#            logout: true
+#            security: true
+#            anonymous: true
+#
+#    access_control:
+#        - { path: /admin/.*, role: ROLE_ADMIN }
+#        - { path: /.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

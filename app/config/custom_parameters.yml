@@ -1,0 +1,3 @@
+parameters:
+    logs_dev_dir: ./../app/logs/dev/
+    logs_dev_all_channels_file: all_channels.log

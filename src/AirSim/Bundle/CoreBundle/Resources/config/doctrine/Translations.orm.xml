@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\Translations" table="translations">
+    <unique-constraints>
+      <unique-constraint name="alias" columns="alias"/>
+    </unique-constraints>
+    <id name="wordId" type="integer" column="word_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="pageId" type="integer" column="page_id" nullable="false"/>
+    <field name="alias" type="string" column="alias" length="50" nullable="false"/>
+    <field name="eng" type="text" column="eng" nullable="false"/>
+    <field name="rus" type="text" column="rus" nullable="false"/>
+    <field name="est" type="text" column="est" nullable="false"/>
+  </entity>
+</doctrine-mapping>

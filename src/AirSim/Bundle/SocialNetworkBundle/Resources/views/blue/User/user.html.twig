@@ -1,0 +1,60 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/user.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <input type = "hidden" id = "user_id" value = ""/>
+    <div class = "user_page_left_content">
+        <section class = "user_page_block user_main_info">
+            <h1>User info</h1>
+            <div class = "profile" style = "background: url('{{ asset('public_files/app_default/ifrit_cover.jpg') }}')
+                no-repeat center; background-size: cover;">
+                <div class = "profile_main_info">
+
+                </div>
+                <div class = "profile_pics_wrapper">
+                    <img src = "{{ asset('public_files/app_default/ifrit.jpg') }}"/>
+                </div>
+                <p class = "clear"></p>
+            </div>
+        </section>
+        <section class = "user_page_block user_last_contacts">
+            <h1>Last added contacts</h1>
+            <div class = "last_contacts_wrapper">
+                <ul class = "last_contacts_list">
+                    {% for i in 1..7 %}
+                        <li>
+                            <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/><br/>
+                            <span class = "name_family">
+                                Evgeny<br/>Smirnov
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <p class = "clear"></p>
+        </section>
+        <section class = "user_page_block user_last_photos">
+            <h1>Last added photos</h1>
+        </section>
+        <section class = "user_page_block user_wall">
+            <h1>Wall</h1>
+        </section>
+    </div>
+    <div class = "user_page_right_content">
+        <section class = "user_page_block user_location">
+            <h1>User location</h1>
+            <div class = "static_map">
+                <img src = "http://maps.googleapis.com/maps/api/staticmap?center=Tallinn,Estonia&zoom=14&size=570x400&maptype=roadmap&sensor=false"/>
+            </div>
+        </section>
+        <section class = "user_page_block user_contacts">
+            <h1>Contacts</h1>
+        </section>
+    </div>
+{% endblock pageContent %}

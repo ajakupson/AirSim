@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\UserConfig" table="user_config">
+    <id name="configId" type="integer" column="config_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="privPhoneVisibility" type="integer" column="priv_phone_visibility" nullable="false"/>
+    <field name="privSearchByPhone" type="integer" column="priv_search_by_phone" nullable="false"/>
+    <field name="privAddInfoVisibility" type="integer" column="priv_add_info_visibility" nullable="false"/>
+    <field name="privFriendsVisibility" type="integer" column="priv_friends_visibility" nullable="false"/>
+    <field name="privWhoAllowedWrite" type="integer" column="priv_who_allowed_write" nullable="false"/>
+    <field name="syncAutoSync" type="integer" column="sync_auto_sync" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -23,6 +23,8 @@
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/outer.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/constants.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common.js') }}"></script>
         {% endblock %}
 
         {% block pageJavaScripts %}
@@ -66,10 +68,10 @@
                 <div id = "about_dialog" class = "dialog scale">
                     <div class = "dialog_title">About</div>
                     <div id = "dialog_close" class = "dialog_close">x</div>
-                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
-                    Press Esc to exit
-                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
-                </span>
+                    <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
                     <div class = "dialog_content">
                         About us info
                     </div>
@@ -80,10 +82,10 @@
                 <div id = "contact_dialog" class = "dialog scale">
                     <div class = "dialog_title">Contact</div>
                     <div id = "dialog_close" class = "dialog_close">x</div>
-                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
-                    Press Esc to exit
-                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
-                </span>
+                    <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
                     <div class = "dialog_content">
                         Contact
                     </div>
@@ -94,19 +96,42 @@
                 <div id = "select_language_dialog" class = "dialog scale">
                     <div class = "dialog_title">Select Language</div>
                     <div id = "dialog_close" class = "dialog_close">x</div>
-                <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
-                    Press Esc to exit
-                    <span id = "dialog_arrow" class = "dialog_arrow"></span>
-                </span>
+                    <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
                     <div class = "dialog_content">
                         List of available languages
                     </div>
                 </div>
                 <!-- End Of Select Language Dialog -->
 
+                <!-- Error Dialog -->
+                <div id = "error_message_dialog" class = "error_message_dialog">
+                    <div class = "error_message_dialog_title">
+                        <span id = "error_message_dialog_title_text">Error</span>
+                        <div id = "error_message_dialog_close" class = "error_message_dialog_close">x</div>
+                    </div>
+                    <span id = "error_message_dialog_close_tooltip" class = "error_message_dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "error_message_dialog_arrow" class = "error_message_dialog_arrow"></span>
+                    </span>
+                    <div class = "error_message_dialog_content" id = "error_message_dialog_content">
+                        Response text
+                    </div>
+                </div>
+                <!-- End Of Error Dialog -->
+
                 <div class = "dialog_background" id = "dialog_background"></div>
 
                 <!-- ********** End Of Dialog Windows ********** -->
+
+                {# Error message notification #}
+                {#<div class = "error_message_dialog" id = "error_message_dialog">#}
+                    {#<div class = "error_message_dialog_close" id = "error_message_dialog_close">X</div>#}
+                    {#<article class = "error_message_dialog_content" id = "error_message_dialog_content">#}
+                    {#</article>#}
+                {#</div>#}
                 <div class = "clear"></div>
             </section>
             <div class = "push"></div>

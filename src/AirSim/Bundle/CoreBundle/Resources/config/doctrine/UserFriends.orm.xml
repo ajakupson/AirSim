@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\UserFriends" table="user_friends">
+    <indexes>
+      <index name="FK_user_friends" columns="user_id"/>
+      <index name="FK_friend_user" columns="friend_id"/>
+    </indexes>
+    <id name="recId" type="integer" column="rec_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="dateAdded" type="date" column="date_added" nullable="false"/>
+    <field name="isAccepted" type="boolean" column="is_accepted" nullable="false"/>
+    <field name="dateAccepted" type="date" column="date_accepted" nullable="true"/>
+    <field name="groupId" type="integer" column="group_id" nullable="false"/>
+    <many-to-one field="user" target-entity="User">
+      <join-columns>
+        <join-column name="user_id" referenced-column-name="user_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="friend" target-entity="User">
+      <join-columns>
+        <join-column name="friend_id" referenced-column-name="user_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -104,6 +104,7 @@
         -moz-box-sizing: border-box;
         -o-box-sizing: border-box;
     }
+
     .dialog_background
     {
         z-index: 100;
@@ -120,5 +121,87 @@
     {
         border: 10px solid darkgrey;
         border-radius: 5px;
+    }
+
+    /* Error Message Dialog */
+    .error_message_dialog
+    {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        min-height: 100px;
+        padding: 10px 10px 10px 10px;
+        color: white;
+        background-color: #ff5638;
+        z-index: 101;
+        display: none;
+
+        box-sizing: border-box;
+    }
+    .error_message_dialog_title
+    {
+        margin: 0;
+        width: 100%;
+        height: auto;
+        text-align: left;
+        padding: 10px 10px 10px 15px;
+        font-weight: bold;
+        font-size: 13px;
+        color: white;
+        background-color: #ff2716;
+        text-transform: uppercase;
+        cursor: all-scroll;
+
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .error_message_dialog_close
+    {
+        position: relative;
+        float: right;
+        font-weight: bold;
+        cursor: pointer;
+        color: black;
+    }
+    .error_message_dialog_close_tooltip
+    {
+        background: none repeat scroll 0 0 #000000;
+        border-radius: 2px 2px 2px 2px;
+        color: #FFFFFF;
+        display: none;
+        font-size: 11px;
+        opacity: 0.7;
+        padding: 6px 10px 6px 10px;
+        position: absolute;
+        right: -38px;
+        text-align: center;
+        top: -35px;
+        width: auto;
+        height: 16px;
+    }
+    .error_message_dialog_arrow
+    {
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 7px solid #000000;
+        display: block;
+        height: 1px;
+        right: 48px;
+        position: absolute;
+        top: 26px;
+        width: 1px;
+    }
+    .error_message_dialog_content
+    {
+        width: 100%;
+        padding: 20px;
+
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -o-box-sizing: border-box;
     }
 }

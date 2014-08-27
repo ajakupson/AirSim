@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: custom_parameters.yml }
     - { resource: security.yml }
 
 framework:
@@ -58,7 +59,10 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        entity_managers:
+                    defaults:
+                        mappings:
+                            AirSimCoreBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -67,3 +71,10 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Services
+services:
+    kernel.listener.air_sim_exception_listener:
+        class: AirSim\Bundle\CoreBundle\Services\AirSimExceptionListenerService
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

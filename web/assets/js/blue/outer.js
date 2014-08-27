@@ -25,4 +25,7 @@ function initDialogWindows()
     {
         $('#select_language_dialog').dialogOpen();
     });
+
+    // Error Dialog
+    $('#error_message_dialog').errDialogInit();
 }

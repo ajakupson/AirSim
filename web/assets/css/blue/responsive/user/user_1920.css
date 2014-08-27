@@ -1,0 +1,113 @@
+@media screen and (max-width:1920px)
+{
+    .user_page_left_content
+    {
+        float: left;
+        position: relative;
+        width: 69%;
+        height: auto;
+        min-height: 500px;
+        margin-left: 1%;
+        /*border: 1px solid black;*/
+    }
+
+    .user_page_block
+    {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 100px;
+        margin-bottom: 10px;
+        /*border: 1px solid lightgrey;*/
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .user_page_block h1
+    {
+        width: 100%;
+        font-size: 0.93em;
+        color: white;
+        background-color: #27a9ff;
+        margin: 0;
+        padding: 10px 10px 10px 20px;
+
+        box-sizing: border-box;
+    }
+
+    .profile
+    {
+        position: relative;
+        width: 100%;
+    }
+    .profile_main_info_
+    {
+        float: left;
+        background: red;
+        width: 70%;
+        height: auto;
+        margin: 10px 1% 10px 1.5%;
+        min-height: 150px;
+    }
+    .profile_pics_wrapper
+    {
+        float: right;
+        width: 25%;
+        margin: 10px 1.5% 10px 1%;
+        border: 5px solid white;
+    }
+    .profile_pics_wrapper img
+    {
+        width: 100%;
+        height: 100%;
+    }
+
+    .last_contacts_wrapper
+    {
+        display: table;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 10px;
+    }
+    .last_contacts_list
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: table-row;
+        white-space: nowrap;
+    }
+    .last_contacts_list li
+    {
+        list-style: none;
+        display: table-cell;
+        position: relative;
+        text-align: center;
+    }
+    .last_contacts_list li img
+    {
+        width: 90%;
+        border: 1px solid #e5e5e5;
+    }
+    .last_contacts_list li .name_family
+    {
+        font-size: 90%;
+        font-weight: bold;
+    }
+
+    .user_page_right_content
+    {
+        float: right;
+        position: relative;
+        width: 29%;
+        height: auto;
+        min-height: 500px;
+        /*border: 1px solid black;*/
+    }
+
+    .static_map img
+    {
+        width: 100%;
+    }
+}

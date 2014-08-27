@@ -20,7 +20,37 @@ function logIn()
         else
         {
             hideElement('#wrong_username_or_pass');
-            // TODO: Ajax call
+            $.ajax
+            ({
+                url: './../accounts_login_check',
+                type: 'POST',
+                dataType: 'json',
+                data:
+                {
+                    username: username,
+                    password: password
+                },
+                success: function(response)
+                {
+                    console.log(response);
+
+                    if(response.success)
+                    {
+                        window.location = response.data.userPage;
+                    }
+                    else
+                    {
+                        if(response.error == ERR_WRONG_USERNAME_OR_PASS)
+                        {
+                            showElement('#wrong_username_or_pass');
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+            });
         }
     });
 }
