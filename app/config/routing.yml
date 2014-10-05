@@ -10,3 +10,7 @@ air_sim_core:
     resource: "@AirSimCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
+_imagine:
+    resource: .
+    type:     imagine
+

@@ -5,10 +5,12 @@
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
+    <script type = "text/javascript" src = "{{ asset('assets/js/blue/user.js') }}"></script>
 {% endblock pageJavaScripts %}
 
 {% block pageContent %}
-    <input type = "hidden" id = "user_id" value = ""/>
+    {% set counter = 0 %}
+    <input type = "hidden" id = "user_id" value = "1"/>
     <div class = "user_page_left_content">
         <section class = "user_page_block user_main_info">
             <h1>User info</h1>
@@ -27,23 +29,283 @@
             <h1>Last added contacts</h1>
             <div class = "last_contacts_wrapper">
                 <ul class = "last_contacts_list">
-                    {% for i in 1..7 %}
+                    {% for contact in lastContacts %}
+                        {% set counter = counter + 1 %}
                         <li>
-                            <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/><br/>
-                            <span class = "name_family">
-                                Evgeny<br/>Smirnov
-                            </span>
+                            <a href = "{{ contact.login }}">
+                                {% if contact.webProfilePic %}
+                                    <img src = "{{ asset('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) }}"/><br/>
+                                {% else %}
+                                    <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/><br/>
+                                {% endif %}
+                                <span class = "name_family">
+                                    {{ contact.firstName }}<br/>{{ contact.lastName }}
+                                </span>
+                            </a>
                         </li>
                     {% endfor %}
+                    {% for i in counter..7 %}<li></li>{% endfor %}
+                    {% set counter = 0 %}
                 </ul>
             </div>
             <p class = "clear"></p>
         </section>
         <section class = "user_page_block user_last_photos">
             <h1>Last added photos</h1>
+            <div class = "last_photos_wrapper">
+                <ul class = "last_photos_list">
+                    {% for photo in lastPhotos|slice(0, 6) %}
+                        {% set counter = counter + 1 %}
+                        <li>
+                            <img src = "{{ ('/public_files/user_1/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                                    class = "photo"/><br/>
+                            <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
+                        </li>
+                    {% endfor %}
+                    {% if counter != 6 %}
+                        {% for i in counter..6 %}<li></li>{% endfor %}
+                    {% endif %}
+                    {% set counter = 0 %}
+                </ul>
+                <ul class = "last_photos_list">
+                    {% for photo in lastPhotos|slice(6, 11) %}
+                        {% set counter = counter + 1 %}
+                        <li>
+                            <img src = "{{ ('/public_files/user_1/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                                 class = "photo"/>
+                            <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
+                        </li>
+                    {% endfor %}
+                    {% if counter != 6 %}
+                        {% for i in counter..6 %}<li></li>{% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <p class = "clear"></p>
         </section>
         <section class = "user_page_block user_wall">
             <h1>Wall</h1>
+            <div class = "wall_wrapper">
+                <div class = "wall_record_add_wrapper">
+                    <input type = "text" class = "wall_record_title_input" placeholder = "Record title"/>
+                    <textarea id = "wall_record_text" placeholder = "Share Your thoughts ..."></textarea>
+                    <input type = "button" class = "post_wall_record_button" id = "post_wall_record_button" value = "Post"/>
+                    <div class = "attach_files_wrapper">
+                        <ul>
+                            <li class = "has_sub wall_attach_button attach_files_button">
+                                Attach file
+                                <ul>
+                                    <li class = "wall_attach_button attach_images_button">
+                                        Attach image
+                                        <form id = "wall_record_attach_images_form">
+                                            <input type = "file" multiple = "" accept = "image/*" class = "input_file_transparent"
+                                                name = "wall_record_attached_images[]" id = "wall_record_attached_images" value = ""/>
+                                        </form>
+                                    </li>
+                                    <li class = "wall_attach_button attach_documents_button">
+                                         Attach document
+                                         <form id = "wall_record_attach_documents_form">
+                                             <input type = "file" multiple = "" accept = ".csv, application/msword,#}
+                                                 application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                                                 application/vnd.ms-excel, application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                 text/plain, application/pdf, .zip, .rar, .7zip" class = "input_file_transparent"
+                                                    name = "wall_record_attached_documents[]" id = "wall_record_attached_documents" value = ""/>
+                                         </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class = "clear"></div>
+                    <div class = "wall_record_added_images" id = "wall_record_added_images">
+                        <ul>
+                            {# Preview Image Template #}
+                            <li class = "hidden">
+                                <div class = "toolbar">
+                                    <input type = "button" class = "delete_button"/>
+                                    <input type = "checkbox" class = "toolbar_checkbox" id = "check_image_to_delete"/>
+                                    <label for = "check_image_to_delete">
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </li>
+                            {# End Of Preview Image Template#}
+                        </ul>
+                    </div>
+                    <div class = "clear"></div>
+                    <div class = "wall_record_added_documents">
+                        <ul></ul>
+                    </div>
+                </div>
+                <div class = "wall_records_wrapper">
+                    {# Wall record template #}
+                    <article class = "wall_record hidden" id = "wall_record_template">
+                        <div class = "wall_record_date_time">
+                            <span class = "date" ></span><br/>
+                            <span class = "time"></span>
+                        </div>
+                        <div class = "timeline">
+                            <span class = "wall_record_icon text_icon"></span>
+                        </div>
+                        <div class = "wall_record_content">
+                            <h1></h1>
+                            <div class = "wall_record_author">
+                                <img/>
+                                <p class = "author_name"></p>
+                            </div>
+                            <div class = "wall_record_text">
+                            </div>
+                            <div class = "clear"></div>
+                            <div class = "wall_record_images">
+                                <ul>
+                                </ul>
+                                <div class = "clear"></div>
+                            </div>
+                            <div class = "wall_record_buttons">
+                                <input type = "button" class = "like_button"/>
+                                <div class = "likes">0</div>
+                                <input type = "button" class = "dislike_button"/>
+                                <div class = "dislikes">0</div>
+                            </div>
+                            <textarea placeholder="Comment record ..."></textarea>
+                            <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
+                            <p class = "clear"></p>
+                            <div class = "wall_record_replies_wrapper">
+                            </div>
+                        </div>
+                        <p class = "clear"></p>
+                    </article>
+                    {# End of wall record template #}
+
+                    {# Wall record reply template #}
+                    <div id = "wall_record_reply_template" class = "hidden">
+                        <div class = "wall_record_reply">
+                            <div class = "wall_record_reply_author">
+                                <img/>
+                                <p class = "author_name"></p>
+                            </div>
+                        </div>
+                        <div class = "wall_record_reply_text">
+                        </div>
+                        <p class = "clear"></p>
+                    </div>
+                    {# End of wall record reply template #}
+
+                    {% for wallRecord in wallRecords %}
+                        <article class = "wall_record">
+                            <div class = "wall_record_date_time">
+                                <span class = "date">{{ wallRecord[0].dateAdded |date('d/m/Y') }}</span><br/>
+                                <span class = "time">{{ wallRecord[0].dateAdded |date('H:i') }}</span>
+                            </div>
+                            <div class = "timeline">
+                                <span class = "wall_record_icon text_icon"></span>
+                            </div>
+                            <div class = "wall_record_content">
+                                <h1>Wall record title</h1>
+                                <div class = "wall_record_author">
+                                    {% if wallRecord.webProfilePic %}
+                                        <img src = "./../../public_files/user_{{ wallRecord.userId }}/albums/profile_pics/{{ wallRecord.webProfilePic }}"/>
+                                    {% else %}
+                                        <img src = "./../../public_files/app_default/no_avatar_male.png"/>
+                                    {% endif %}
+                                    <p class = "author_name">{{ wallRecord.firstName }} {{ wallRecord.lastName }}</p>
+                                </div>
+                                <div class = "wall_record_text">
+                                    {{ wallRecord[0].recordText }}
+                                </div>
+                                <div class = "clear"></div>
+                                <div class = "wall_record_images">
+                                    <ul>
+                                        {% for wallRecordPicture in  wallRecord.wallRecordPictures %}
+                                            <li>
+                                                <img src = "./../../public_files/user_{{ 1 }}/albums/wall_pics/{{ wallRecordPicture.photoName }}"
+                                                        class = "photo"/>
+                                                <br/>
+                                                <input type = "hidden" class = "photo_id" value = "{{ wallRecordPicture.photoId }}"/>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class = "clear"></div>
+                                </div>
+                                <div class = "wall_record_buttons">
+                                    <input type = "button" class = "like_button"/>
+                                    <div class = "likes">{{ wallRecord.totalLikes }}</div>
+                                    <input type = "button" class = "dislike_button"/>
+                                    <div class = "dislikes">{{ wallRecord.totalDislikes }}</div>
+                                </div>
+                                <textarea placeholder="Comment record ..."></textarea>
+                                <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
+                                <p class = "clear"></p>
+                            </div>
+                            <p class = "clear"></p>
+                        </article>
+                    {% endfor %}
+                    {#{% for i in 0..1 %}#}
+                        {#<article class = "wall_record">#}
+                            {#<div class = "wall_record_date_time">#}
+                                {#<span class = "date">14/08/2014</span><br/>#}
+                                {#<span class = "time">20:05</span>#}
+                            {#</div>#}
+                            {#<div class = "timeline">#}
+                                {#<span class = "wall_record_icon text_icon"></span>#}
+                            {#</div>#}
+                            {#<div class = "wall_record_content">#}
+                                {#<h1>Wall record title</h1>#}
+                                {#<div class = "wall_record_author">#}
+                                    {#<img src = "./../../public_files/app_default/no_avatar_male.png"/>#}
+                                    {#<p class = "author_name">Evgenyj Fedorov</p>#}
+                                {#</div>#}
+                                {#<div class = "wall_record_text">#}
+                                    {#Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt#}
+                                    {#ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco#}
+                                    {#laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in#}
+                                    {#voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat#}
+                                    {#non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.#}
+                                {#</div>#}
+                                {#<div class = "clear"></div>#}
+                                {#<div class = "wall_record_images">#}
+                                    {#<ul>#}
+                                        {#{% for k in 1..10 %}#}
+                                            {#<li>#}
+                                                {#<img src = "./../../assets/images/formockup/social_graph.png" class = "photo"/>#}
+                                            {#</li>#}
+                                        {#{% endfor %}#}
+                                    {#</ul>#}
+                                    {#<div class = "clear"></div>#}
+                                {#</div>#}
+                                {#<div class = "wall_record_buttons">#}
+                                    {#<input type = "button" class = "like_button"/>#}
+                                    {#<div class = "likes">+10</div>#}
+                                    {#<input type = "button" class = "dislike_button"/>#}
+                                    {#<div class = "dislikes">-2</div>#}
+                                {#</div>#}
+                                {#<textarea placeholder="Comment record ..."></textarea>#}
+                                {#<input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>#}
+                                {#<p class = "clear"></p>#}
+                                {#<div class = "wall_record_replies_wrapper">#}
+                                    {#{% for j in 1..3 %}#}
+                                        {#<div class = "wall_record_reply">#}
+                                            {#<div class = "wall_record_reply_author">#}
+                                                {#<img src = "./../../public_files/app_default/no_avatar_male.png"/>#}
+                                                {#<p class = "author_name">Aleksandr Batrakov</p>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                        {#<div class = "wall_record_reply_text">#}
+                                            {#Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt#}
+                                            {#ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco#}
+                                            {#laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in#}
+                                            {#voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat#}
+                                            {#non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.#}
+                                        {#</div>#}
+                                        {#<p class = "clear"></p>#}
+                                    {#{% endfor %}#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<p class = "clear"></p>#}
+                        {#</article>#}
+                    {#{% endfor %}#}
+                </div>
+            </div>
         </section>
     </div>
     <div class = "user_page_right_content">
@@ -55,6 +317,27 @@
         </section>
         <section class = "user_page_block user_contacts">
             <h1>Contacts</h1>
+            <ul class = "contacts_list">
+                {% for contact in randomContacts %}
+                    <li>
+                        <a href = "{{ contact.login }}">
+                            {% if contact.webProfilePic %}
+                                <img src = "{{ asset('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) }}"/><br/>
+                            {% else %}
+                                <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/><br/>
+                            {% endif %}
+                            <span class = "name_family">
+                                {{ contact.firstName }}<br/>{{ contact.lastName }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p class = "clear"></p>
         </section>
     </div>
+
+    <!-- ********** Dialog Windows ********** -->
+    <!-- ********** End Of Dialog Windows ********** -->
+
 {% endblock pageContent %}

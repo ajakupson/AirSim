@@ -19,10 +19,14 @@
         min-height: 100px;
         margin-bottom: 10px;
         /*border: 1px solid lightgrey;*/
+        background: white;
 
         box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
         -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
         -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+
+        /* Good */
+        /*box-shadow: 0 2px 4px rgba(0, 0, 0, .2);*/
     }
     .user_page_block h1
     {
@@ -63,8 +67,10 @@
         height: 100%;
     }
 
+    /* Last added contacts */
     .last_contacts_wrapper
     {
+        width: 100%;
         display: table;
         white-space: nowrap;
         border-collapse: separate;
@@ -72,6 +78,7 @@
     }
     .last_contacts_list
     {
+        width: 100%;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -84,10 +91,19 @@
         display: table-cell;
         position: relative;
         text-align: center;
+        width: 14.2%;
+    }
+    .last_contacts_list li a
+    {
+        color: black;
+    }
+    .last_contacts_list li a:hover
+    {
+        color: black;
     }
     .last_contacts_list li img
     {
-        width: 90%;
+        width: 100%;
         border: 1px solid #e5e5e5;
     }
     .last_contacts_list li .name_family
@@ -95,6 +111,410 @@
         font-size: 90%;
         font-weight: bold;
     }
+
+    /* Last added photos */
+    .last_photos_wrapper
+    {
+        display: table;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 10px;
+    }
+    .last_photos_list
+    {
+        display: table-row;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+    }
+    .last_photos_list li
+    {
+        display: table-cell;
+        width: 14.2%;
+        list-style: none;
+        position: relative;
+        text-align: center;
+    }
+    .last_photos_list li img
+    {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        cursor: pointer;
+    }
+
+    /* Wall */
+    .wall_record_add_wrapper
+    {
+        width: 95%;
+        height: auto;
+        margin: 10px auto 10px auto;
+        position: relative;
+    }
+    input[type="text"].wall_record_title_input
+    {
+        width: 100%;
+        margin-bottom: 3px;
+        padding: 10px;
+        border: 1px solid #ededed;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    .attach_files_wrapper
+    {
+        width: auto;
+        height: auto;
+        float: right;
+        position: relative;
+        padding-bottom: 10px;
+        margin: 10px 5px 0 5px;
+        border: 1px solid white;
+    }
+    .attach_files_wrapper ul
+    {
+        margin: 0;
+        padding: 0;
+    }
+    .attach_files_wrapper ul li
+    {
+        float: left;
+        vertical-align: middle;
+    }
+    .attach_files_wrapper ul li ul
+    {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        margin: 5px 0;
+
+        transition: max-height .2s;
+    }
+    .attach_files_wrapper ul li ul li
+    {
+        margin: 0 0 2px 0;
+    }
+    .attach_files_wrapper ul li:hover > ul
+    {
+        overflow: visible;
+        max-height: 75px;
+    }
+    #wall_record_attach_images_form, #wall_record_attach_documents_form
+    {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+    }
+    .wall_attach_button
+    {
+        width: 115px;
+        height: 35px;
+        line-height: 35px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9em;
+        padding-left: 45px;
+        float: left;
+        margin: 0 0 2px 10px;
+        position: relative;
+        text-align: left;
+        cursor: pointer;
+        background-color: #27a9ff;
+        list-style: none;
+
+        transition: background-color .2s;
+    }
+    .wall_attach_button:hover
+    {
+        background-color: #8fd2fe;
+    }
+    .attach_files_button
+    {
+        background-image: url('../../../../images/themes/blue/attach_file_icon.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        cursor: default;
+    }
+    .attach_images_button
+    {
+        background-image: url('../../../../images/themes/blue/attach_image_icon.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    .attach_documents_button
+    {
+        background-image: url('../../../../images/themes/blue/attach_document_icon.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    .attach_files_wrapper:hover .attach_files_menu
+    {
+        max-height: 70px;
+    }
+    .input_file_transparent
+    {
+        width: 245px;
+        height: 35px;
+        opacity: 0;
+        position: absolute;
+        cursor: pointer;
+        left: -100px;
+
+        -web-kit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    .wall_record_added_images
+    {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+    .wall_record_added_images ul
+    {
+        margin: 0;
+        padding: 0;
+    }
+    .wall_record_added_images ul li
+    {
+        list-style: none;
+        width: 19%;
+        height: auto;
+        min-height: 150px;
+        max-height: 205px;
+        float: left;
+        margin: 2px 2px 0 0;
+    }
+    .wall_record_added_images ul li .toolbar
+    {
+        width: 100%;
+        height: 30px;
+        max-height: 0;
+        background-color: black;
+        overflow: hidden;
+        opacity: 0.7;
+
+        transition: max-height .2s;
+    }
+    .wall_record_added_images ul li:hover .delete_button
+    {
+        display: block;
+    }
+    .wall_record_added_images ul li:hover input[type="checkbox"].toolbar_checkbox + label
+    {
+        display: block;
+    }
+    .wall_record_added_images ul li:hover .toolbar
+    {
+        max-height: 30px;
+    }
+    input[type="button"].post_wall_record_button
+    {
+        float: right;
+        width: 150px;
+        margin: 10px 0 0 0;
+    }
+    .wall_records_wrapper
+    {
+        display: table;
+        width: 95%;
+        margin: 0 auto;
+        padding: 15px 0 15px 0;
+
+        box-sizing: border-box;
+    }
+    .wall_record
+    {
+        display: table-row;
+        width: 100%;
+        position: relative;
+    }
+    .wall_record.hidden
+    {
+        display: none;
+    }
+    .wall_record_date_time
+    {
+        display: table-cell;
+        width: 15%;
+        text-align: right;
+        padding: 0 5% 0 0;
+    }
+    .wall_record_date_time .date
+    {
+        color: #c1c1c1;
+        text-align: right;
+    }
+    .wall_record_date_time .time
+    {
+        color: #27a9ff;
+        font-weight: bold;
+        font-size: 1.7em;
+    }
+    .timeline
+    {
+        display: table-cell;
+        min-width: 10px;
+        height: 100%;
+        position: relative;
+
+        background-color: #afdcf8;
+    }
+    .wall_record_icon
+    {
+        width: 45px;
+        height: 45px;
+        position: absolute;
+        top: -2px;
+        left: -170%;
+    }
+    .wall_record_icon.text_icon
+    {
+        background: url('../../../../images/themes/blue/wall_record_text_icon.png') top no-repeat;
+        background-size: contain;
+    }
+    .wall_record_content
+    {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        padding: 1% 0 3% 5%;
+    }
+    .wall_record_author
+    {
+        float: left;
+        width: auto;
+        max-width: 15%;
+        height: auto;
+        position: relative;
+        margin: 0 10px 5px 0;
+    }
+    .wall_record_author .author_name
+    {
+        font-weight: bold;
+        font-size: 0.9em;
+        text-align: center;
+        margin: 5px 0;
+    }
+    .wall_record_author img
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #e5e5e5;
+    }
+    .wall_record_content h1
+    {
+        background: none;
+        font-size: 1.2em;
+        color: black;
+        padding-left: 0;
+    }
+    .wall_record_text
+    {
+        width: auto;
+        max-width: 83%;
+        height: auto;
+        float: left;
+    }
+    .wall_record_images
+    {
+        margin: 5px 0 15px 0;
+    }
+    .wall_record_images ul
+    {
+        margin: 0;
+        padding: 0;
+    }
+    .wall_record_images ul li
+    {
+        list-style: none;
+        float: left;
+        width: auto;
+        max-width: 19%;
+        margin: 0 5px 0 0;
+    }
+    .wall_record_images ul li img
+    {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+    .wall_record_buttons
+    {
+        float: right;
+        width: auto;
+        height: auto;
+        margin: 0 10px 10px 0;
+    }
+    input[type="button"].wall_rec_reply_button
+    {
+        margin: 5px 0 0 20px;
+        height: 30px;
+        line-height: 15px;
+        font-size: 0.8em;
+        background: url('../../../../images/themes/blue/reply_icon.png') no-repeat left;
+        background-position-x: 5px;
+        background-color: #27a9ff;
+        background-size: 25px 25px;
+        padding: 0 0 1.5px 15px;
+    }
+    input[type="button"].wall_rec_reply_button:hover
+    {
+        background-color: rgba(39, 169, 255, 0.51);
+    }
+
+    /* ***** Wall Record Replies ***** */
+    .wall_record_replies_wrapper
+    {
+        margin: 10px 0;
+        width: auto;
+        max-width: 95%;
+        height: auto;
+        float: right;
+        position: relative;
+    }
+    .wall_record_reply
+    {
+
+    }
+    .wall_record_reply_author
+    {
+        float: left;
+        width: auto;
+        max-width: 13%;
+        height: auto;
+        position: relative;
+        margin: 0 10px 5px 0;
+    }
+    .wall_record_reply_author img
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #e5e5e5;
+    }
+    .wall_record_reply_author .author_name
+    {
+        font-weight: bold;
+        font-size: 0.8em;
+        text-align: center;
+        margin: 5px 0;
+    }
+    .wall_record_reply_text
+    {
+        width: auto;
+        max-width: 83%;
+        height: auto;
+        float: left;
+        font-size: 0.935em;
+    }
+    /* ***** End Of Wall Record Replies ***** */
 
     .user_page_right_content
     {
@@ -109,5 +529,41 @@
     .static_map img
     {
         width: 100%;
+    }
+
+    /* Contacts */
+    .contacts_list
+    {
+        margin: 0;
+        padding: 0 2% 2% 0;
+    }
+    .contacts_list li
+    {
+        width: 22%;
+        list-style: none;
+        /*float: left;*/
+        display: inline-block;
+        text-align: center;
+        /*margin: 5px;*/
+        margin: 2% 0 0 2%;
+    }
+    .contacts_list li a
+    {
+        color: black;
+    }
+    .contacts_list li a:hover
+    {
+        color: black;
+    }
+    .contacts_list li img
+    {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+    }
+    .contacts_list li .name_family
+    {
+        font-weight: bold;
+        font-size: 0.9em;
+
     }
 }

@@ -10,3 +10,16 @@ air_sim_social_network_user:
     path:     /user/{username}
     defaults: { _controller: AirSimSocialNetworkBundle:User:user }
 # AJAX calls
+air_sim_social_network_user_get_photo_data:
+    path:     /user_get_photo_data
+    defaults: { _controller: AirSimSocialNetworkBundle:User:getPhotoData }
+air_sim_social_network_user_add_wall_record:
+    path:     /user_add_wall_record
+    defaults: { _controller: AirSimSocialNetworkBundle:User:addWallRecord }
+air_sim_social_network_user_upload_tmp_images:
+    path:     /user_upload_tmp_images
+    defaults: { _controller: AirSimSocialNetworkBundle:User:uploadTmpImages }
+air_sim_social_network_user_delete_tmp_image:
+    path:     /user_delete_tmp_image
+    defaults: { _controller: AirSimSocialNetworkBundle:User:deleteTmpImage }
+

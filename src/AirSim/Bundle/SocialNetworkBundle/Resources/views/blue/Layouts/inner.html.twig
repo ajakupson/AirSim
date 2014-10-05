@@ -10,6 +10,7 @@
             <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
             <link href = "{{ asset('assets/css/blue/layout_inner.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
             <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+            <link href = "{{ asset('assets/css/blue/gallery.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
         {% endblock %}
 
         {% block pageStylesheets %}
@@ -19,12 +20,16 @@
         {# JavaScripts #}
         {% block globalJavaScripts %}
             <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-form.js') }}"></script>
+            <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/inner.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/constants.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/common.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/gallery.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/js/blue/notification.js') }}"></script>
         {% endblock %}
 
         {% block pageJavaScripts %}
@@ -33,7 +38,7 @@
     </head>
     <body>
         <div class = "wrapper">
-            <input type = "hidden" id = "logged_in_user_id" value = "-1"/>
+            <input type = "hidden" id = "logged_in_user_id" value = "{{ app.session.get('sessionData')['userInfo']['id'] }}"/>
             <header class = "header">
                 <div class = "header_content">
                     <div class = "logo_text">AIRSIM</div>
@@ -56,7 +61,7 @@
                     </div>
                 </div>
             </header>
-            <section class = "content inner">
+            <section class = "content inner" id = "content_inner">
                 <div class = "content_left">
                     <nav class = "menu">
                         <ul>
@@ -110,7 +115,95 @@
                     {# End Of Unique Page Content #}
                 </div>
 
+                {# Notification Box #}
+                <div class = "notifications_wrapper">
+                    <audio controls id = "notification_sound">
+                        <source src = "{{ asset('assets/sounds/beep-24.mp3') }}">
+                    </audio>
+                    <li class = "notification_box hidden" id = "notification_box_template">
+                        <div class = "notification_header">
+                            <span class = "notification_icon"></span>
+                            <span class = "notification_header_text">Notification System!</span>
+                            <input type = "button" class = "notification_close"/>
+                        </div>
+                        <div class = "notification_content">
+                            <div class = "notification_picture_holder">
+                                <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}" class = "sender_pic"/>
+                            </div>
+                            <div class = "notification_text">
+                                <div class = "notification_info">
+                                </div>
+                                <div class = "notification_message">
+                                </div>
+                                <div class = "clear"></div>
+                            </div>
+                        </div>
+                        <div class = "clear"></div>
+                    </li>
+                    <ul></ul>
+                </div>
+                {# End Of Notification Box #}
+
                 <!-- ********** Dialog Windows ********** -->
+
+                <!-- Gallery -->
+                <div id = "gallery" class = "dialog scale">
+                    <div class = "dialog_title">Photo</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                    <span id = "dialog_arrow" class = "dialog_close_tooltip">
+                        Press esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
+                    <div class = "dialog_content">
+                        <div class = "photo_container">
+                            <img src = "{{ asset('public_files/app_default/social_graph.png') }}" class = "photo_to_show"/>
+                            <div class = "previous_photo">
+                                <input type = "hidden" id = "previous_photo_id" value = "" />
+                            </div>
+                            <div class = "next_photo">
+                                <input type = "hidden" id = "next_photo_id" value = "" />
+                            </div>
+                            <div class = "photo_description">Social graph</div>
+                            <div class = "description_button">Show description</div>
+                        </div>
+                        <div class = "photo_info_wrapper">
+                            <span class = "photo_block_title">Photo Info:</span><br/><br/>
+                            <div class = "photo_info">
+                                <div class = "photo_info_line">
+                                    <div class = "photo_info_cell info_title album_title">Album:</div>
+                                    <div class = "photo_info_cell" id = "album_title"></div>
+                                    <div class = "photo_info_cell info_title date_added_title">Date added:</div>
+                                    <div class = "photo_info_cell" id = "photo_date_added"></div>
+                                </div>
+                                <div class = "photo_info_line">
+                                    <div class = "photo_info_cell info_title photo_title">Title:</div>
+                                    <div class = "photo_info_cell" id = "photo_title"></div>
+                                    <div class = "photo_info_cell info_title location_title">Location:</div>
+                                    <div class = "photo_info_cell" id = "photo_location"></div>
+                                </div>
+                                <input type = "hidden" id = "photo_id" value = ""/>
+                            </div>
+                            <div class = "photo_rating">
+                                <div class = "photo_rating_numbers">
+                                    <span class = "photo_rating_out">8/</span>
+                                    <span class = "photo_rating_of">10</span>
+                                </div>
+                                <div class = "photo_rating_stars"></div>
+                            </div>
+                        </div><div class = "clear"></div>
+                        <div class = "insert_comment">
+                            <span class = "photo_block_title">Your Comment:</span><br/><br/>
+                            <textarea placeholder = "Thoughts?"></textarea>
+                            <input type = "button" class = "right" id = "comment_photo_button" value = "Comment photo"/>
+                        </div><div class = "clear"></div>
+                        <div class = "photo_comments_wrapper">
+                            <span class = "photo_block_title">Comments:</span><br/><br/>
+                            <div class = "photo_comments_holder">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Of Gallery -->
 
                 <!-- Error Dialog -->
                 <div id = "error_message_dialog" class = "error_message_dialog">

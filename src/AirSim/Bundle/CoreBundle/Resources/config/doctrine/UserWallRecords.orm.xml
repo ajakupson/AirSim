@@ -7,6 +7,7 @@
     <id name="wallRecId" type="integer" column="wall_rec_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="toId" type="integer" column="to_id" nullable="false"/>
     <field name="authorId" type="integer" column="author_id" nullable="false"/>
     <field name="recordText" type="text" column="record_text" nullable="false"/>
     <field name="dateAdded" type="datetime" column="date_added" nullable="false"/>

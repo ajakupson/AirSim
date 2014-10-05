@@ -20,9 +20,19 @@ class WallRecordPictures
     private $wallRec;
 
     /**
+     * @var integer
+     */
+    private $wallRecId;
+
+    /**
      * @var \AirSim\Bundle\CoreBundle\Entity\UserPhotos
      */
     private $picture;
+
+    /**
+     * @var integer
+     */
+    private $pictureId;
 
 
     /**
@@ -80,4 +90,40 @@ class WallRecordPictures
     {
         return $this->picture;
     }
+
+    /**
+     * @param int $pictureId
+     */
+    public function setPictureId($pictureId)
+    {
+        $this->pictureId = $pictureId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPictureId()
+    {
+        return $this->pictureId;
+    }
+
+    /**
+     * @param int $wallRecId
+     */
+    public function setWallRecId($wallRecId)
+    {
+        $this->wallRecId = $wallRecId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWallRecId()
+    {
+        return $this->wallRecId;
+    }
+
+
+
+
 }

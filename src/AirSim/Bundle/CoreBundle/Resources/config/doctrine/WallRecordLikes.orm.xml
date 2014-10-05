@@ -7,6 +7,7 @@
     <id name="recId" type="integer" column="rec_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="wallRecId" type="integer" column="wall_rec_id" nullable="false"/>
     <field name="userId" type="integer" column="user_id" nullable="false"/>
     <field name="likeDislike" type="boolean" column="like_dislike" nullable="false"/>
     <field name="dateRated" type="datetime" column="date_rated" nullable="false"/>

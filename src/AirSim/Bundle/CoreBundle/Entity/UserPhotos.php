@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class UserPhotos
 {
     /**
+     * @var integer
+     */
+    private $albumId;
+
+    /**
      * @var string
      */
     private $photoName;
@@ -59,6 +64,23 @@ class UserPhotos
      */
     private $album;
 
+
+    /* ***** Getters / Setters ***** */
+    /**
+     * @param int $albumId
+     */
+    public function setAlbumId($albumId)
+    {
+        $this->albumId = $albumId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAlbumId()
+    {
+        return $this->albumId;
+    }
 
     /**
      * Set photoName
@@ -252,6 +274,19 @@ class UserPhotos
     public function getPhotoId()
     {
         return $this->photoId;
+    }
+
+    /**
+     * Set photoId
+     *
+     * @param integer $photoId
+     * @return UserPhotos
+     */
+    public function setPhotoId($photoId)
+    {
+        $this->photoId = $photoId;
+
+        return $this;
     }
 
     /**

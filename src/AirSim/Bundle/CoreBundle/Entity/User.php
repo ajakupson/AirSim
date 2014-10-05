@@ -3,6 +3,8 @@
 namespace AirSim\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -104,7 +106,19 @@ class User
      */
     private $config;
 
+    /**
+     * @var Collection
+     */
+    private $friends;
 
+
+    public function __construct()
+    {
+        $this->friends = new ArrayCollection();
+    }
+
+
+    /* ***** Getters / Setters ***** */
     /**
      * Set login
      *
@@ -528,4 +542,21 @@ class User
     {
         return $this->config;
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $friends
+     */
+    public function setFriends($friends)
+    {
+        $this->friends = $friends;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFriends()
+    {
+        return $this->friends;
+    }
+
 }

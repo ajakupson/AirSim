@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AirSim\Bundle\CoreBundle\AirSimCoreBundle(),
             new AirSim\Bundle\SocialNetworkBundle\AirSimSocialNetworkBundle(),
             new AirSim\Bundle\AdminBundle\AirSimAdminBundle(),
+            new \Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

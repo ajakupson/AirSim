@@ -58,6 +58,17 @@ class AccountsController extends Controller
         }
         else
         {
+            $session = $request->getSession();
+            $userInfo = array
+            (
+                'id' => $user->getUserId(),
+                'username' => $username,
+                'firstName' => $user->getFirstName(),
+                'lastName' => $user->getLastName(),
+                'webPic' => $user->getWebProfilePic()
+            );
+            $session->set('sessionData', array('userInfo' => $userInfo));
+
             $baseUrl = $this->container->get('router')->getContext()->getBaseUrl();
             $userPage = $baseUrl.'/user/'.$username;
             $response = array('success' => $success, 'error' => $error,

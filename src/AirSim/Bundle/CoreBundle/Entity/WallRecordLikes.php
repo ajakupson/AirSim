@@ -12,6 +12,11 @@ class WallRecordLikes
     /**
      * @var integer
      */
+    private $wallRecId;
+
+    /**
+     * @var integer
+     */
     private $userId;
 
     /**
@@ -34,6 +39,22 @@ class WallRecordLikes
      */
     private $wallRec;
 
+
+    /**
+     * @param int $wallRecId
+     */
+    public function setWallRecId($wallRecId)
+    {
+        $this->wallRecId = $wallRecId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWallRecId()
+    {
+        return $this->wallRecId;
+    }
 
     /**
      * Set userId

@@ -10,6 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 class UserFriends
 {
     /**
+     * @var integer
+     */
+    private $userId;
+
+    /**
+     * @var integer
+     */
+    private $friendId;
+
+    /**
      * @var \DateTime
      */
     private $dateAdded;
@@ -44,6 +54,23 @@ class UserFriends
      */
     private $friend;
 
+
+    /* ***** Getters / Setters ***** */
+    /**
+     * @param int $friendId
+     */
+    public function setFriendId($friendId)
+    {
+        $this->friendId = $friendId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFriendId()
+    {
+        return $this->friendId;
+    }
 
     /**
      * Set dateAdded

@@ -7,6 +7,7 @@
     <id name="photoId" type="integer" column="photo_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="albumId" type="integer" column="album_id" nullable="false"/>
     <field name="photoName" type="string" column="photo_name" length="255" nullable="false"/>
     <field name="photoTitle" type="string" column="photo_title" length="200" nullable="true"/>
     <field name="photoDescription" type="string" column="photo_description" length="750" nullable="true"/>

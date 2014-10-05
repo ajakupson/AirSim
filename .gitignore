@@ -12,3 +12,4 @@
 /.idea/*
 /web/public_files/*
 !web/public_files/app_default
+/web/media/cache/*

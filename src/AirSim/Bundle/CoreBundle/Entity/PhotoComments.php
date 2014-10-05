@@ -15,6 +15,11 @@ class PhotoComments
     private $userId;
 
     /**
+     * @var integer
+     */
+    private $photoId;
+
+    /**
      * @var string
      */
     private $comment;
@@ -56,6 +61,22 @@ class PhotoComments
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * @param int $photoId
+     */
+    public function setPhotoId($photoId)
+    {
+        $this->photoId = $photoId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhotoId()
+    {
+        return $this->photoId;
     }
 
     /**

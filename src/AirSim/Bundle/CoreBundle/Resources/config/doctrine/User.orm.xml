@@ -27,6 +27,7 @@
     <field name="phoneProfilePic" type="string" column="phone_profile_pic" length="150" nullable="true"/>
     <field name="profileCover" type="string" column="profile_cover" length="150" nullable="true"/>
     <field name="loggedInTime" type="datetime" column="logged_in_time" nullable="false"/>
+    <one-to-many target-entity="UserFriends" mapped-by="user" field="friends"/>
     <many-to-one field="config" target-entity="UserConfig">
       <join-columns>
         <join-column name="config_id" referenced-column-name="config_id"/>

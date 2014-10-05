@@ -72,6 +72,13 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+# Avalanche Imagine
+avalanche_imagine:
+    filters:
+        last_photo:
+            type:     thumbnail
+            options:  { size: [280, 215], mode: outbound, quality: 100, format: png, cache_type: false}
+
 # Services
 services:
     kernel.listener.air_sim_exception_listener:

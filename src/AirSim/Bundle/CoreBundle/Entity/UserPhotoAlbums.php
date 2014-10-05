@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class UserPhotoAlbums
 {
     /**
+     * @var integer
+     */
+    private $userId;
+
+    /**
      * @var string
      */
     private $albumName;
@@ -33,6 +38,24 @@ class UserPhotoAlbums
      * @var \AirSim\Bundle\CoreBundle\Entity\User
      */
     private $user;
+
+
+    /* ***** Getters / Setters ***** */
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 
 
     /**

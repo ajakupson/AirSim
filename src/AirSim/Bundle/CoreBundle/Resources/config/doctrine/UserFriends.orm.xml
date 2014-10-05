@@ -8,6 +8,8 @@
     <id name="recId" type="integer" column="rec_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="userId" type="integer" column="user_id" nullable="false"/>
+    <field name="friendId" type="integer" column="friend_id" nullable="false"/>
     <field name="dateAdded" type="date" column="date_added" nullable="false"/>
     <field name="isAccepted" type="boolean" column="is_accepted" nullable="false"/>
     <field name="dateAccepted" type="date" column="date_accepted" nullable="true"/>

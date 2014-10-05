@@ -74,6 +74,12 @@
 
     $.fn.dialogOpen = function()
     {
+        $('body').addClass('scrolling_of');
+
+        this.css
+        ({
+            top: $(document).scrollTop()
+        });
         this.fadeIn();
         this.removeClass('scale');
         dialogBackground.fadeIn();
@@ -81,6 +87,8 @@
 
     $.fn.dialogClose = function()
     {
+        $('body').removeClass('scrolling_of');
+
         this.hide();
         this.addClass('scale');
         dialogBackground.fadeOut();
@@ -106,6 +114,11 @@
 
     $.fn.errDialogOpen = function(XMLHttpRequest, status, error)
     {
+        this.css
+        ({
+            top: $(document).scrollTop()
+        });
+
         this.find('#error_message_dialog_title_text').html(status + ': ' + error);
         this.find('#error_message_dialog_content').html(XMLHttpRequest.responseText);
         this.fadeIn();

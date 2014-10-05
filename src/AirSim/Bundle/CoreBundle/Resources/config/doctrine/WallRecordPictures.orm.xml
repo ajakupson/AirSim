@@ -8,6 +8,8 @@
     <id name="recId" type="integer" column="rec_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="wallRecId" type="integer" column="wall_rec_id" nullable="false"/>
+    <field name="pictureId" type="integer" column="picture_id" nullable="false"/>
     <many-to-one field="wallRec" target-entity="UserWallRecords">
       <join-columns>
         <join-column name="wall_rec_id" referenced-column-name="wall_rec_id"/>

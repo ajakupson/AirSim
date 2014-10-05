@@ -8,6 +8,7 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="userId" type="integer" column="user_id" nullable="false"/>
+    <field name="photoId" type="integer" column="photo_id" nullable="false"/>
     <field name="comment" type="string" column="comment" length="500" nullable="false"/>
     <field name="dateAdded" type="datetime" column="date_added" nullable="false"/>
     <many-to-one field="photo" target-entity="UserPhotos">

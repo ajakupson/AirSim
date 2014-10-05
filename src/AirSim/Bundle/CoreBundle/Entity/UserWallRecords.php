@@ -12,6 +12,11 @@ class UserWallRecords
     /**
      * @var integer
      */
+    private $toId;
+
+    /**
+     * @var integer
+     */
     private $authorId;
 
     /**
@@ -34,6 +39,38 @@ class UserWallRecords
      */
     private $to;
 
+
+    /**
+     * @param int $wallRecId
+     */
+    public function setWallRecId($wallRecId)
+    {
+        $this->wallRecId = $wallRecId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWallRecId()
+    {
+        return $this->wallRecId;
+    }
+
+    /**
+     * @param int $toId
+     */
+    public function setToId($toId)
+    {
+        $this->toId = $toId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getToId()
+    {
+        return $this->toId;
+    }
 
     /**
      * Set authorId
@@ -103,17 +140,6 @@ class UserWallRecords
     {
         return $this->dateAdded;
     }
-
-    /**
-     * Get wallRecId
-     *
-     * @return integer 
-     */
-    public function getWallRecId()
-    {
-        return $this->wallRecId;
-    }
-
     /**
      * Set to
      *
