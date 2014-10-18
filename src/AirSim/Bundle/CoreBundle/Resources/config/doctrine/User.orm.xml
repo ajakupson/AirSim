@@ -28,6 +28,8 @@
     <field name="profileCover" type="string" column="profile_cover" length="150" nullable="true"/>
     <field name="loggedInTime" type="datetime" column="logged_in_time" nullable="false"/>
     <one-to-many target-entity="UserFriends" mapped-by="user" field="friends"/>
+    <one-to-many field="highEducations" target-entity="UserHighEducation" mapped-by="user"/>
+    <one-to-many field="workplaces" target-entity="UserWorkplaces" mapped-by="user"/>
     <many-to-one field="config" target-entity="UserConfig">
       <join-columns>
         <join-column name="config_id" referenced-column-name="config_id"/>

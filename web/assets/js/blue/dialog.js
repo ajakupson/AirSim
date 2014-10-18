@@ -1,97 +1,133 @@
 (function($){
 
-    var dialogBackground;
+    // Default setting
+    var settings = {};
 
     // Simple dialog
-    $.fn.dialogInit = function(options)
+    var methods =
     {
-
-        var dialog = this;
-        var dialogHeader = this.find('.dialog_title');
-        dialogBackground = $('#dialog_background');
-
-        var settings = $.extend
-        ({
-            top: '-1px',
-            width: '100%',
-            height: dialog.outerHeight(),
-            draggable: false
-        }, options);
-
-        // make dialog draggable
-        // TODO: works, but has to be improved
-        if(settings.draggable)
+        init: function(options)
         {
-            $(dialogHeader).on('mousedown', function(e)
-            {
-                var prevMousePosX = e.pageX;
-                var prevMousePosY = e.pageY;
+            return this.each(function(){
+                var dialog = $(this);
+                var dialogHeader = dialog.find('.dialog_title');
 
-                $(dialog).addClass('draggable');
-                $('.draggable').parents().on('mousemove', function(e)
+                settings = $.extend
+                ({
+                    top: '-1px',
+                    width: '100%',
+                    height: dialog.outerHeight(),
+                    draggable: false
+                }, options);
+
+                // make dialog draggable
+                // TODO: works, but has to be improved
+                if(settings.draggable)
                 {
-                    var dialogPosX = dialog.offset().left;
-                    var dialogPosY = dialog.offset().top;
+                    dialogHeader.on('mousedown', function(e)
+                    {
+                        var prevMousePosX = e.pageX;
+                        var prevMousePosY = e.pageY;
 
-                    var curMousePosX = e.pageX;
-                    var curMousePosY = e.pageY;
+                        dialog.addClass('draggable');
+                        $('.draggable').children().on('mousemove', function(e)
+                        {
+                            dialog.addClass('no_transition');
 
-                    $('.draggable').offset
-                    ({
-                        left: dialogPosX + (curMousePosX - prevMousePosX),
-                        top: dialogPosY + (curMousePosY - prevMousePosY)
+                            var dialogPosX = dialog.offset().left;
+                            var dialogPosY = dialog.offset().top;
+
+                            var curMousePosX = e.pageX;
+                            var curMousePosY = e.pageY;
+
+                            if($('.draggable').is(':hover'))
+                            {
+
+                                $('.draggable').offset
+                                ({
+                                    left: dialogPosX + (curMousePosX - prevMousePosX),
+                                    top: dialogPosY + (curMousePosY - prevMousePosY)
+                                })
+                                .on('mouseup', function()
+                                {
+                                    $('.draggable').children().unbind('mousemove');
+                                    dialog.removeClass('draggable');
+                                    dialog.removeClass('no_transition');
+                                });
+                            }
+
+                            prevMousePosX = curMousePosX;
+                            prevMousePosY = curMousePosY;
+                        });
+                        e.preventDefault(); // prevent element selection
                     })
                     .on('mouseup', function()
                     {
-                        $(dialog).removeClass('draggable');
+                        $('.draggable').children().unbind('mousemove');
+                        dialog.removeClass('draggable');
+                        dialog.removeClass('no_transition');
                     });
+                }
 
-                    prevMousePosX = curMousePosX;
-                    prevMousePosY = curMousePosY;
+                // close dialog event
+                $('.dialog_close', dialog).click(function()
+                {
+                    dialog.dialog('close');
                 });
-                e.preventDefault(); // prevent element selection
-            })
-            .on('mouseup', function()
-            {
-                $(dialog).removeClass('draggable');
+
+                return dialog.css
+                ({
+                    top: settings.top,
+                    width: settings.width,
+                    height: settings.height
+                });
+
             });
-        }
-
-        // close dialog event
-        $('.dialog_close', dialog).click(function()
+        },
+        open: function()
         {
-           dialog.dialogClose();
-        });
+            $('body').addClass('scrolling_of');
+            var dialogBackground = $('#dialog_background');
 
-        return this.css
-        ({
-            top: settings.top,
-            width: settings.width,
-            height: settings.height
-        });
+            var cssTop = parseInt(settings.top, 10);
+            this.css
+            ({
+                top: cssTop + $(document).scrollTop()
+            });
+            this.fadeIn();
+            this.removeClass('scale');
+            dialogBackground.fadeIn();
 
+            return this;
+        },
+        close: function()
+        {
+            $('body').removeClass('scrolling_of');
+            var dialogBackground = $('#dialog_background');
+
+            console.log(this);
+            this.hide();
+            this.addClass('scale');
+            dialogBackground.fadeOut();
+
+            return this;
+        }
     };
 
-    $.fn.dialogOpen = function()
+    $.fn.dialog = function(method)
     {
-        $('body').addClass('scrolling_of');
-
-        this.css
-        ({
-            top: $(document).scrollTop()
-        });
-        this.fadeIn();
-        this.removeClass('scale');
-        dialogBackground.fadeIn();
-    };
-
-    $.fn.dialogClose = function()
-    {
-        $('body').removeClass('scrolling_of');
-
-        this.hide();
-        this.addClass('scale');
-        dialogBackground.fadeOut();
+        if(methods[method])
+        {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        }
+        else if(typeof method === 'object' || !method)
+        {
+            return methods.init.apply(this, arguments);
+        }
+        else
+        {
+            $.error('Method with name ' + method + ' does not exist for jQuery.gallery');
+        }
     };
 
     // TODO : improve

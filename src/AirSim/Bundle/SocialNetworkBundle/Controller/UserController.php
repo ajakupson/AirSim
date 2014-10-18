@@ -19,20 +19,20 @@ class UserController extends Controller
     {
         $userService = UserService::getInstance();
         $userId = $userService->getUserIdByUsername($username);
+        $userCompleteData = $userService->getUserData($userId);
         $lastContacts = $userService->getUserFriends($userId, null, Constants::LAST_CONTACTS_LIMIT);
 
         $photosService = PhotoService::getInstance();
         $lastPhotos = $photosService->getUserPhotos($userId, null, Constants::LAST_PHOTOS_LIMIT);
 
         $wallService = WallService::getInstance();
-        $wallRecords = null;
-        $wallRecords = $wallService->getWallRecords($userId, null, Constants::WALL_RECORDS_LIMIT);
-//        var_dump($wallRecords); exit;
+        $wallRecords = $wallService->getWallRecords($userId, 0, Constants::WALL_RECORDS_LIMIT);
 
         $randomContacts = $userService->getUserFriends($userId, null, Constants::RANDOM_CONTACTS_LIMIT, true);
 
-        return $this->render('AirSimSocialNetworkBundle:blue/User:user.html.twig', array('lastContacts' => $lastContacts,
-            'lastPhotos' => $lastPhotos, 'wallRecords' => $wallRecords, 'randomContacts' => $randomContacts));
+        return $this->render('AirSimSocialNetworkBundle:blue/User:user.html.twig', array('userData' => $userCompleteData,
+            'lastContacts' => $lastContacts, 'lastPhotos' => $lastPhotos, 'wallRecords' => $wallRecords,
+            'randomContacts' => $randomContacts));
     }
 
     /* ***** AJAX Calls ***** */
@@ -46,10 +46,13 @@ class UserController extends Controller
         $response = '';
 
         $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+        $sessionData = $session->get('sessionData');
         $photoId = $request->get('photoId');
+        $userId = $session->get('sessionData')['userInfo']['id'];
 
         $photosService = PhotoService::getInstance();
-        $photoDTO = $photosService->getPhotoDTO($photoId, null, Constants::PHOTO_COMMENTS_LIMIT);
+        $photoDTO = $photosService->getPhotoDTO($photoId, null, Constants::PHOTO_COMMENTS_LIMIT, $userId);
 
         $response = array('success' => $success, 'error' => $error, 'data' => array("photoData" => $photoDTO->expose()));
 
@@ -148,4 +151,127 @@ class UserController extends Controller
 
         return new Response(json_encode($response));
     }
+
+    public function likeDislikeWallRecordAction()
+    {
+        $success = true;
+        $error = '';
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+        $sessionData = $session->get('sessionData');
+        $page = $request->get('page');
+        $action = $request->get('action');
+        $receiverId = $request->get('receiverId');
+        $wallRecordId = $request->get('wallRecordId');
+        $senderId = $session->get('sessionData')['userInfo']['id'];
+
+        $wallService = WallService::getInstance();
+        $likeData = $wallService->likeDislikeWallRecord($wallRecordId, $senderId, $action);
+
+        // TODO: Add localization
+        $likedOrDisliked = $likeData['hasLiked'] ? 'liked' : 'disliked';
+        $notificationInfo = 'User <span class = "author">%s %s</span> has '.$likedOrDisliked.' your wall record!';
+        $notificationInfoFormatted = sprintf($notificationInfo, $sessionData['userInfo']['firstName'],
+            $sessionData['userInfo']['lastName']);
+
+        $eventData = array
+        (
+            'success' => $success,
+            'page' => $page,
+            'event' => 'likeDislikeWallRecord',
+            'messageText' => '',
+            'hasLiked' => $likeData['hasLiked'],
+            'hasRecord' => $likeData['hasRecord'],
+            'likeStatus' => $likeData['likeStatus'],
+            'wallRecordId' => $wallRecordId,
+            'notificationInfo' => $notificationInfoFormatted
+        );
+
+        $response = ResponseBuilder::BuildResponse(null, null, $receiverId, null, $eventData, $session->get('sessionData'));
+
+        return new Response(json_encode($response));
+    }
+
+    public function replyToWallRecordAction()
+    {
+        $success = true;
+        $error = '';
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+        $sessionData = $session->get('sessionData');
+        $page = $request->get('page');
+        $receiverId = $request->get('receiverId');
+        $wallRecordId = $request->get('wallRecordId');
+        $parentReplyId = $request->get('parentReplyId');
+        $replyText = $request->get('replyText');
+        $senderId = $session->get('sessionData')['userInfo']['id'];
+
+        $wallService = WallService::getInstance();
+        $wallRecordReply = $wallService->replyToWallRecord($wallRecordId, $parentReplyId, $senderId, $replyText);
+
+        // TODO: Add localization
+        $notificationInfo = 'User <span class = "author">%s %s</span> has commented your wall record!';
+        $notificationInfoFormatted = sprintf($notificationInfo, $sessionData['userInfo']['firstName'],
+            $sessionData['userInfo']['lastName']);
+
+        $eventData = array
+        (
+            'success' => $success,
+            'page' => $page,
+            'event' => 'replyToWallRecord',
+            'messageText' => $replyText,
+            'wallRecordReplyId' => $wallRecordReply->getReplyId(),
+            'wallRecordId' => $wallRecordId,
+            'notificationInfo' => $notificationInfoFormatted
+        );
+
+        $response = ResponseBuilder::BuildResponse(null, null, $receiverId, null, $eventData, $session->get('sessionData'));
+
+        return new Response(json_encode($response));
+    }
+
+    public function ratePhotoAction()
+    {
+        $success = true;
+        $error = '';
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+        $sessionData = $session->get('sessionData');
+        $page = $request->get('page');
+        $receiverId = $request->get('receiverId');
+        $rating = $request->get('rating');
+        $photoId = $request->get('photoId');
+        $senderId = $session->get('sessionData')['userInfo']['id'];
+
+        $photoService = PhotoService::getInstance();
+        $photoService->ratePicture($photoId, $senderId, $rating);
+        $averageRating = $photoService->getPictureAverageRating($photoId);
+
+        // TODO: Add localization
+        $notificationInfo = 'User <span class = "author">%s %s</span> has rated your photo!';
+        $notificationInfoFormatted = sprintf($notificationInfo, $sessionData['userInfo']['firstName'],
+            $sessionData['userInfo']['lastName']);
+
+        $eventData = array
+        (
+            'success' => $success,
+            'page' => $page,
+            'event' => 'ratePhoto',
+            'messageText' => '',
+            'photoId' => $photoId,
+            'averageRating' => $averageRating,
+            'notificationInfo' => $notificationInfoFormatted
+        );
+
+        $response = ResponseBuilder::BuildResponse(null, null, $receiverId, null, $eventData, $session->get('sessionData'));
+
+        return new Response(json_encode($response));
+    }
+
 }

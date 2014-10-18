@@ -45,15 +45,54 @@
         position: relative;
         width: 100%;
     }
-    .profile_main_info_
+    .profile_main_info
     {
-        float: left;
-        background: red;
-        width: 70%;
-        height: auto;
-        margin: 10px 1% 10px 1.5%;
-        min-height: 150px;
+        font-size: 0.9em;
     }
+    .user_info
+    {
+        width: auto;
+        max-width: 95%;
+        height: auto;
+        margin: 5px 0 5px 15px;
+        position: relative;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    .info_line_wrap
+    {
+        padding: 5px;
+        vertical-align: middle;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    .info_line_wrap:hover
+    {
+        background-color: #f4f4f4;
+    }
+    .info_line_title, .info_line_data
+    {
+        min-width: 120px;
+        padding: 0 2px 2px 2px;
+        margin: 5px 0 5px 0;
+        float: left;
+    }
+    .info_line_title
+    {
+        color: grey;
+    }
+    .info_line_title.underlined
+    {
+        width: 100%;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #efefef;
+    }
+
     .profile_pics_wrapper
     {
         float: right;
@@ -469,6 +508,20 @@
     {
         background-color: rgba(39, 169, 255, 0.51);
     }
+    input[type="button"].wall_record_edit, input[type="button"].wall_record_delete
+    {
+        display: block;
+        float: right;
+    }
+    input[type="checkbox"].wall_record_check + label
+    {
+        display: block;
+        float: right;
+    }
+    input[type="checkbox"].wall_record_check + label span
+    {
+        margin-right: 10px;
+    }
 
     /* ***** Wall Record Replies ***** */
     .wall_record_replies_wrapper
@@ -508,8 +561,9 @@
     }
     .wall_record_reply_text
     {
-        width: auto;
-        max-width: 83%;
+        /*width: auto;*/
+        /*max-width: 83%;*/
+        width: 100%;
         height: auto;
         float: left;
         font-size: 0.935em;

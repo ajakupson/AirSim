@@ -21,6 +21,7 @@
         {% block globalJavaScripts %}
             <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-form.js') }}"></script>
+            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery.knob.js') }}"></script>
             <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
             <script type = "text/javascript" src = "{{ asset('assets/js/blue/inner.js') }}"></script>
@@ -44,11 +45,15 @@
                     <div class = "logo_text">AIRSIM</div>
                     <div class = "top_nav">
                         <div class = "user_top_data">
-                            <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            {% if userData.webProfilePic %}
+                                <img class = "user_ava" src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
+                            {% else %}
+                                <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            {% endif %}
                             <div class = "logged">
                                 You are logged in as<br/>
                                     <span class = "user">
-                                        Bob Marley
+                                        {{ userData.firstName }} {{ userData.lastName }}
                                     </span>
                             </div>
                         </div>
@@ -184,11 +189,12 @@
                                 <input type = "hidden" id = "photo_id" value = ""/>
                             </div>
                             <div class = "photo_rating">
-                                <div class = "photo_rating_numbers">
-                                    <span class = "photo_rating_out">8/</span>
-                                    <span class = "photo_rating_of">10</span>
+                                <div class = "photo_rate">
+                                    <input type = "text" value = "0" class = "rate">
                                 </div>
-                                <div class = "photo_rating_stars"></div>
+                                <div class = "photo_rated">
+                                    <input type = "text" value = "0" class = "rating">
+                                </div>
                             </div>
                         </div><div class = "clear"></div>
                         <div class = "insert_comment">

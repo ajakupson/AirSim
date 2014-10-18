@@ -6,24 +6,27 @@ $(document).ready(function()
 function initDialogWindows()
 {
     // About Us Dialog
-    $('#about_dialog').dialogInit();
+    $('#about_dialog').dialog('init',
+    {
+        draggable: true
+    });
     $('#about_us').click(function()
     {
-        $('#about_dialog').dialogOpen();
+        $('#about_dialog').dialog('open');
     });
 
     // Contact Dialog
-    $('#contact_dialog').dialogInit();
+    $('#contact_dialog').dialog('init');
     $('#contact').click(function()
     {
-        $('#contact_dialog').dialogOpen();
+        $('#contact_dialog').dialog('open');
     });
 
     // Select Language Dialog
-    $('#select_language_dialog').dialogInit();
+    $('#select_language_dialog').dialog('init');
     $('#choose_lang_btn').click(function()
     {
-        $('#select_language_dialog').dialogOpen();
+        $('#select_language_dialog').dialog('open');
     });
 
     // Error Dialog

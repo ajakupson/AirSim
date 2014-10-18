@@ -3,12 +3,16 @@
 namespace AirSim\Bundle\CoreBundle\Services;
 
 use AirSim\Bundle\CoreBundle\AirSimCoreBundle;
+use AirSim\Bundle\CoreBundle\DataTransferObjects\WallRecordReplyDTO;
 use AirSim\Bundle\CoreBundle\Entity\UserPhotos;
 use AirSim\Bundle\CoreBundle\Entity\UserWallRecords;
+use AirSim\Bundle\CoreBundle\Entity\WallRecordLikes;
 use AirSim\Bundle\CoreBundle\Entity\WallRecordPictures;
+use AirSim\Bundle\CoreBundle\Entity\WallRecordReplies;
 use AirSim\Bundle\CoreBundle\Tools\Constants;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class WallService
 {
@@ -27,6 +31,7 @@ class WallService
         $this->userWallRecordsRepository = $this->entityManager->getRepository('AirSimCoreBundle:UserWallRecords');
         $this->wallRecordPicturesRepository = $this->entityManager->getRepository('AirSimCoreBundle:WallRecordPictures');
         $this->wallRecordLikesRepository = $this->entityManager->getRepository('AirSimCoreBundle:WallRecordLikes');
+        $this->wallRecordCommentsRepository = $this->entityManager->getRepository('AirSimCoreBundle:WallRecordReplies');
         $this->userRepository = $this->entityManager->getRepository('AirSimCoreBundle:User');
     }
 
@@ -60,12 +65,13 @@ class WallService
                         SELECT COUNT(wallRecordDislikes) AS dislikes
                         FROM AirSimCoreBundle:WallRecordLikes AS wallRecordDislikes
                         WHERE wallRecordDislikes.wallRecId = wallRecord.wallRecId
-                            AND wallRecordDislikes.likeDislike = 0
+                            AND wallRecordDislikes.likeDislike = -1
                       ) AS totalDislikes')
             ->from('AirSimCoreBundle:UserWallRecords', 'wallRecord')
             ->innerJoin('AirSimCoreBundle:User', 'wallRecordAuthor', 'WITH', 'wallRecord.authorId = wallRecordAuthor.userId')
             ->where('wallRecord.toId = :userId')
             ->setParameter('userId', $userId)
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->orderBy('wallRecord.dateAdded', 'DESC');
 
@@ -76,10 +82,35 @@ class WallService
         foreach($userWallRecords as $userWallRecord)
         {
             $userWallRecords[$counter]['wallRecordPictures'] = $photoService->getWallRecordPictures($userWallRecord[0]->getWallRecId());
+            $userWallRecords[$counter]['wallRecordComments'] = $this->getWallRecordComments($userWallRecord[0]->getWallRecId(), 0, Constants::WALL_RECORD_COMMENTS_LIMIT);
             $counter++;
         }
 
         return $userWallRecords;
+    }
+
+    public function getWallRecordComments($wallRecordId, $offset = null, $limit = null)
+    {
+        $query = $this->entityManager->createQueryBuilder();
+
+        $query
+            ->select('wallRecordComment,
+                      commentAuthor.userId,
+                      commentAuthor.login,
+                      commentAuthor.firstName,
+                      commentAuthor.lastName,
+                      commentAuthor.webProfilePic')
+            ->from('AirSimCoreBundle:wallRecordReplies', 'wallRecordComment')
+            ->innerJoin('AirSimCoreBundle:User', 'commentAuthor', 'WITH', 'wallRecordComment.authorId = commentAuthor.userId')
+            ->where('wallRecordComment.wallRecordId = :wallRecordId')
+            ->setParameter('wallRecordId', $wallRecordId)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->orderBy('wallRecordComment.dateAdded', 'ASC');
+
+        $wallRecordComments = $query->getQuery()->getResult();
+
+        return $wallRecordComments;
     }
 
     public function addWallRecord($toId, $authorId, $text, $attachedPictures)
@@ -131,12 +162,115 @@ class WallService
             $this->entityManager->persist($userWallPicture);
         }
 
-        // Documents
+        // TODO: Documents
+
+        // TODO: Audios
+
+        // TODO: Videos
+
+
 
         $this->entityManager->flush();
         $wallRecordData['wallRecord'] = $wallRecord;
 
         return $wallRecordData;
 
+    }
+
+    public function likeDislikeWallRecord($wallRecordId, $userId, $action)
+    {
+        $userLike = $this->wallRecordLikesRepository->findOneBy(array('wallRecId' => $wallRecordId, 'userId' => $userId));
+
+        $hasLiked = true;
+        $hasRecord = false;
+        $likeStatus = null;
+        $dateTime = new \DateTime();
+
+        if(sizeof($userLike) != 0)
+        {
+            $hasRecord = true;
+            if($userLike->getLikeDislike() == -1 && $action == Constants::LIKE)
+            {
+                $hasLiked = true;
+                $likeStatus = -1;
+                $userLike->setLikeDislike(0);
+            }
+            else if($userLike->getLikeDislike() == 0 && $action == Constants::LIKE)
+            {
+                $hasLiked = true;
+                $likeStatus = 0;
+                $userLike->setLikeDislike(1);
+            }
+            else if($userLike->getLikeDislike() == 1 && $action == Constants::DISLIKE)
+            {
+                $hasLiked = false;
+                $likeStatus = 1;
+                $userLike->setLikeDislike(0);
+            }
+            else if($userLike->getLikeDislike() == 0 && $action == Constants::DISLIKE)
+            {
+                $hasLiked = false;
+                $likeStatus = 0;
+                $userLike->setLikeDislike(-1);
+            }
+            $userLike->setDateRated($dateTime);
+            $this->entityManager->persist($userLike);
+        }
+        else
+        {
+            $wallRecordLike = new WallRecordLikes();
+            $wallRecordLike->setWallRecId($wallRecordId);
+            $wallRecordLike->setUserId($userId);
+            $wallRecordLike->setDateRated($dateTime);
+
+            if($action == Constants::LIKE)
+            {
+                $hasLiked = true;
+                $wallRecordLike->setLikeDislike(1);
+            }
+            else if($action == Constants::DISLIKE)
+            {
+                $hasLiked = false;
+                $wallRecordLike->setLikeDislike(-1);
+            }
+
+            $this->entityManager->persist($wallRecordLike);
+        }
+
+        $this->entityManager->flush();
+
+        $responseData = array
+        (
+            'hasLiked' => $hasLiked,
+            'hasRecord' => $hasRecord,
+            'likeStatus' => $likeStatus
+        );
+
+        return $responseData;
+    }
+
+    public function replyToWallRecord($wallRecordId, $parentReplyId, $authorId, $replyText)
+    {
+        $relatedWallRecord = $this->userWallRecordsRepository->findOneByWallRecId($wallRecordId);
+
+        $wallRecordReply = new WallRecordReplies();
+        $wallRecordReply->setWallRecord($relatedWallRecord);
+        $wallRecordReply->setParentReplyId($parentReplyId);
+        $wallRecordReply->setAuthorId($authorId);
+        $wallRecordReply->setReplyText($replyText);
+        $wallRecordReply->setDateAdded(new \DateTime());
+
+        $this->entityManager->persist($wallRecordReply);
+        $this->entityManager->flush();
+
+//        $wallRecordReplyDTO = new WallRecordReplyDTO();
+//        $wallRecordReplyDTO->setReplyId($wallRecordReply->getRepyId());
+//        $wallRecordReplyDTO->setWallRecordId($$wallRecordId);
+//        $wallRecordReplyDTO->setParentReplyId($parentReplyId);
+//        $wallRecordReplyDTO->setAuthorId($authorId);
+//        $wallRecordReplyDTO->setDateAdded($wallRecordReply->getDateAdded()->format('d/m/Y'));
+//        $wallRecordReplyDTO->setReplyText($replyText);
+
+        return $wallRecordReply;
     }
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="AirSim\Bundle\CoreBundle\Entity\WallRecordLikes" table="wall_record_likes">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\PhotoRatings" table="photo_ratings">
     <indexes>
-      <index name="FK_wall_record_likes" columns="wall_rec_id"/>
+      <index name="FK_rating_photo" columns="photo_id"/>
     </indexes>
     <id name="recId" type="integer" column="rec_id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="wallRecId" type="integer" column="wall_rec_id" nullable="false"/>
+    <field name="photoId" type="integer" column="photo_id" nullable="false"/>
     <field name="userId" type="integer" column="user_id" nullable="false"/>
-    <field name="likeDislike" type="integer" column="like_dislike" nullable="false"/>
+    <field name="rating" type="integer" column="rating" nullable="false"/>
     <field name="dateRated" type="datetime" column="date_rated" nullable="false"/>
-    <!--<many-to-one field="wallRec" target-entity="UserWallRecords">-->
-      <!--<join-columns>-->
-        <!--<join-column name="wall_rec_id" referenced-column-name="wall_rec_id"/>-->
-      <!--</join-columns>-->
-    <!--</many-to-one>-->
+    <many-to-one field="photo" target-entity="UserPhotos">
+      <join-columns>
+        <join-column name="photo_id" referenced-column-name="photo_id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

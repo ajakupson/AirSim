@@ -22,4 +22,13 @@ air_sim_social_network_user_upload_tmp_images:
 air_sim_social_network_user_delete_tmp_image:
     path:     /user_delete_tmp_image
     defaults: { _controller: AirSimSocialNetworkBundle:User:deleteTmpImage }
+air_sim_social_network_user_like_dislike_wall_record:
+    path:     /user_like_dislike_wall_record
+    defaults: { _controller: AirSimSocialNetworkBundle:User:likeDislikeWallRecord }
+air_sim_social_network_user_reply_to_wall_record:
+    path:     /user_reply_to_wall_record
+    defaults: { _controller: AirSimSocialNetworkBundle:User:replyToWallRecord }
+air_sim_social_network_user_rate_photo:
+    path:     /user_rate_photo
+    defaults: { _controller: AirSimSocialNetworkBundle:User:ratePhoto }
 

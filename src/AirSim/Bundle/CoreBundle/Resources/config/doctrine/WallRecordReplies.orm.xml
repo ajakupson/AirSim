@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\WallRecordReplies" table="wall_record_replies">
+    <indexes>
+      <index name="FK_reply_wall_record" columns="wall_record_id"/>
+    </indexes>
+    <id name="replyId" type="integer" column="reply_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="wallRecordId" type="integer" column="wall_record_id" nullable="false"/>
+    <field name="parentReplyId" type="integer" column="parent_reply_id" nullable="true"/>
+    <field name="authorId" type="integer" column="author_id" nullable="false"/>
+    <field name="replyText" type="text" column="reply_text" nullable="false"/>
+    <field name="dateAdded" type="datetime" column="date_added" nullable="false"/>
+    <many-to-one field="wallRecord" target-entity="UserWallRecords">
+      <join-columns>
+        <join-column name="wall_record_id" referenced-column-name="wall_rec_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -30,6 +30,14 @@ class UserService
         return self::$userServiceInstance;
     }
 
+    public function getUserData($userId)
+    {
+        $userCompleteData =  $this->userRepository->findOneByUserId($userId);
+
+        return $userCompleteData;
+    }
+
+
     public function getUserIdByUsername($username)
     {
         $user = $this->userRepository->findOneBy(array('login' => $username));

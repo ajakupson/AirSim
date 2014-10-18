@@ -90,8 +90,11 @@ class Pusher implements WampServerInterface
         }
         if(array_key_exists('logged_in_user_'.$eventData['receiverData']['receiverId'], $this->subscribedTopics))
         {
-            $topic = $this->subscribedTopics['logged_in_user_'.$eventData['receiverData']['receiverId']];
-            $topic->broadcast($eventData);
+            if($eventData['senderData']['senderId'] != $eventData['receiverData']['receiverId'])
+            {
+                $topic = $this->subscribedTopics['logged_in_user_'.$eventData['receiverData']['receiverId']];
+                $topic->broadcast($eventData);
+            }
         }
         else return;
 

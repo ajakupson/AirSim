@@ -13,7 +13,8 @@
         width: auto;
         max-width: 100%;
         height: auto;
-        max-height: 92%;
+        /*max-height: 92%;*/
+        max-height: 600px;
     }
     .previous_photo, .next_photo
     {
@@ -169,22 +170,50 @@
         float: right;
         margin: 7px 8px 0 0;
     }
-    .photo_rating_numbers
+    /*.photo_rating_numbers*/
+    /*{*/
+        /*width: auto;*/
+        /*height: auto;*/
+        /*float: right;*/
+        /*margin: 0 8px 0 0;*/
+    /*}*/
+    /*.photo_rating_out*/
+    /*{*/
+        /*font-size: 2em;*/
+        /*font-weight: bold;*/
+    /*}*/
+    /*.photo_rating_of*/
+    /*{*/
+        /*font-size: 1.8em;*/
+        /*font-weight: bold;*/
+    /*}*/
+    .photo_rating
+    {
+        width: auto;
+        height: auto;
+        max-height: 130px;
+        overflow: hidden;
+        float: right;
+        position: relative;
+        margin: 0 50px 0 0;
+    }
+    .photo_rated
     {
         width: auto;
         height: auto;
         float: right;
-        margin: 0 8px 0 0;
+        margin: 0 0 0 10px;
     }
-    .photo_rating_out
+    .photo_rate
     {
-        font-size: 2em;
-        font-weight: bold;
-    }
-    .photo_rating_of
-    {
-        font-size: 1.8em;
-        font-weight: bold;
+        width: auto;
+        height: auto;
+        float: left;
+        padding: 20% 0 0 0;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
     }
     .insert_comment
     {

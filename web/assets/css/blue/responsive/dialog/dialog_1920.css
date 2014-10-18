@@ -5,6 +5,31 @@
         width: 80%;
         overflow: hidden;
     }
+    /*.dialog*/
+    /*{*/
+        /*background: none repeat scroll 0 0 #FFFFFF;*/
+        /*border: 0px solid #4d9ff1;*/
+        /*color: #333333;*/
+        /*display: none;*/
+        /*font-size: 14px;*/
+        /*width: 100%;*/
+        /*height: auto;*/
+        /*max-height: 800px;*/
+        /*z-index: 101;*/
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+
+        /*overflow-x: hidden;*/
+        /*overflow-y: scroll;*/
+        /*-ms-overflow-style: none;*//* *//* Hide scrollbars in IE10+ */
+        /*overflow: -moz-scrollbars-none;*//* *//* Hide scrollbars in Firefox */
+
+        /*transition-duration:400ms;*/
+
+    /*}*/
     .dialog
     {
         background: none repeat scroll 0 0 #FFFFFF;
@@ -14,7 +39,7 @@
         font-size: 14px;
         width: 100%;
         height: auto;
-        max-height: 800px;
+        max-height: 900px;
         z-index: 101;
         position: absolute;
         left: 0;
@@ -22,15 +47,14 @@
         margin-left: auto;
         margin-right: auto;
 
-        overflow-x: hidden;
-        overflow-y: scroll;
-        /*-ms-overflow-style: none;*/ /* Hide scrollbars in IE10+ */
-        /*overflow: -moz-scrollbars-none;*/ /* Hide scrollbars in Firefox */
+        /*overflow-x: hidden;*/
+        /*overflow-y: scroll;*/
+        /*-ms-overflow-style: none;  *//* Hide scrollbars in IE10+ */
+        /*overflow: -moz-scrollbars-none;  *//* Hide scrollbars in Firefox */
 
         transition-duration:400ms;
-
     }
-    .dialog::-webkit-scrollbar{ width: 0 !important; } /* Hide scrollbars in Chrome and Safari */
+    /*.dialog::-webkit-scrollbar{ width: 0 !important; } *//* Hide scrollbars in Chrome and Safari */
     .dialog.scale
     {
         transform:scale(0.8, 0.8);
@@ -94,17 +118,33 @@
         top: 26px;
         width: 1px;
     }
+    /*.dialog_content*/
+    /*{*/
+    /*width: 100%;*/
+    /*padding: 20px;*/
+
+    /*box-sizing: border-box;*/
+    /*-webkit-box-sizing: border-box;*/
+    /*-moz-box-sizing: border-box;*/
+    /*-o-box-sizing: border-box;*/
+    /*}*/
     .dialog_content
     {
         width: 100%;
+        height: auto;
+        max-height: 865px;
         padding: 20px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -ms-overflow-style: none;   /*Hide scrollbars in IE10+ */
+        overflow: -moz-scrollbars-none;  /* Hide scrollbars in Firefox */
 
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         -o-box-sizing: border-box;
     }
-
+    .dialog_content::-webkit-scrollbar{ width: 0 !important; } /* Hide scrollbars in Chrome and Safari */
     .dialog_background
     {
         z-index: 100;

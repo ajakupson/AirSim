@@ -5,6 +5,7 @@ namespace AirSim\Bundle\CoreBundle\Services;
 use AirSim\Bundle\CoreBundle\AirSimCoreBundle;
 use AirSim\Bundle\CoreBundle\DataTransferObjects\PhotoDTO;
 use AirSim\Bundle\CoreBundle\DataTransferObjects\CommentDTO;
+use AirSim\Bundle\CoreBundle\Entity\PhotoRatings;
 
 class PhotoService
 {
@@ -13,11 +14,13 @@ class PhotoService
     // dependencies
     private $entityManager = null;
     private $photosRepository = null;
+    private $photoRatingsRepository = null;
 
     private function __construct()
     {
         $this->entityManager = AirSimCoreBundle::getContainer()->get('doctrine')->getManager();
         $this->photosRepository = $this->entityManager->getRepository('AirSimCoreBundle:UserPhotos');
+        $this->photoRatingsRepository = $this->entityManager->getRepository('AirSimCoreBundle:PhotoRatings');
     }
 
     public static function getInstance()
@@ -46,16 +49,24 @@ class PhotoService
         return $photos;
     }
 
-    public function getPhotoData($photoId)
+    public function getPhotoData($photoId, $userId)
     {
         $query = $this->entityManager->createQueryBuilder();
         $query
-            ->select('photo, photoAlbums.albumName, photoAlbums.albumTitle, user.userId')
+            ->select('photo,
+                      photoAlbums.albumName,
+                      photoAlbums.albumTitle,
+                      user.userId,
+                      AVG(averageRating.rating) AS averageRatio,
+                      userRating.rating AS userRated')
             ->from('AirSimCoreBundle:UserPhotos', 'photo')
             ->innerJoin('AirSimCoreBundle:UserPhotoAlbums', 'photoAlbums', 'WITH', 'photo.albumId = photoAlbums.albumId')
             ->innerJoin('AirSimCoreBundle:User', 'user', 'WITH', 'photoAlbums.userId = user.userId')
-            ->andWhere('photo.photoId = :photoId')
-            ->setParameter('photoId', $photoId);
+            ->leftJoin('AirSimCoreBundle:PhotoRatings', 'averageRating', 'WITH', 'averageRating.photoId = photo.photoId')
+            ->leftJoin('AirSimCoreBundle:PhotoRatings', 'userRating', 'WITH', 'userRating.photoId = photo.photoId AND userRating.userId = :userId')
+            ->where('photo.photoId = :photoId')
+            ->setParameter('photoId', $photoId)
+            ->setParameter('userId', $userId);
         $photoData = $query->getQuery()->getResult();
 
         return $photoData[0];
@@ -114,9 +125,9 @@ class PhotoService
         return $nextPhotoId;
     }
 
-    public function getPhotoDTO($photoId, $offset = null, $limit = null)
+    public function getPhotoDTO($photoId, $offset = null, $limit = null, $userId)
     {
-        $photoData = $this->getPhotoData($photoId);
+        $photoData = $this->getPhotoData($photoId, $userId);
         $albumId = $photoData[0]->getAlbumId();
         $photoComments = $this->getPhotoComments($photoId, $offset, $limit);
         $previousPhotoId = $this->getAlbumPreviousPhoto($albumId, $photoId);
@@ -137,6 +148,8 @@ class PhotoService
         $photoDTO->setAddress($photoData[0]->getAddress());
         $photoDTO->setPreviousPhotoId($previousPhotoId);
         $photoDTO->setNextPhotoId($nextPhotoId);
+        $photoDTO->setAverageRating($photoData['averageRatio']);
+        $photoDTO->setUserRated($photoData['userRated']);
 
         $commentDTOs = array();
         foreach($photoComments as $comment)
@@ -172,5 +185,43 @@ class PhotoService
         $pictures = $query->getQuery()->getResult();
 
         return $pictures;
+    }
+
+    public function ratePicture($pictureId, $senderId, $rating)
+    {
+        $photoRating = $this->photoRatingsRepository->findOneBy(array('photoId' => $pictureId, 'userId' => $senderId));
+
+        if($photoRating == null)
+        {
+            $photoToRate = $this->photosRepository->findOneByPhotoId($pictureId);
+
+            $photoRating = new PhotoRatings();
+            $photoRating->setPhoto($photoToRate);
+            $photoRating->setUserId($senderId);
+            $photoRating->setRating($rating);
+            $photoRating->setDateRated(new \DateTime());
+        }
+        else
+        {
+            $photoRating->setRating($rating);
+        }
+
+        $this->entityManager->persist($photoRating);
+        $this->entityManager->flush();
+
+        return $photoRating;
+    }
+
+    public function getPictureAverageRating($pictureId)
+    {
+        $query = $this->entityManager->createQueryBuilder();
+        $query
+            ->select('AVG(photoRating.rating) AS pictureAverageRating')
+            ->from('AirSimCoreBundle:PhotoRatings', 'photoRating')
+            ->where('photoRating.photoId = :photoId')
+            ->setParameter('photoId', $pictureId);
+        $averageRating = $query->getQuery()->getResult();
+
+        return $averageRating[0]['pictureAverageRating'];
     }
 }

@@ -12,6 +12,14 @@ html, body
     height: 100%;
     overflow: hidden;
 }
+.no_transition
+{
+    transition: none !important;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+}
 a
 {
     font-weight: bold;
@@ -62,7 +70,10 @@ a:hover
 {
     display: none;
 }
-
+.visible
+{
+    display: block;
+}
 input[type="button"].like_button, input[type="button"].dislike_button
 {
     float: left;

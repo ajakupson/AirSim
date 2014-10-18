@@ -50,6 +50,7 @@
             success: function(response)
             {
                 var $photoContainer = $('.photo_container');
+                var $photoInfoContainer = $('.photo_info_wrapper');
                 var $img = $photoContainer.find('.photo_to_show');
 
                 var imagePath = settings.folderPath + response.data.photoData.userId + '/albums/' + response.data.photoData.albumName + '/' +
@@ -83,6 +84,22 @@
                 var dateAdded = response.data.photoData.photoDateAdded;
                 var photoLocation = response.data.photoData.photoAddress;
                 var undefined = '..........';
+                var rating = response.data.photoData.averageRating;
+                if(rating === null)
+                {
+                    rating = 0;
+                }
+                else
+                {
+                    rating = Number(rating).toFixed(1);
+                }
+                var userRated = response.data.photoData.userRated;
+                if(userRated === null)
+                {
+                    userRated = 0;
+                }
+                $photoInfoContainer.find('.rate').val(userRated).trigger('change');
+                $photoInfoContainer.find('.rating').val(rating).trigger('change');
 
                 $('#album_title').html((albumTitle != null) ? albumTitle : undefined);
                 $('#photo_title').html(photoTitle != null ? photoTitle : undefined);

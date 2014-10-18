@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: HP
- * Date: 13.09.14
- * Time: 18:50
- * To change this template use File | Settings | File Templates.
- */
 
 namespace AirSim\Bundle\CoreBundle\DataTransferObjects;
 
@@ -81,6 +74,16 @@ class PhotoDTO
      * @var integer
      */
     private $nextPhotoId;
+
+    /**
+     * @var float
+     */
+    private $averageRating;
+
+    /**
+     * @var integer
+     */
+    private $userRated;
 
     /**
      * @var CommentDTO[]
@@ -333,6 +336,40 @@ class PhotoDTO
     {
         return $this->userId;
     }
+
+    /**
+     * @param mixed $averageRating
+     */
+    public function setAverageRating($averageRating)
+    {
+        $this->averageRating = $averageRating;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAverageRating()
+    {
+        return $this->averageRating;
+    }
+
+    /**
+     * @param int $userRated
+     */
+    public function setUserRated($userRated)
+    {
+        $this->userRated = $userRated;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserRated()
+    {
+        return $this->userRated;
+    }
+
+
 
 
 

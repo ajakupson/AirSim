@@ -2,7 +2,7 @@
 
 $(document).ready(function()
 {
-    initDialogWindows();
+    initElementsAndDialogWindows();
 
     // Remove shown notification
     $('.notification_close').click(function()
@@ -11,12 +11,13 @@ $(document).ready(function()
     });
 });
 
-function initDialogWindows()
+function initElementsAndDialogWindows()
 {
     // Init gallery modal
-    $('#gallery').dialogInit
-    ({
-        'height': 'auto'
+    $('#gallery').dialog('init',
+    {
+        top: '-80px',
+        height: 'auto'
     });
 
     // Init gallery
@@ -27,7 +28,7 @@ function initDialogWindows()
         'appDefaultFolderPath': './../../public_files/app_default/',
         'onShowCallback' : function()
         {
-            $('#gallery').dialogOpen();
+            $('#gallery').dialog('open');
         }
     });
 

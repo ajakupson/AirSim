@@ -1,26 +1,123 @@
 {% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
 
 {% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/accordion.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
     <link href = "{{ asset('assets/css/blue/user.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
+    <script type = "text/javascript" src = "{{ asset('assets/js/blue/accordion.js') }}"></script>
     <script type = "text/javascript" src = "{{ asset('assets/js/blue/user.js') }}"></script>
 {% endblock pageJavaScripts %}
 
 {% block pageContent %}
     {% set counter = 0 %}
-    <input type = "hidden" id = "user_id" value = "1"/>
+    <input type = "hidden" id = "user_id" value = "{{ userData.userId }}"/>
     <div class = "user_page_left_content">
         <section class = "user_page_block user_main_info">
             <h1>User info</h1>
-            <div class = "profile" style = "background: url('{{ asset('public_files/app_default/ifrit_cover.jpg') }}')
-                no-repeat center; background-size: cover;">
+            {% if userData.profileCover %}
+                <div class = "profile" style = "background: url('{{ asset('public_files/user_'~userData.userId~'/albums/profile_covers/'~userData.profileCover) }}')
+                    no-repeat center; background-size: cover;">
+            {% else %}
+                <div class = "profile" style = "background: url('{{ asset('public_files/app_default/no_cover_male.jpg') }}')
+                    no-repeat center; background-size: cover;">
+            {% endif %}
                 <div class = "profile_main_info">
-
+                    <div class = "accordion" id = "accordion">
+                        <div class = "accordion_tab">
+                            Main information
+                            <input type = "button" class = "expand_button" value = ""/>
+                        </div>
+                        <div class = "accordion_content">
+                            <div id = "main_info" class = "user_info">
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Phone operator:</div>
+                                    <span class = "info_line_data">{{ userData.operator }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Date of birth:</div>
+                                    <span class = "info_line_data">{{ userData.birthdate | date('d.m.Y') }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div id = "education_info" class = "user_info">
+                                        <div class = "info_line_title">High education:</div><div class = "clear"></div>
+                                        <div id = "degree" class = "user_info">
+                                            {% for highEducation in userData.getHighEducations() %}
+                                                <div class = "info_line_title underlined">Degree:</div><div class = "clear"></div>
+                                                <div class = "info_line_title">University:</div>
+                                                <span class = "info_line_data">{{ highEducation.university }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Faculty:</div>
+                                                <span class = "info_line_data">{{ highEducation.faculty }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Speciality:</div>
+                                                <span class = "info_line_data">{{ highEducation.speciality }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Degree:</div>
+                                                <span class = "info_line_data">{{ highEducation.degree }}</span><div class = "clear"></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div id = "work_info" class = "user_info">
+                                        <div class = "info_line_title">Career:</div><div class = "clear"></div>
+                                        <div id = "workplace" class = "user_info">
+                                            {% for workplace in userData.getWorkplaces() %}
+                                                <div class = "info_line_title underlined">Workplace:</div><div class = "clear"></div>
+                                                <div class = "info_line_title">Company:</div>
+                                                <span class = "info_line_data">{{ workplace.company }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Position:</div>
+                                                <span class = "info_line_data">{{ workplace.position }}</span><div class = "clear"></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                        <div class = "accordion_tab">
+                            Additional information
+                            <input type = "button" class = "expand_button" value = ""/>
+                        </div>
+                        <div class = "accordion_content">
+                            <div id = "additional_info" class = "user_info">
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Email:</div>
+                                    <span class = "info_line_data">{{ userData.email }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Country:</div>
+                                    <span class = "info_line_data">{{ userData.country }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">City:</div>
+                                    <span class = "info_line_data">{{ userData.city }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Street:</div>
+                                    <span class = "info_line_data">{{ userData.address }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Website:</div>
+                                    <span class = "info_line_data">{{ userData.website }}</span><div class = "clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "accordion_tab">
+                            Hobbies
+                            <input type = "button" class = "expand_button" value = ""/>
+                        </div>
+                        <div class = "accordion_content last">
+                            <div id = "hobbies_info" class = "user_info">
+                                TODO: Add hobbies functionality
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class = "profile_pics_wrapper">
-                    <img src = "{{ asset('public_files/app_default/ifrit.jpg') }}"/>
+                    {% if userData.webProfilePic %}
+                        <img class = "user_ava" src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
+                    {% else %}
+                        <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                    {% endif %}
                 </div>
                 <p class = "clear"></p>
             </div>
@@ -140,6 +237,7 @@
                 <div class = "wall_records_wrapper">
                     {# Wall record template #}
                     <article class = "wall_record hidden" id = "wall_record_template">
+                        <input type = "hidden" class = "wall_record_id" value = ""/>
                         <div class = "wall_record_date_time">
                             <span class = "date" ></span><br/>
                             <span class = "time"></span>
@@ -148,6 +246,12 @@
                             <span class = "wall_record_icon text_icon"></span>
                         </div>
                         <div class = "wall_record_content">
+                            <input type = "button" class = "delete_button wall_record_delete"/>
+                            <input type = "button" class = "edit_button wall_record_edit"/>
+                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete"/>
+                            <label for = "check_wall_record_to_delete">
+                                <span></span>
+                            </label>
                             <h1></h1>
                             <div class = "wall_record_author">
                                 <img/>
@@ -167,11 +271,11 @@
                                 <input type = "button" class = "dislike_button"/>
                                 <div class = "dislikes">0</div>
                             </div>
-                            <textarea placeholder="Comment record ..."></textarea>
-                            <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
-                            <p class = "clear"></p>
                             <div class = "wall_record_replies_wrapper">
                             </div>
+                            <textarea placeholder="Comment record ..." class = "wall_record_reply_text"></textarea>
+                            <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
+                            <p class = "clear"></p>
                         </div>
                         <p class = "clear"></p>
                     </article>
@@ -180,12 +284,18 @@
                     {# Wall record reply template #}
                     <div id = "wall_record_reply_template" class = "hidden">
                         <div class = "wall_record_reply">
+                            <input type = "button" class = "delete_button wall_record_delete"/>
+                            <input type = "button" class = "edit_button wall_record_edit"/>
+                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete"/>
+                            <label for = "check_wall_record_comment_to_delete">
+                                <span></span>
+                            </label>
                             <div class = "wall_record_reply_author">
                                 <img/>
                                 <p class = "author_name"></p>
                             </div>
                         </div>
-                        <div class = "wall_record_reply_text">
+                        <div class = "wall_record_text_reply">
                         </div>
                         <p class = "clear"></p>
                     </div>
@@ -193,6 +303,7 @@
 
                     {% for wallRecord in wallRecords %}
                         <article class = "wall_record">
+                            <input type = "hidden" class = "wall_record_id" value = "{{ wallRecord[0].wallRecId }}"/>
                             <div class = "wall_record_date_time">
                                 <span class = "date">{{ wallRecord[0].dateAdded |date('d/m/Y') }}</span><br/>
                                 <span class = "time">{{ wallRecord[0].dateAdded |date('H:i') }}</span>
@@ -201,6 +312,14 @@
                                 <span class = "wall_record_icon text_icon"></span>
                             </div>
                             <div class = "wall_record_content">
+                                {#{% if app.session.get('sessionData')['userInfo']['userId'] == userData.userId#}
+                                {#&#123;&#35;or app.session.get('userSessionData')['userInfo']['userId'] == record.wallRecord.getAuthor().userId %}&#35;&#125;#}
+                                <input type = "button" class = "delete_button wall_record_delete"/>
+                                <input type = "button" class = "edit_button wall_record_edit"/>
+                                <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}"/>
+                                <label for = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}">
+                                    <span></span>
+                                </label>
                                 <h1>Wall record title</h1>
                                 <div class = "wall_record_author">
                                     {% if wallRecord.webProfilePic %}
@@ -231,9 +350,39 @@
                                     <input type = "button" class = "like_button"/>
                                     <div class = "likes">{{ wallRecord.totalLikes }}</div>
                                     <input type = "button" class = "dislike_button"/>
-                                    <div class = "dislikes">{{ wallRecord.totalDislikes }}</div>
+                                    <div class = "dislikes">
+                                        {% if wallRecord.totalDislikes > 0 %}-{% endif %}{{ wallRecord.totalDislikes }}
+                                    </div>
                                 </div>
-                                <textarea placeholder="Comment record ..."></textarea>
+                                <div class = "wall_record_replies_wrapper">
+                                    {% for wallRecordComment in  wallRecord.wallRecordComments %}
+                                        <div>
+                                            <div class = "wall_record_reply">
+                                                {#{% if app.session.get('userSessionData')['userInfo']['userId'] == userData.userId#}
+                                                {#or app.session.get('userSessionData')['userInfo']['userId'] == record.wallRecord.getAuthor().userId %}#}
+                                                <input type = "button" class = "delete_button wall_record_delete"/>
+                                                <input type = "button" class = "edit_button wall_record_edit"/>
+                                                <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}"/>
+                                                <label for = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}">
+                                                    <span></span>
+                                                </label>
+                                                <div class = "wall_record_reply_author">
+                                                    {% if wallRecordComment.webProfilePic %}
+                                                        <img src = "./../../public_files/user_{{ wallRecordComment.userId }}/albums/profile_pics/{{ wallRecordComment.webProfilePic }}"/>
+                                                    {% else %}
+                                                        <img src = "./../../public_files/app_default/no_avatar_male.png"/>
+                                                    {% endif %}
+                                                    <p class = "author_name">{{ wallRecordComment.firstName }} {{ wallRecordComment.lastName }}</p>
+                                                </div>
+                                            </div>
+                                            <div class = "wall_record_text_reply">
+                                                {{ wallRecordComment[0].replyText }}
+                                            </div>
+                                            <p class = "clear"></p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <textarea placeholder = "Comment record ..." class = "wall_record_reply_text"></textarea>
                                 <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
                                 <p class = "clear"></p>
                             </div>

@@ -111,10 +111,22 @@ class User
      */
     private $friends;
 
+    /*
+     * @var Collection
+     */
+    private $highEducations;
+
+    /*
+    * @var Collection
+    */
+    private $workplaces;
+
 
     public function __construct()
     {
         $this->friends = new ArrayCollection();
+        $this->highEducations = new ArrayCollection();
+        $this->workplaces = new ArrayCollection();
     }
 
 
@@ -557,6 +569,38 @@ class User
     public function getFriends()
     {
         return $this->friends;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $highEducations
+     */
+    public function setHighEducations($highEducations)
+    {
+        $this->highEducations = $highEducations;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getHighEducations()
+    {
+        return $this->highEducations;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $workplaces
+     */
+    public function setWorkplaces($workplaces)
+    {
+        $this->workplaces = $workplaces;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getWorkplaces()
+    {
+        return $this->workplaces;
     }
 
 }

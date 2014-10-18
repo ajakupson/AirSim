@@ -9,7 +9,6 @@ var conn = new ab.Session
         var userId = $('#user_id').val();
         conn.subscribe('user_' + userId, function(topic, response)
         {
-            //console.log(response.data.text);
             var event = response.eventData.event;
             switch(event)
             {
@@ -17,6 +16,18 @@ var conn = new ab.Session
                 {
                     addWallRecordSocket(response);
                 }break;
+                case 'likeDislikeWallRecord':
+                {
+                    likeDislikeWallRecordSocket(response);
+                }break;
+                case 'replyToWallRecord':
+                {
+                    replyToWallRecordSocket(response);
+                }break;
+                case 'ratePhoto':
+                {
+                    ratePhotoSocket(response);
+                }
                 default:break;
             }
 
@@ -37,10 +48,42 @@ var attachedImagesCounter = 0;
 
 $(document).ready(function()
 {
+    initElements();
+    $('#accordion').accordion('init');
+
     uploadAttachedImages();
     deleteUploadedImage();
     addWallRecord();
+    likeWallRecord();
+    dislikeWallRecord();
+    replyToWallRecord();
 });
+
+function initElements()
+{
+    // Init photo ratings
+    $('.rate', '.photo_rating').knob
+    ({
+        'width': 75,
+        'min': 0,
+        'max': 10,
+        'thickness': .3,
+        'fgColor': '#66CC66',
+        'release': ratePhoto
+    });
+
+    $('.rating', '.photo_rating').knob
+    ({
+        'width': 125,
+        'min': 0,
+        'max': 10,
+        'step': .1,
+        'readOnly': true,
+        'thickness': .3,
+        'fgColor': '#27a9ff',
+        'skin': 'tron'
+    });
+}
 
 function addWallRecord()
 {
@@ -185,11 +228,146 @@ function deleteUploadedImage()
     });
 }
 
+function likeWallRecord()
+{
+    $('.like_button').click(function()
+    {
+        var receiverId = $('#user_id').val();
+        var wallRecordId = $(this).closest('.wall_record').find('.wall_record_id').val();
+
+        $.ajax
+        ({
+            url: './../user_like_dislike_wall_record',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                wallRecordId: wallRecordId,
+                receiverId: receiverId,
+                page: 'user_' + receiverId,
+                action: LIKE
+            },
+            success: function(response)
+            {
+                if(response.eventData.success)
+                {
+
+                }
+                else
+                {}
+
+            }
+        });
+    });
+}
+
+function dislikeWallRecord()
+{
+    $('.dislike_button').click(function()
+    {
+        var receiverId = $('#user_id').val();
+        var wallRecordId = $(this).closest('.wall_record').find('.wall_record_id').val();
+
+        $.ajax
+        ({
+            url: './../user_like_dislike_wall_record',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                wallRecordId: wallRecordId,
+                receiverId: receiverId,
+                page: 'user_' + receiverId,
+                action: DISLIKE
+            },
+            success: function(response)
+            {
+                if(response.eventData.success)
+                {
+
+                }
+                else
+                {}
+
+            }
+        });
+    });
+}
+
+function replyToWallRecord()
+{
+    $('.wall_rec_reply_button').click(function()
+    {
+        var receiverId = $('#user_id').val();
+        var $wallRecord = $(this).closest('.wall_record');
+        var wallRecordId = $wallRecord.find('.wall_record_id').val();
+        var parentReplyId = $wallRecord.find('.parent_reply_id').val();
+        var replyText = $wallRecord.find('.wall_record_reply_text').val();
+
+        if(replyText.length > 0)
+        {
+            $.ajax
+            ({
+                url: './../user_reply_to_wall_record',
+                type: 'POST',
+                dataType: 'json',
+                data:
+                {
+                    wallRecordId: wallRecordId,
+                    parentReplyId: parentReplyId,
+                    replyText: replyText,
+                    receiverId: receiverId,
+                    page: 'user_' + receiverId
+
+                },
+                success: function(response)
+                {
+                    if(response.eventData.success)
+                    {
+                        $wallRecord.find('.wall_record_reply_text').val('');
+                    }
+                    else
+                    {}
+
+                }
+            });
+        }
+    });
+}
+
+function ratePhoto(value)
+{
+    var photoId = $('#gallery #photo_id').val();
+    var receiverId = $('#user_id').val();
+
+    if($('#gallery .photo_rating').is(':hover'))
+    {
+        $.ajax
+        ({
+            url: './../user_rate_photo',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                photoId: photoId,
+                receiverId: receiverId,
+                rating: value,
+                page: 'user_' + receiverId
+            },
+            success: function()
+            {
+
+            }
+        });
+    }
+}
+
 
 /* ***** WebSocket ***** */
 function addWallRecordSocket(response)
 {
     var $newWallRecord = $("#wall_record_template").clone(true).removeAttr('id').removeClass('hidden');
+    $newWallRecord.find('.wall_record_id').val(response.eventData.newWallRecordId);
     $newWallRecord.find('.date').html(response.eventData.recordDate);
     $newWallRecord.find('.time').html(response.eventData.recordTime);
     $newWallRecord.find('.wall_record_content h1').html('');
@@ -224,4 +402,77 @@ function addWallRecordSocket(response)
 
     $('.wall_records_wrapper').prepend($newWallRecord);
     console.log('DEBUG: Wall record added', response);
+}
+
+function likeDislikeWallRecordSocket(response)
+{
+    var $wallRecord = $('input.wall_record_id[value="' + response.eventData.wallRecordId + '"]').closest('.wall_record');
+    var likes = $wallRecord.find('.likes').html();
+    var dislikes = Math.abs($wallRecord.find('.dislikes').html());
+    if(response.eventData.hasLiked && !response.eventData.hasRecord)
+    {
+        likes++;
+    }
+    else if(response.eventData.hasLiked && response.eventData.hasRecord
+        && response.eventData.likeStatus == 0)
+    {
+        likes++;
+    }
+    else if(response.eventData.hasLiked && response.eventData.hasRecord
+        && response.eventData.likeStatus == -1)
+    {
+        dislikes--;
+    }
+    else if(!response.eventData.hasLiked && !response.eventData.hasRecord)
+    {
+        dislikes++;
+    }
+    else if(!response.eventData.hasLiked && response.eventData.hasRecord
+        && response.eventData.likeStatus == 0)
+    {
+        dislikes++;
+    }
+    else if(!response.eventData.hasLiked && response.eventData.hasRecord
+        && response.eventData.likeStatus == 1)
+    {
+        likes--;
+    }
+    $wallRecord.find('.likes').html(likes);
+    var formattedDislikes = dislikes > 0 ? '-' + dislikes : dislikes;
+    $wallRecord.find('.dislikes').html(formattedDislikes);
+
+}
+
+function replyToWallRecordSocket(response)
+{
+    var $wallRecord = $('input.wall_record_id[value="' + response.eventData.wallRecordId + '"]').closest('.wall_record');
+    var $wallRecordRepliesContainer = $wallRecord.find('.wall_record_replies_wrapper');
+    var $wallRecordReply = $("#wall_record_reply_template").clone(true).removeAttr('id').removeClass('hidden');
+    var senderWebPic = null;
+    if(response.senderData.senderWebPic != null)
+    {
+        senderWebPic = './../../public_files/user_' + response.senderData.senderId + '/albums/profile_pics/'
+            + response.senderData.senderWebPic;
+    }
+    else
+    {
+        senderWebPic = APP_DEFAULT_AVATAR_MALE;
+    }
+
+    $wallRecordReply.find('.wall_record_reply_author').find('img').attr('src', senderWebPic);
+    $wallRecordReply.find('.author_name').html(response.senderData.senderName + ' ' + response.senderData.senderFamily);
+    $wallRecordReply.find('.wall_record_text_reply').html(response.eventData.messageText);
+
+    $wallRecordRepliesContainer.append($wallRecordReply);
+}
+
+function ratePhotoSocket(response)
+{
+    if($('#gallery').is(':visible'))
+    {
+        if($('#gallery #photo_id').val() == response.eventData.photoId)
+        {
+            $('#gallery .rating').val(response.eventData.averageRating).trigger('change');
+        }
+    }
 }

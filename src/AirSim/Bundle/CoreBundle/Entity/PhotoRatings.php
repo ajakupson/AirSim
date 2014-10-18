@@ -5,14 +5,14 @@ namespace AirSim\Bundle\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * WallRecordLikes
+ * PhotoRatings
  */
-class WallRecordLikes
+class PhotoRatings
 {
     /**
      * @var integer
      */
-    private $wallRecId;
+    private $photoId;
 
     /**
      * @var integer
@@ -22,7 +22,7 @@ class WallRecordLikes
     /**
      * @var integer
      */
-    private $likeDislike;
+    private $rating;
 
     /**
      * @var \DateTime
@@ -34,17 +34,17 @@ class WallRecordLikes
      */
     private $recId;
 
-//    /**
-//     * @var \AirSim\Bundle\CoreBundle\Entity\UserWallRecords
-//     */
-//    private $wallRec;
+    /**
+     * @var \AirSim\Bundle\CoreBundle\Entity\UserPhotos
+     */
+    private $photo;
 
 
     /**
      * Set userId
      *
      * @param integer $userId
-     * @return WallRecordLikes
+     * @return PhotoRatings
      */
     public function setUserId($userId)
     {
@@ -64,33 +64,33 @@ class WallRecordLikes
     }
 
     /**
-     * Set likeDislike
+     * Set rating
      *
-     * @param integer $likeDislike
-     * @return WallRecordLikes
+     * @param integer $rating
+     * @return PhotoRatings
      */
-    public function setLikeDislike($likeDislike)
+    public function setRating($rating)
     {
-        $this->likeDislike = $likeDislike;
+        $this->rating = $rating;
 
         return $this;
     }
 
     /**
-     * Get likeDislike
+     * Get rating
      *
      * @return integer 
      */
-    public function getLikeDislike()
+    public function getRating()
     {
-        return $this->likeDislike;
+        return $this->rating;
     }
 
     /**
      * Set dateRated
      *
      * @param \DateTime $dateRated
-     * @return WallRecordLikes
+     * @return PhotoRatings
      */
     public function setDateRated($dateRated)
     {
@@ -119,44 +119,42 @@ class WallRecordLikes
         return $this->recId;
     }
 
-//    /**
-//     * Set wallRec
-//     *
-//     * @param \AirSim\Bundle\CoreBundle\Entity\UserWallRecords $wallRec
-//     * @return WallRecordLikes
-//     */
-//    public function setWallRec(\AirSim\Bundle\CoreBundle\Entity\UserWallRecords $wallRec = null)
-//    {
-//        $this->wallRec = $wallRec;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get wallRec
-//     *
-//     * @return \AirSim\Bundle\CoreBundle\Entity\UserWallRecords
-//     */
-//    public function getWallRec()
-//    {
-//        return $this->wallRec;
-//    }
+    /**
+     * Set photo
+     *
+     * @param \AirSim\Bundle\CoreBundle\Entity\UserPhotos $photo
+     * @return PhotoRatings
+     */
+    public function setPhoto(\AirSim\Bundle\CoreBundle\Entity\UserPhotos $photo = null)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
 
     /**
-     * @param int $wallRecId
+     * Get photo
+     *
+     * @return \AirSim\Bundle\CoreBundle\Entity\UserPhotos 
      */
-    public function setWallRecId($wallRecId)
+    public function getPhoto()
     {
-        $this->wallRecId = $wallRecId;
+        return $this->photo;
+    }
+
+    /**
+     * @param int $photoId
+     */
+    public function setPhotoId($photoId)
+    {
+        $this->photoId = $photoId;
     }
 
     /**
      * @return int
      */
-    public function getWallRecId()
+    public function getPhotoId()
     {
-        return $this->wallRecId;
+        return $this->photoId;
     }
-
-
 }
