@@ -1,3 +1,4 @@
+# ***** Accounts ***** #
 air_sim_social_network_accounts:
     path:     /accounts/{action}
     defaults: { _controller: AirSimSocialNetworkBundle:Accounts:accounts }
@@ -6,6 +7,7 @@ air_sim_social_network_accounts_login:
     pattern:  /accounts_login_check
     defaults: { _controller: AirSimSocialNetworkBundle:Accounts:loginCheck }
 
+# ***** User ***** #
 air_sim_social_network_user:
     path:     /user/{username}
     defaults: { _controller: AirSimSocialNetworkBundle:User:user }
@@ -31,4 +33,37 @@ air_sim_social_network_user_reply_to_wall_record:
 air_sim_social_network_user_rate_photo:
     path:     /user_rate_photo
     defaults: { _controller: AirSimSocialNetworkBundle:User:ratePhoto }
+
+# ***** Contacts ***** #
+air_sim_social_network_contacts:
+    path:     /contacts/{type}
+    defaults: { _controller: AirSimSocialNetworkBundle:Contacts:contacts }
+# AJAX calls
+air_sim_social_network_contacts_search:
+    path:     /contacts_search_contacts
+    defaults: { _controller: AirSimSocialNetworkBundle:Contacts:searchContacts }
+
+# ***** Messages ***** #
+air_sim_social_network_messages:
+    path:     /chat/{page}
+    defaults: { _controller: AirSimSocialNetworkBundle:Chat:chat }
+# AJAX calls
+
+# ***** Map ***** #
+# AJAX calls
+air_sim_social_network_map_get_user_marker:
+    path:     /get_user_marker
+    defaults: { _controller: AirSimSocialNetworkBundle:Map:getUserMarker }
+air_sim_social_network_get_friends_markers:
+    path:     /get_friends_markers
+    defaults: { _controller: AirSimSocialNetworkBundle:Map:getFriendsMarkers }
+air_sim_social_network_map_add_marker:
+      path:     /map_add_marker
+      defaults: { _controller: AirSimSocialNetworkBundle:Map:addMarker }
+
+# ***** Options ***** #
+air_sim_social_network_options:
+    path:     /options/{type}
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:options }
+# AJAX calls
 

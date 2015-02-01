@@ -40,7 +40,7 @@
         width: 100%;
         height: auto;
         max-height: 900px;
-        z-index: 101;
+        z-index: 100;
         position: absolute;
         left: 0;
         right: 0;
@@ -132,12 +132,14 @@
     {
         width: 100%;
         height: auto;
-        max-height: 865px;
-        padding: 20px;
-        overflow-x: hidden;
-        overflow-y: scroll;
+        height: 865px;
+        /*max-height: 865px;*/
+        padding: 20px 20px 0 20px;
+        /*overflow-x: hidden;
+        overflow-y: scroll;*/
+        overflow: auto;
         -ms-overflow-style: none;   /*Hide scrollbars in IE10+ */
-        overflow: -moz-scrollbars-none;  /* Hide scrollbars in Firefox */
+        overflow: -moz-scrollbars-none; /* Hide scrollbars in Firefox */
 
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -147,7 +149,7 @@
     .dialog_content::-webkit-scrollbar{ width: 0 !important; } /* Hide scrollbars in Chrome and Safari */
     .dialog_background
     {
-        z-index: 100;
+        z-index: 99;
         position: fixed;
         display: none;
         height: 100%;
@@ -175,7 +177,7 @@
         padding: 10px 10px 10px 10px;
         color: white;
         background-color: #ff5638;
-        z-index: 101;
+        z-index: 100;
         display: none;
 
         box-sizing: border-box;

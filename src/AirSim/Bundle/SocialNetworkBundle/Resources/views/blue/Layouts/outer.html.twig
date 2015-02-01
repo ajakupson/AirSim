@@ -18,19 +18,15 @@
 
         {# JavaScripts #}
         {% block globalJavaScripts %}
-            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
-            <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/outer.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/constants.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common.js') }}"></script>
+            <script src="http://vincentgarreau.com/particles.js/particles.js"></script>
+            {{ require_js_initialize() }}
+            <script type="text/javascript">require(['blue/outer'])</script>
         {% endblock %}
 
         {% block pageJavaScripts %}
         {% endblock pageJavaScripts %}
-        {# End Of JavaScripts #}
+
+    {# End Of JavaScripts #}
     </head>
     <body>
         <div class = "wrapper">
@@ -57,6 +53,9 @@
                     </a>
                 </ul>
             </nav>
+            <div class = "particles-js" id = "particles-js">
+                <div class = "welcome_message">Welcome to AirSim social network...</div>
+            </div>
             <section class = "content">
                 {# Unique Page Content #}
                 {% block pageContent %}
@@ -66,7 +65,7 @@
                 <!-- ********** Dialog Windows ********** -->
 
                 <!-- About Us Dialog -->
-                <div id = "about_dialog" class = "dialog scale">
+                <div id = "about_dialog" class = "dialog scale scroller">
                     <div class = "dialog_title">About</div>
                     <div id = "dialog_close" class = "dialog_close">x</div>
                     <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">

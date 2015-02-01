@@ -1,0 +1,36 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/chat.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+    <script type="text/javascript">require(['blue/chat'])</script>
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <div class = "availableChatsWrapper">
+        <div class = "availableChatsContent">
+            <section class = "availableChats">
+                <input type = "button" class = "submitButton" value = "Create chat"/>
+                <input type = "button" class = "submitButton" value = "Delete chats"/>
+                <ul>
+                    {% for i in 1..15 %}
+                        <a href = "chat_room?id={{ i }}">
+                            <li>
+                                {#<div class = "toolbar">#}
+                                    {#<input type = "button" class = "chatDeleteButton"/>#}
+                                {#</div>#}
+                                <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "authorPic"/>
+                                <span class = "author">Name Family</span><br/><br/>
+                                <span class = "dateTime">20.12.2014</span><br/>
+                                <span class = "message">Some message text</span>
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+                <div class = "clear"></div>
+            </section>
+        </div>
+    </div>
+{% endblock pageContent %}

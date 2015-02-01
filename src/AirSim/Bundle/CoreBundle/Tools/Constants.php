@@ -10,6 +10,7 @@ class Constants
     // SQL Limits
     const LAST_CONTACTS_LIMIT = 7;
     const RANDOM_CONTACTS_LIMIT = 12;
+    const CONTACTS_LIST_LIMIT = 30;
     const LAST_PHOTOS_LIMIT = 12;
     const PHOTO_COMMENTS_LIMIT = 15;
     const WALL_RECORDS_LIMIT = 10;

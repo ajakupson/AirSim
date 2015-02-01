@@ -34,14 +34,23 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ AirSimSocialNetworkBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
         #closure:
         #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+#            apply_to: "\.css"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+
+# HTML compressor
+html_compressor:
+    enabled:  true
+    jar:      "%kernel.root_dir%/Resources/java/htmlcompressor-1.5.3.jar"
+    options:  {'--type': html}
 
 # Doctrine Configuration
 doctrine:
@@ -75,13 +84,109 @@ swiftmailer:
 # Avalanche Imagine
 avalanche_imagine:
     filters:
+        avatar:
+            type:     thumbnail
+            options:  { size: [117, 117], mode: outbound, quality: 100, format: jpg, cache_type: private }
         last_photo:
             type:     thumbnail
-            options:  { size: [280, 215], mode: outbound, quality: 100, format: png, cache_type: false}
-
+            options:  { size: [280, 215], mode: outbound, quality: 100, format: jpg, cache_type: private }
+        users_photo:
+            type:     thumbnail
+            options:  { size: [84, 84], mode: outbound, quality: 100, format: jpg, cache_type: private }
+        wall_rec_img:
+            type:     thumbnail
+            options:  { size: [128, 128], mode: outbound, quality: 100, format: jpg, cache_type: private }
 # Services
 services:
     kernel.listener.air_sim_exception_listener:
         class: AirSim\Bundle\CoreBundle\Services\AirSimExceptionListenerService
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+# Hearsay RequireJS
+hearsay_require_js:
+    require_js_src:  ./../../assets/js/plugins/require-js-2.1.15.js
+    initialize_template: HearsayRequireJSBundle::initialize.html.twig
+    # Folder with JavaScript modules
+    base_url:  ../assets/js/themes
+    # Folder for r.js optimizer
+    base_dir: %kernel.root_dir%/../web/assets/js/optimized # Required
+    # Paths for plugins
+    paths :
+        jquery:
+            location: ./../../../assets/js/plugins/jquery-1.11.1
+            external: true
+        jquery.form:
+            location: ./../../../assets/js/plugins/jquery-form
+            external: true
+        jquery.ddslick:
+            location: ./../../../assets/js/plugins/jquery.ddslick
+            external: true
+        jquery.selectric:
+            location: ./../../../assets/js/plugins/jquery.selectric
+            external: true
+        jquery.knob:
+            location: ./../../../assets/js/plugins/jquery.knob
+            external: true
+        jquery.qtip:
+            location: ./../../../assets/js/plugins/jquery.qtip
+            external: true
+        jquery.autosize:
+            location: ./../../../assets/js/plugins/jquery.autosize
+            external: true
+        autobahn:
+            location: ./../../../assets/js/plugins/autobahn-wamp1
+            external: true
+        when:
+            location: ./../../../assets/js/plugins/when
+            external: true
+        requirejs.async:
+            location: ./../../../assets/js/plugins/require-js-async-0.1.2
+            external: true
+        # Nokia Here map
+        here:
+            location: ./../../../assets/js/plugins/jHERE/jhere
+            external: true
+        here.markers:
+            location: ./../../../assets/js/plugins/jHERE/extensions/markers
+            external: true
+        here.geocode:
+            location: ./../../../assets/js/plugins/jHERE/extensions/geocode
+            external: true
+        # Formstone components
+        formstone.scroller:
+            location: ./../../../assets/js/plugins/formstone/components/scroller/jquery.fs.scroller
+            external: true
+    # Shim config (dependencies of plugins / modules, their exports )
+    shim:
+        jquery.selectric:
+            deps: [jquery]
+        jquery.autosize:
+            deps: [jquery]
+        here:
+            deps: [jquery]
+        here.markers:
+            deps: [here]
+        here.geocode:
+            deps: [here]
+    # Optimizer config, (for us r.js)
+    optimizer:
+        path: %kernel.root_dir%/../web/assets/plugins/r-2.1.15.js
+        # For production hide every non optimized files for web folder
+        hide_unoptimized_assets: true
+        # Optimizer config (r.js https://github.com/jrburke/r.js/blob/master/build/example.build.js, for example)
+        options:
+            removeCombined: true
+            name: main
+            # lib uglify2 for optimization, included in r.js
+            optimize: uglify2
+            # uglify2 lib config
+            uglify2:
+                output:
+                    beautify: false
+                compress:
+                    sequences: true
+                    global_defs:
+                        DEBUG: false
+                warnings: true
+                mangle: false

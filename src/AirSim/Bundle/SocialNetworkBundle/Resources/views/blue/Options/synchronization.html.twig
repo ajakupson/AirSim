@@ -1,0 +1,51 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/options.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <div class = "options_wrapper">
+        <nav class = "tabs_nav options_nav">
+            <ul>
+                <a href = "./private">
+                    <li>Private</li>
+                </a>
+                <a href = "./synchronization">
+                    <li class = "active">Synchronization</li>
+                </a>
+                <a href = "./safety">
+                    <li>Safety</li>
+                </a>
+                <a href = "./personal">
+                    <li>Personal data</li>
+                </a>
+            </ul>
+            <div class = "clear"></div>
+        </nav>
+        <div class = "options_content">
+            <section class = "options_configuration">
+                <div class = "options_header">Synchronization settings:</div><div class = "clear"></div>
+                <label for = "phone_visibility">Automatic synchronization between phone and website:</label>
+                <select id = "phone_visibility">
+                    <option>phone number</option>
+                    <option>phone number, N.F.</option>
+                    <option>phone number, additional information</option>
+                    <option>phone number, N.F., additional information</option>
+                </select><br/>
+            </section>
+            <section class = "options_description">
+                <article class = "tab_general_description">
+                    Tab general description
+                </article>
+                <article class = "hovered_item_description">
+                    Hovered item description
+                </article>
+            </section>
+            <div class = "clear"></div>
+        </div>
+    </div>
+{% endblock pageContent %}

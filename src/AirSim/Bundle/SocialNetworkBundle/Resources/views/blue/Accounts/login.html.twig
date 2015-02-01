@@ -6,8 +6,7 @@
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
-    <script type = "text/javascript" src = "{{ asset('assets/js/blue/slider.js') }}"></script>
-    <script type = "text/javascript" src = "{{ asset('assets/js/blue/login.js') }}"></script>
+    <script type="text/javascript">require(['blue/login'])</script>
 {% endblock pageJavaScripts %}
 
 {% block pageContent %}

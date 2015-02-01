@@ -1,16 +1,40 @@
-<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns ="http://www.w3.org/1999/xhtml">
     <head xmlns="http://www.w3.org/1999/html">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0"/>
         {# Stylesheets #}
         {% block globalStylesheets %}
-            {# Fonts #}
-            <link href = "{{ asset('assets/css/blue/fonts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-            {# End Of Fonts #}
-            <link href = "{{ asset('assets/css/blue/common.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-            <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-            <link href = "{{ asset('assets/css/blue/layout_inner.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-            <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-            <link href = "{{ asset('assets/css/blue/gallery.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        {# Fonts #}
+        {#<link href = "{{ asset('assets/css/blue/fonts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
+        {# End Of Fonts #}
+        {#<link href = "{{ asset('assets/css/blue/common.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/tabs.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/layout_inner.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/gallery.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/selectric.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/map.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href = "{{ asset('assets/css/blue/jquery.qtip.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+        <link href="{{ asset('assets/js/plugins/formstone/components/scroller/jquery.fs.scroller.css') }}" rel="stylesheet">#}
+
+        {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/responsive/minified/layout_inner_min.css'
+        'assets/css/blue/fonts.css'
+        'assets/css/blue/responsive/common/common_1920.css'
+        'assets/css/blue/responsive/forms/forms_1920.css'
+        'assets/css/blue/responsive/tabs/tabs_1920.css'
+        'assets/css/blue/responsive/layout_inner/layout_inner_1920.css'
+        'assets/css/blue/responsive/dialog/dialog_1920.css'
+        'assets/css/blue/responsive/gallery/gallery_1920.css'
+        'assets/css/blue/selectric.css'
+        'assets/css/blue/responsive/map/map_1920.css'
+        'assets/css/blue/jquery.qtip.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+        {% endstylesheets %}
         {% endblock %}
 
         {% block pageStylesheets %}
@@ -19,25 +43,23 @@
 
         {# JavaScripts #}
         {% block globalJavaScripts %}
-            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-1.11.1.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery-form.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/plugins/jquery.knob.js') }}"></script>
-            <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/dialog.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/inner.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common_functions.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/error_handling_functions.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/constants.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/common.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/gallery.js') }}"></script>
-            <script type = "text/javascript" src = "{{ asset('assets/js/blue/notification.js') }}"></script>
+        {{ require_js_initialize() }}
+        <script type="text/javascript">require(['blue/inner'])</script>
         {% endblock %}
 
         {% block pageJavaScripts %}
         {% endblock pageJavaScripts %}
         {# End Of JavaScripts #}
+
     </head>
-    <body>
+    <body class = "formstone_scroller">
+        <div class = "page_cover" id = "page_cover">
+            <div class = "loading_notification">
+                <div class = "loading_message">
+                    Loading ... Please, wait.
+                </div>
+            </div>
+        </div>
         <div class = "wrapper">
             <input type = "hidden" id = "logged_in_user_id" value = "{{ app.session.get('sessionData')['userInfo']['id'] }}"/>
             <header class = "header">
@@ -45,15 +67,17 @@
                     <div class = "logo_text">AIRSIM</div>
                     <div class = "top_nav">
                         <div class = "user_top_data">
-                            {% if userData.webProfilePic %}
-                                <img class = "user_ava" src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
+                            {% if app.session.get('sessionData')['userInfo']['webPic'] %}
+                            <img class = "user_ava" src = "{{ ('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~
+                                '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) | apply_filter('avatar') }}"/>
                             {% else %}
-                                <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            <img class = "user_ava" src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
                             {% endif %}
                             <div class = "logged">
                                 You are logged in as<br/>
                                     <span class = "user">
-                                        {{ userData.firstName }} {{ userData.lastName }}
+                                    {{ app.session.get('sessionData')['userInfo']['firstName'] }}
+                                    {{ app.session.get('sessionData')['userInfo']['lastName'] }}
                                     </span>
                             </div>
                         </div>
@@ -64,6 +88,15 @@
                             <li><a id = "log_out">Log out</a></li>
                         </ul>
                     </div>
+                    <div class = "search_block">
+                        <input type = "text" placeholder = "Search..."/>
+                        <select id = "search_by_group">
+                            <option value = "0">Person</option>
+                            <option value = "1">Place</option>
+                            <option value = "2">Document</option>
+                        </select>
+                        <input type = "button" value = "Search"/>
+                    </div>
                 </div>
             </header>
             <section class = "content inner" id = "content_inner">
@@ -71,44 +104,54 @@
                     <nav class = "menu">
                         <ul>
                             <li>
-                                <span class = "menu_icon home"></span>
-                                Homepage
+                                <a href = "./../user/{{ app.session.get('sessionData')['userInfo']['username'] }}">
+                                    <span class = "menu_icon home"></span>
+                                    <span>Homepage</span>
+                                </a>
                             </li>
                             <li>
-                                <span class = "menu_icon friends"></span>
-                                Friends
+                                <a href = "./../contacts/friends">
+                                    <span class = "menu_icon friends"></span>
+                                    <span>Friends</span>
+                                </a>
                             </li>
-                            <li class = "selected">
-                                <span class = "menu_icon messages"></span>
-                                Messages
+                            <li>
+                                <a href = "./../chat/available_chats">
+                                    <span class = "menu_icon messages"></span>
+                                    <span>Messages</span>
+                                </a>
                             </li>
                             <li>
                                 <span class = "menu_icon photos"></span>
-                                Photos
+                                <span>Photos</span>
                             </li>
                             <li>
-                                <span class = "menu_icon map"></span>
-                                Map
+                                <a href = "" id = "map_link">
+                                    <span class = "menu_icon map"></span>
+                                    <span>Map</span>
+                                </a>
                             </li>
                             <li>
                                 <span class = "menu_icon news"></span>
-                                News
+                                <span>News</span>
                             </li>
                             <li>
-                                <span class = "menu_icon options"></span>
-                                Options
+                                <a href = "./../options/private">
+                                    <span class = "menu_icon options"></span>
+                                    <span>Options</span>
+                                </a>
                             </li>
                             <li>
                                 <span class = "menu_icon advanced"></span>
-                                Advanced
+                                <span>Advanced</span>
                             </li>
                             <li>
                                 <span class = "menu_icon safe"></span>
-                                Safe
+                                <span>Safe</span>
                             </li>
                             <li>
                                 <span class = "menu_icon favorites"></span>
-                                Favorites
+                                <span>Favorites</span>
                             </li>
                         </ul>
                     </nav>
@@ -116,7 +159,7 @@
                 <div class = "content_right">
                     {# Unique Page Content #}
                     {% block pageContent %}
-                    {% endblock %}
+                    {% endblock pageContent %}
                     {# End Of Unique Page Content #}
                 </div>
 
@@ -159,7 +202,7 @@
                         Press esc to exit
                         <span id = "dialog_arrow" class = "dialog_arrow"></span>
                     </span>
-                    <div class = "dialog_content">
+                    <div class = "dialog_content" id = "gallery_scroller" {#style = "padding-top: 0"#}>
                         <div class = "photo_container">
                             <img src = "{{ asset('public_files/app_default/social_graph.png') }}" class = "photo_to_show"/>
                             <div class = "previous_photo">
@@ -200,9 +243,10 @@
                         <div class = "insert_comment">
                             <span class = "photo_block_title">Your Comment:</span><br/><br/>
                             <textarea placeholder = "Thoughts?"></textarea>
-                            <input type = "button" class = "right" id = "comment_photo_button" value = "Comment photo"/>
+                            <input type = "button" class = "comment_photo_button right" id = "comment_photo_button" value = "Comment photo"/>
+                            <div id = "test_div" class = "attach_files_wrapper"></div>
                         </div><div class = "clear"></div>
-                        <div class = "photo_comments_wrapper">
+                        <div class = "photo_comments_wrapper hidden">
                             <span class = "photo_block_title">Comments:</span><br/><br/>
                             <div class = "photo_comments_holder">
                             </div>
@@ -210,6 +254,157 @@
                     </div>
                 </div>
                 <!-- End Of Gallery -->
+
+                <!-- Map -->
+                <div id = "map" class = "dialog scale">
+                    <div class = "dialog_title">Map</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                    <span id = "dialog_arrow" class = "dialog_close_tooltip">
+                        Press esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
+                    <div class = "dialog_content">
+                        <div class = "map_left_panel">
+                            <div class = "map_top_panel">
+                                <div class = "add_marker">
+                                    <form id = "add_marker_form">
+                                        <label for = "location">Your location: <span class = "required">*</span></label>
+                                        <input type = "text" class = "mark_location" name = "location" placeholder = "Enter country, city or address"/><br/>
+
+                                        <label for = "comment">Comment: </label>
+                                        <input type = "text" class = "mark_location" name = "comment" placeholder = "Your thoughts?"/><br/>
+
+                                        <input type = "button" class = "mark_location" id = "mark_location" value = "Mark Your location" />
+                                    </form>
+                                </div>
+                                <div class = "map_configuration">
+                                    <div class = "config_line">
+                                        <label for = "show_on_map" class = "selectric_label">Show on map:</label>
+                                        <select id = "show_on_map">
+                                            <option value = "1">All contacts</option>
+                                            <option value = "2">My contacts</option>
+                                        </select>
+                                    </div>
+
+                                    <div class = "config_line">
+                                        <label for = "stay_on_map" class = "selectric_label">Stay on map:</label>
+                                        <select id = "stay_on_map">
+                                            <option value = "1">5 minutes</option>
+                                            <option value = "2">15 minutes</option>
+                                            <option value = "3">30 minutes</option>
+                                            <option value = "4">1 hour</option>
+                                            <option value = "5">3 hours</option>
+                                            <option value = "6">1 day</option>
+                                            <option value = "7">1 week</option>
+                                        </select>
+                                    </div><div class = "clear"></div>
+
+                                    <div class = "config_line">
+                                        <label for = "visible_to" class = "selectric_label">Visible to:</label>
+                                        <select id = "visible_to">
+                                            <option value = "1">All contacts</option>
+                                            <option value = "2">My contacts</option>
+                                        </select>
+                                    </div>
+
+                                    <div class = "config_line">
+                                        <label for = "select_maker" class = "selectric_label">Your marker:</label>
+                                        <select id = "select_maker">
+                                            <option value = "1">Smile</option>
+                                            <option value = "2">Blue marker</option>
+                                            <option value = "3">Party</option>
+                                            <option value = "4">Rest</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "clear"></div>
+                            <div class = "map_box" id = "map_box">
+                                <div class = "map_container" id = "map_container">
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "map_right_panel">
+                            <nav class = "tabs_nav map_nav">
+                                <ul>
+                                    <li class = "active">Map chat</li>
+                                    <li>Friends on map</li>
+                                </ul>
+                                <div class = "clear"></div>
+                            </nav>
+                            <div class = "map_chat">
+                                <textarea placeholder = "Comment" id = "map_chat_message_text"></textarea>
+                                <input type = "button" class = "right" value = "Comment"/>
+                                {% for i in 1..15 %}
+                                    <div class = "user_map_message">
+                                        <div class = "message_text">
+                                            <div class = "author">Incognito</div>
+                                            <div class = "text">Here is the area for message text ...</div>
+                                            <div class = "date_sent">21.04.2014 12:15</div>
+                                        </div>
+                                        <div class = "author_web_pic">
+                                            <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class = "map_friends_list hidden"></div>
+                        </div>
+                        <div class = "clear"></div>
+                    </div>
+                </div>
+                <div class = "bubble_content hidden" id = "bubble_template">
+                    <div class = "web_profile_pic">
+                        <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                    </div>
+                    <div class = "text">
+                        <div class = "username">Incognito</div>
+                        <div class = "comment">
+                            Some comment about impressions ... Where You are,
+                            what are You thinking of? Are you angry, happy. Share
+                            with Your friends!
+                        </div>
+                    </div>
+                    <div class = "clear"></div>
+                </div>
+                <!-- End of Map -->
+
+                <!-- Write Message Dialog -->
+                <div id = "write_message_dialog" class = "dialog scale">
+                    <div class = "dialog_title">Write Message</div>
+                    <div id = "dialog_close" class = "dialog_close">x</div>
+                    <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
+                    <div class = "dialog_content">
+                        <div class = "write_message_left_block">
+                            <div class = "user_info">
+                                Firstname Lastname / +372 546785432
+                            </div>
+                            <div class = "message_wrapper">
+                                <textarea placeholder = "What do You want to say?"></textarea>
+                                <input type = "button" value = "Send" class = "right send_message_button" style = "margin-right: 0"/>
+                            </div>
+                        </div>
+                        <div class = "write_message_right_block">
+                            <div class = "profile_pics">
+                                <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            </div>
+                            <div class = "user_menu">
+                                <input type = "button" value = "Add to friends" class = "add_contact_button"/><br/>
+                                <input type = "button" value = "User photos" class = "user_photos_button"/><br/>
+                                <input type = "button" value = "Common photos" class = "common_album_button"/><br/>
+                                <input type = "button" value = "Add to favorites" class = "add_to_favorites_button"/><br/>
+                                <input type = "button" value = "Block user" class = "block_user_button"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Of Write Message Dialog -->
+
+                <!-- Please wait notification -->
+                <!-- End of please wait notification -->
 
                 <!-- Error Dialog -->
                 <div id = "error_message_dialog" class = "error_message_dialog">
@@ -228,6 +423,7 @@
                 <!-- End Of Error Dialog -->
 
                 <div class = "dialog_background" id = "dialog_background"></div>
+                <div class = "editable_content_background" id = "editable_content_background"></div>
                 <!-- ********** End Of Dialog Windows ********** -->
 
                 <div class = "clear"></div>

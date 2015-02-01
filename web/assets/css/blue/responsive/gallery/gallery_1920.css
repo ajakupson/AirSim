@@ -32,14 +32,14 @@
     {
         top: 45%;
         left: 0;
-        background: url('./../../../../images/themes/blue/previous_button.png') no-repeat center;
+        background: url('../../../../images/themes/blue/previous_button.png') no-repeat center;
         background-size: cover;
     }
     .next_photo
     {
         top: 45%;
         right: 0;
-        background: url('./../../../../images/themes/blue/next_button.png') no-repeat center;
+        background: url('../../../../images/themes/blue/next_button.png') no-repeat center;
         background-size: cover;
     }
     .previous_photo:hover, .next_photo:hover
@@ -101,28 +101,28 @@
     }
     .album_title
     {
-        background: url('./../../../../images/themes/blue/album_icon.png');
+        background: url('../../../../images/themes/blue/album_icon.png');
         background-repeat: no-repeat;
         background-position: left;
         background-size: 27px 27px;
     }
     .photo_title
     {
-        background: url('./../../../../images/themes/blue/photo_icon.png');
+        background: url('../../../../images/themes/blue/photo_icon.png');
         background-repeat: no-repeat;
         background-position: left;
         background-size: 27px 27px;
     }
     .date_added_title
     {
-        background: url(./../../../../images/themes/blue/calendar_icon.png);
+        background: url(../../../../images/themes/blue/calendar_icon.png);
         background-repeat: no-repeat;
         background-position: left;
         background-size: 27px 27px;
     }
     .location_title
     {
-        background: url('./../../../../images/themes/blue/marker_icon.png');
+        background: url('../../../../images/themes/blue/marker_icon.png');
         background-repeat: no-repeat;
         background-position: left;
         background-size: 27px 27px;
@@ -274,6 +274,10 @@
         width: 100%;
         height: auto;
         margin: 15px 0 0 10px;
+    }
+    input[type = "button"].comment_photo_button
+    {
+        width: auto;
     }
 
     /* ***** End Of Comments ***** */

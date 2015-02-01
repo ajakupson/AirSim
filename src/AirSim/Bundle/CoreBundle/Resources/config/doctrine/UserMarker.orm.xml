@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AirSim\Bundle\CoreBundle\Entity\UserMarker" table="user_marker">
+    <indexes>
+      <index name="FK_marker_user" columns="user_id"/>
+    </indexes>
+    <id name="markerId" type="integer" column="marker_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userId" type="integer" column="user_id" nullable="false"/>
+    <field name="address" type="string" column="address" length="150" nullable="false"/>
+    <field name="latitude" type="float" column="latitude" precision="10" scale="0" nullable="false"/>
+    <field name="longitude" type="float" column="longitude" precision="10" scale="0" nullable="false"/>
+    <field name="dateMarked" type="datetime" column="date_marked" nullable="false"/>
+    <field name="comment" type="string" column="comment" length="1000" nullable="true"/>
+    <field name="isActive" type="boolean" column="is_active" nullable="false"/>
+    <many-to-one field="user" target-entity="User">
+      <join-columns>
+        <join-column name="user_id" referenced-column-name="user_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

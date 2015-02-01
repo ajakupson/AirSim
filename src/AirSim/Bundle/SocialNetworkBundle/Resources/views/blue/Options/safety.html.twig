@@ -1,0 +1,68 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    <link href = "{{ asset('assets/css/blue/options.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <div class = "options_wrapper">
+        <nav class = "tabs_nav options_nav">
+            <ul>
+                <a href = "./private">
+                    <li>Private</li>
+                </a>
+                <a href = "./synchronization">
+                    <li>Synchronization</li>
+                </a>
+                <a href = "./safety">
+                    <li class = "active">Safety</li>
+                </a>
+                <a href = "./personal">
+                    <li>Personal data</li>
+                </a>
+            </ul>
+            <div class = "clear"></div>
+        </nav>
+        <div class = "options_content">
+            <section class = "options_configuration safety_configuration">
+                <div class = "options_header">Change phone number:</div><div class = "clear"></div>
+                <label for = "new_phone_number">New phone number:</label>
+                <input type = "text" id = "new_phone_number"/><br/>
+                <input type = "button" id = "get_confirmation_code" class = "stick_right width_auto" value = "Get confirmation code"/>
+                <div class = "clear"></div>
+
+                <label for = "confirmation_code">Confirmation code:</label>
+                <input type = "text" id = "confirmation_code"/><br/>
+
+                <input type = "button" id = "save_phone_number" class = "stick_right" value = "Save"/>
+                <div class = "clear"></div>
+            </section>
+            <section class = "options_configuration safety_configuration second">
+                <div class = "options_header">Change password:</div><div class = "clear"></div>
+                <label for = "old_password">Old password:</label>
+                <input type = "text" id = "old_password"/><br/>
+
+                <label for = "new_password">New password:</label>
+                <input type = "text" id = "new_password"/><br/>
+
+                <label for = "repeat_new_password">Repeat new password:</label>
+                <input type = "text" id = "repeat_new_password"/><br/>
+
+                <input type = "button" id = "save_password" class = "stick_right" value = "Save"/>
+                <div class = "clear"></div>
+            </section>
+            <section class = "options_description safety_description">
+                <article class = "tab_general_description">
+                    Tab general description
+                </article>
+                <article class = "hovered_item_description">
+                    Hovered item description
+                </article>
+            </section>
+            <div class = "clear"></div>
+        </div>
+    </div>
+{% endblock pageContent %}

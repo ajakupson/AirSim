@@ -1,0 +1,167 @@
+@media screen and (max-width: 1920px)
+{
+    .contacts_wrapper
+    {
+        height: auto;
+        margin: 5px 0 0 0;
+        padding: 0 0 0 2%;
+    }
+    .contacts_nav
+    {
+
+    }
+    .contacts_nav ul li
+    {
+        width: 32%;
+    }
+    .contacts_nav dl dt
+    {
+        width: 33.3%;
+    }
+
+    /* Friends tab */
+    .friends_content, .contacts_content, .updates_content
+    {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
+        padding: 30px;
+        font-size: 0.9em;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+
+    .friends_list, .contacts_list
+    {
+        width: auto;
+        max-width: 550px;
+        min-width: 550px;
+        height: auto;
+        font-size: 0.9em;
+        float: left;
+        border-left: 1px solid #d3d3d3;
+        border-right: 1px solid #d3d3d3;
+        padding: 20px;
+    }
+    .friends_block_wrap input[type = "button"], .contacts_block_wrap input[type = "button"]
+    {
+        margin-top: 0;
+        margin-bottom: 2px;
+        font-size: 1em;
+    }
+    .friend, .contact
+    {
+        border-bottom: 1px solid #d3d3d3;
+    }
+    .friend .success, .contact .success
+    {
+        margin: 3px;
+    }
+    .friend table td, .contact table td
+    {
+        width: auto;
+        min-width: 150px;
+        padding: 5px 0 5px 0;
+    }
+    .friend table td.center, .contact table td.center
+    {
+        text-align: center;
+        max-width: 150px;
+        word-break: break-all;
+    }
+    .friend table td img, .contact table img
+    {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #d3d3d3;
+    }
+    .friend table td .name, .contact table td .name
+    {
+        padding: 5px;
+        margin: 0 0 5px 0;
+        border-bottom: 1px solid #d3d3d3;
+    }
+
+    .friends_stats
+    {
+        width: auto;
+        width: 280px;
+        height: auto;
+        font-size: 0.9em;
+        float: right;
+        margin: 0 18px 0 0;
+        padding: 20px;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .friends_stats .category
+    {
+        font-size: 1em;
+        font-weight: bold;
+        color: #d3d3d3;
+        padding: 5px;
+        border-bottom: 1px solid #d3d3d3;
+    }
+    /* End of Friends tab */
+
+
+    /* Common */
+    .search_criterias
+    {
+        width: auto;
+        float: left;
+        margin-left: 30px;
+        margin-bottom: 20px;
+        font-size: 0.9em;
+        padding: 15px;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .search_criterias .category
+    {
+        font-size: 1em;
+        font-weight: bold;
+        color: #d3d3d3;
+        padding: 5px;
+        border-bottom: 1px solid #d3d3d3;
+    }
+    .search_criterias label.age_label
+    {
+        width: auto;
+        margin-right: 10px;
+    }
+    .search_criterias .age_input
+    {
+        max-width: 30px;
+    }
+    /* End of Common */
+
+
+    /* Helpers */
+    .align_middle
+    {
+        width: 960px;
+        margin: 0 auto;
+    }
+    /* End of helpers */
+
+    /* Fixes */
+    .contact_menu
+    {
+        min-width: 120px;
+        margin: 2px 0 0 0;
+        font-size: 0.85em;
+    }
+    /* Enf of fixes */
+}

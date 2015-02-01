@@ -1,0 +1,250 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+{#<link href = "{{ asset('assets/css/blue/tabs.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+<link href = "{{ asset('assets/css/blue/contacts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
+
+    {#{% stylesheets#}
+        {#'assets/css/blue/tabs.css'#}
+        {#'assets/css/blue/contacts.css'#}
+        {#filter='cssrewrite'#}
+    {#%}#}
+        {#<link rel="stylesheet" href="{{ asset_url }}" />#}
+    {#{% endstylesheets %}#}
+    {#'@AirSimSocialNetworkBundle/Resources/public/css/*'#}
+{#    {% stylesheets filter='yui_css' output='assets/css/compiled-main.css'
+        'assets/css/blue/contacts.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}#}
+
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+<script type="text/javascript">require(['blue/contacts'])</script>
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+<div class = "contacts_wrapper">
+    <nav id = "contacts_tabs" class = "tabs_nav contacts_nav">
+        <ul>
+            <li class = "active" tab = "friends_tab">Friends</li>
+            <li tab = "contacts_tab">Add contact</li>
+            <li tab = "updates_tab">Updates</li>
+        </ul>
+        <div class = "clear"></div>
+    </nav>
+    <div id = "contacts_tabs_content" class = "tabs_content">
+        <div class = "friends_content tab" id = "friends_tab">
+            <div class = "align_middle">
+                <div class = "friends_list">
+                    <div class = "right">
+                        <input type = "text" id = "search_friend_text" placeholder = "Name, family"/><input type = "button" id = "search_friend" value = "Search"/>
+                    </div><div class = "clear"></div>
+                    <div class = "ajax_wait hidden" id = "loading_contacts">Please wait. Loading contacts ...</div>
+                    <div class = "clear"></div>
+                    <div class = "friend hidden" id = "friend_template">
+                        <input type = "hidden" class = "friend_id" value = "">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td class = "center">
+                                    <div class = "name"></div>
+                                    <div class = "phone_number"></div>
+                                </td>
+                                <td>
+                                    <img src = ""/><br/>
+                                </td>
+                                <td>
+                                    <input type = "button" class = "contact_menu write_message" value = "Write message"/><br/>
+                                    <input type = "button" class = "contact_menu note" value = "Note"/><br/>
+                                    <input type = "button" class = "contact_menu history_of_changes" value = "Changes"/>
+                                </td>
+                                <td>
+                                    <input type = "checkbox" unchecked/>
+                                    <label><span></span></label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class = "friends_block_wrap">
+                        {% for friend in userFriends %}
+                            <div class = "friend">
+                                <input type = "hidden" class = "friend_id" value = "{{ friend.userId }}">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class = "center">
+                                            <div class = "name">{{ friend.firstName }} {{ friend.lastName }}</div>
+                                            <div class = "phone_number">{{ friend.phoneNumber }}</div>
+                                        </td>
+                                        <td>
+                                            {% if friend.webProfilePic %}
+                                                <img src = "{{ ('public_files/user_'~friend.userId~'/albums/profile_pics/'~friend.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                            {% else %}
+                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <input type = "button" class = "contact_menu write_message" value = "Write message"/><br/>
+                                            <input type = "button" class = "contact_menu note" value = "Note"/><br/>
+                                            <input type = "button" class = "contact_menu history_of_changes" value = "Changes"/>
+                                        </td>
+                                        <td>
+                                            <input type = "checkbox" id = "f_id_{{ friend.userId }}" unchecked/>
+                                            <label for = "f_id_{{ friend.userId }}"><span></span></label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class = "search_criterias">
+                    <div class = "category">Gender:</div><br/>
+                    <input type = "radio" name = "gender" id = "male" value = "M"/>
+                    <label for = "male"><span></span>Male</label><br/>
+
+                    <input type = "radio" name = "gender" id = "female" value = "F"/>
+                    <label for = "female"><span></span>Female</label><br/>
+
+                    <input type = "radio" name = "gender" id = "undefined" value = "U"/>
+                    <label for = "undefined"><span></span>Undefined</label><br/>
+
+                    <input type = "radio" name = "gender" id = "any" value = "" checked/>
+                    <label for = "any"><span></span>Any</label><br/><br/>
+
+                    <div class = "category">Contact data:</div><br/>
+                    <label for = "phone_number">Phone number:</label>
+                    <input type = "text" name = "phone_number" id = "phone_number"/><br/>
+                    <label for = "country">Country:</label>
+                    <select name = "country" id = "country">
+                        <option value = "">Select country ...</option>
+                        <option value = "Estonia">Estonia</option>
+                    </select><br/>
+                    <label for = "city">City:</label>
+                    <select name = "city" id = "city">
+                        <option value = "">Select city ...</option>
+                        <option value = "Tallinn">Tallinn</option>
+                    </select><br/><br/>
+
+                    <div class = "category">Age:</div><br/>
+                    <div class = "right">
+                        <label for = "age_from" class = "age_label">From</label>
+                        <input type = "text" class = "age_input" name = "age_from" id = "age_from"/>
+                        <label for = "age_to" class = "age_label">To</label>
+                        <input type = "text" class = "age_input" name = "age_to" id = "age_to"/>
+                    </div>
+                </div>
+                <div class = "friends_stats">
+                    <div class = "category">Statistics:</div>
+                    Filter contacts:
+                    <select>
+                        <option value = "0">All contacts</option>
+                        <option value = "1">Contacts online</option>
+                        <option value = "2">General</option>
+                        <option value = "3">Friends</option>
+                        <option value = "4">Family</option>
+                        <option value = "5">Work</option>
+                        <option value = "6">Subscribed to me</option>
+                        <option value = "7">I subscribed</option>
+                        <option value = "8">Last added</option>
+                    </select><br/><br/>
+
+                    <div class = "group">Total contacts: 10</div>
+                    <div class = "group">Contacts online: 10</div>
+                    <div class = "group">Contacts offline: 10</div><br/>
+                    <div class = "group">Subscribed to me: 10</div>
+                    <div class = "group">My subscription: 10</div><br/>
+
+                    Groups<br/>
+                    General: 10<br/>
+                    Friends: 10<br/>
+                    Family: 10<br/>
+                    Work: 10<br/>
+                </div><div class = "clear"></div>
+            </div>
+        </div>
+        <div class = "contacts_content tab hidden" id = "contacts_tab">
+            <div class = "align_middle">
+                <div class = "friends_list">
+                    <div class = "right">
+                        <input type = "text" id = "search_contact_text" placeholder = "Name, family"/><input type = "button" id = "search_contact" value = "Search"/>
+                    </div><div class = "clear"></div>
+                    <div class = "ajax_wait hidden" id = "loading_contacts">Please wait. Loading contacts ...</div>
+                    <div class = "clear"></div>
+                    <div class = "contact hidden" id = "contact_template">
+                        <input type = "hidden" class = "friend_id" value = "">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td class = "center">
+                                    <div class = "name"></div>
+                                    <div class = "phone_number"></div>
+                                </td>
+                                <td>
+                                    <img src = ""/><br/>
+                                </td>
+                                <td>
+                                    <input type = "button" class = "contact_menu write_message" value = "Write message"/><br/>
+                                    <input type = "button" class = "contact_menu note" value = "Note"/><br/>
+                                    <input type = "button" class = "contact_menu history_of_changes" value = "Changes"/>
+                                </td>
+                                <td>
+                                    <input type = "checkbox" unchecked/>
+                                    <label><span></span></label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class = "contacts_block_wrap">
+                    </div>
+                </div>
+                <div class = "search_criterias">
+                    <div class = "category">Gender:</div><br/>
+                    <input type = "radio" name = "gender" id = "male" value = "M"/>
+                    <label for = "male"><span></span>Male</label><br/>
+
+                    <input type = "radio" name = "gender" id = "female" value = "F"/>
+                    <label for = "female"><span></span>Female</label><br/>
+
+                    <input type = "radio" name = "gender" id = "undefined" value = "U"/>
+                    <label for = "undefined"><span></span>Undefined</label><br/>
+
+                    <input type = "radio" name = "gender" id = "any" value = "" checked/>
+                    <label for = "any"><span></span>Any</label><br/><br/>
+
+                    <div class = "category">Contact data:</div><br/>
+                    <label for = "phone_number">Phone number:</label>
+                    <input type = "text" name = "phone_number" id = "phone_number"/><br/>
+                    <label for = "country">Country:</label>
+                    <select name = "country" id = "country">
+                        <option value = "">Select country ...</option>
+                        <option value = "Estonia">Estonia</option>
+                    </select><br/>
+                    <label for = "city">City:</label>
+                    <select name = "city" id = "city">
+                        <option value = "">Select city ...</option>
+                        <option value = "Tallinn">Tallinn</option>
+                    </select><br/><br/>
+
+                    <div class = "category">Age:</div><br/>
+                    <div class = "right">
+                        <label for = "age_from" class = "age_label">From</label>
+                        <input type = "text" class = "age_input" name = "age_from" id = "age_from"/>
+                        <label for = "age_to" class = "age_label">To</label>
+                        <input type = "text" class = "age_input" name = "age_to" id = "age_to"/>
+                    </div>
+                </div>
+            </div>
+            <div class = "clear"></div>
+        </div>
+        <div class = "updates_content tab hidden" id = "updates_tab">
+            Updates
+        </div>
+    </div>
+</div>
+{% endblock pageContent %}

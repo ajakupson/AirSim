@@ -16,7 +16,7 @@ monolog:
         main:
             type:   stream
 #            path:   "%kernel.logs_dir%/%kernel.environment%.log"
-            path: "%logs_dev_dir%%logs_dev_all_channels_file%"
+#            path: "%logs_dev_dir%%logs_dev_all_channels_file%"
             level:  debug
         console:
             type:   console

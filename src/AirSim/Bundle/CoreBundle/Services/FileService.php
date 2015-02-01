@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: HP
- * Date: 5.10.14
- * Time: 12:57
- * To change this template use File | Settings | File Templates.
- */
 
 namespace AirSim\Bundle\CoreBundle\Services;
 

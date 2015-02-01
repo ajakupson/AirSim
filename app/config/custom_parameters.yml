@@ -1,3 +1,5 @@
 parameters:
     logs_dev_dir: ./../app/logs/dev/
     logs_dev_all_channels_file: all_channels.log
+    logs_prod_dir: ./app/logs/prod/
+    logs_prod_all_channels_file: all_channels.log
