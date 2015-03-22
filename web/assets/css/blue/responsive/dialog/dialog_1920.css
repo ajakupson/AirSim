@@ -132,9 +132,9 @@
     {
         width: 100%;
         height: auto;
-        height: 865px;
+        /*height: 865px;*/
         /*max-height: 865px;*/
-        padding: 20px 20px 0 20px;
+        padding: 20px 20px 20px 20px;
         /*overflow-x: hidden;
         overflow-y: scroll;*/
         overflow: auto;

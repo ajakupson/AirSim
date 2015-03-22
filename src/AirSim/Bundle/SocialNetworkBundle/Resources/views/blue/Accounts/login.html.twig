@@ -1,11 +1,24 @@
 {% extends 'AirSimSocialNetworkBundle:blue/Layouts:outer.html.twig'%}
 
 {% block pageStylesheets %}
-    <link href = "{{ asset('assets/css/blue/login.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-    <link href = "{{ asset('assets/css/blue/slider.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+{#    <link href = "{{ asset('assets/css/blue/login.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+    <link href = "{{ asset('assets/css/blue/slider.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
+
+    {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/login_min.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/login/login_1024.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/login/login_1680.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/login/login_1920.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/slider/slider_1366.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/slider/slider_1440.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/slider/slider_1600.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/slider/slider_1920.css'
+    %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
+    <script src="http://vincentgarreau.com/particles.js/particles.js"></script>
     <script type="text/javascript">require(['blue/login'])</script>
 {% endblock pageJavaScripts %}
 

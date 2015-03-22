@@ -1,81 +1,108 @@
 {% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
 
 {% block pageStylesheets %}
-    <link href = "{{ asset('assets/css/blue/chat.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+    {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/chat_min.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/chat/chat_1920.css'
+        'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
+
+    <style>
+        .scrollbar { background: #fefefe; border: 1px solid #eee; height: 200px; overflow: auto; margin: 20px 0 0; padding: 10px 20px 10px 20px; }
+        .scrollbar.scroller { padding: 0; }
+        .scrollbar.scroller .scroller-content,
+        .scrollbar.scroller-active .scroller-content { padding: 20px 40px 20px 20px; }
+
+        .scroller p { margin: 0 0 20px; }
+
+        .scrollbar.horizontal { height: 320px; padding: 0; }
+        .wide_load { width: 2400px; overflow: hidden; padding: 20px 0 20px 20px; }
+        .wide_load p { float: left; margin: 0 25px 0 0; width: 450px; }
+
+        .advanced .scroller-handle { background: #DB0209; border-color: rgba(0,0,0, 0.25); border-radius: 3px; right: 2px; width: 15px; }
+    </style>
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
-    <script src ="{{ asset('assets/js/websocket/chatRoomWebSocket.js') }}" type = "text/javascript"></script>
+    {#<script src ="{{ asset('assets/js/websocket/chatRoomWebSocket.js') }}" type = "text/javascript"></script>#}
+{#    <script type="text/javascript" src="{{ asset('assets/js/plugins/jquery-1.11.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/plugins/formstone/components/scroller/jquery.fs.scroller.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.scrollbar').scroller();
+        });
+    </script>#}
 {% endblock pageJavaScripts %}
 
 {% block pageContent %}
-    <div class = "chatRoomWrapper">
-        <input type = "hidden" id = "userId" value = "10"/>
-        <div class = "chatRoom">
+    <div class = "chat_room_wrapper">
+        <input type = "hidden" id = "user_id" value = "10"/>
+        <div class = "chat_room">
             <section class = "chat">
-                <div class = "chatOperations">
-                    <input type = "button" class = "selectedMessagesDelete" value = ""/>
-                    <input type = "button" class = "favoriteMessages" value = ""/>
-                    <input type = "text" class = "chatSearch" id = "chatSearch" placeholder = "Search message ..."/>
+                <div class = "chat_operations">
+                    <input type = "button" class = "selected_messages_delete" value = ""/>
+                    <input type = "button" class = "favorite_messages" value = ""/>
+                    <input type = "text" class = "chat_search" id = "chat_search" placeholder = "Search message ..."/>
                 </div>
-                <div class = "chatParticipant1">
+                <div class = "chat_participant_one">
                         <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "ava"/>
-                    <div class = "participantInfo">
+                    <div class = "participant_info">
                         Firstname<br/>
                         Lastname
                     </div>
                 </div>
-                <div class = "chatParticipant2">
+                <div class = "chat_participant_two">
                     <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "ava"/>
-                    <div class = "participantInfo">
+                    <div class = "participant_info">
                         Firstname<br/>
                         Lastname
                     </div>
                 </div>
-                <div class = "chatMessages formstone_scroller">
+                <div class = "chat_messages formstone_scroller">
                     {% for i in 1..50 %}
                         {% if i % 2 == 0 %}
-                            <div class = "messageParticipant2">
-                                <span class = "messageDateTime2">03.01.2015</span>
-                                <span class = "messageText">
+                            <div class = "message_participant_two">
+                                <span class = "message_date_time_two">03.01.2015</span>
+                                <span class = "message_text">
                                     The jQuery Bower package contains additional files besides the default distribution.
                                     In most cases you can ignore these files, however if you wish to download the default
                                     release on it's own you can use Bower to install jQuery from one of the above urls
                                     instead of the registered package.</span>
-                                <input type = "hidden" class = "messageId" value = "{{ i }}"/>
+                                <input type = "hidden" class = "message_id" value = "{{ i }}"/>
                                 <div class = "clear"></div>
                             </div>
                         {% else %}
-                            <div class = "messageParticipant1">
-                                <span class = "messageDateTime1">03.01.2015</span>
-                                <span class = "messageText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-                                <input type = "button" class = "deleteMessageIcon" value = ""/>
-                                <input type = "checkbox" class = "messageSelect" id = "m{{ i }}" unchecked/>
+                            <div class = "message_participant_one">
+                                <span class = "message_date_time_one">03.01.2015</span>
+                                <span class = "message_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                                <input type = "button" class = "delete_message_icon" value = ""/>
+                                <input type = "checkbox" class = "message_select" id = "m{{ i }}" unchecked/>
                                 <label for = "m{{ i }}"><span></span></label>
-                                <input type = "hidden" class = "messageId" value = "{{ i }}"/>
+                                <input type = "hidden" class = "message_id" value = "{{ i }}"/>
                                 <div class = "clear"></div>
                             </div>
                         {% endif %}
                     {% endfor %}
                     <div class = "clear"></div>
                 </div>
-                <div class = "chatMessageInputWrapper">
-                    <textarea class = "areaText" id = "chatMessageTextarea" placeholder = "Message ... "></textarea>
-                    <input type = "button" class = "submitButton right" id = "sendChatMessage" value = "Send"/>
+                <div class = "chat_message_input_wrapper">
+                    <textarea class = "area_text" id = "chat_message_textarea" placeholder = "Message ... "></textarea>
+                    <input type = "button" class = "submit_button right" id = "send_chat_message" value = "Send"/>
                     <div class = "clear"></div>
                 </div>
             </section>
-            <section class = "chatRooms">
-                <ul id = "chatRooms">
+            <section class = "chat_rooms">
+                <ul id = "chat_rooms">
                     {% for i in 1..7 %}
                         <a href = "chat_room?id={{ i }}">
                             <li>
                                 {#<input type = "button" class = "chatDeleteButton small"/>#}
-                                <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "authorPic"/>
+                                <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "author_pic"/>
                                 <span class = "author">Bob Marley</span><br/><br/>
-                                <span class = "dateTime">11.10.2014</span><br/>
+                                <span class = "date_time">11.10.2014</span><br/>
                                 <span class = "message">Last message from contact text</span>
-                                <input type = "hidden" class = "chatRoomId" value = "{{ i }}"/>
+                                <input type = "hidden" class = "chat_room_id" value = "{{ i }}"/>
                             </li>
                         </a>
                     {% endfor %}

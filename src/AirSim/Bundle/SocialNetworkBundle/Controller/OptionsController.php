@@ -11,13 +11,12 @@ class OptionsController extends Controller
     public function optionsAction($type)
     {
         $LOG = $this->get('logger');
+        $LOG->info('optionsAction executed in OptionsController');
 
-        switch($type)
+        /*switch($type)
         {
             case 'private':
             {
-                $LOG->info('optionsAction executed in OptionsController with parameter = '.$type);
-
                 return $this->render('AirSimSocialNetworkBundle:blue/Options:private.html.twig');
 
             }break;
@@ -43,7 +42,9 @@ class OptionsController extends Controller
 
             }break;
             default : break;
-        }
+        }*/
+
+        return $this->render('AirSimSocialNetworkBundle:blue/Options:options.html.twig');
     }
 
     /* ***** AJAX ***** */

@@ -1,0 +1,185 @@
+@media screen and (max-width:1920px)
+{
+    .map_left_panel
+    {
+        width: 75%;
+        float: left;
+    }
+    .map_top_panel
+    {
+        width: 100%;
+        height: auto;
+    }
+    .add_marker
+    {
+        width: auto;
+        float: left;
+    }
+    input[type="text"].mark_location
+    {
+        min-width: 200px;
+    }
+    input[type="button"].mark_location
+    {
+        width: auto;
+        float: right;
+        margin-right: 1px;
+    }
+
+    .map_configuration
+    {
+        width: auto;
+        height: auto;
+        float: left;
+    }
+    .config_line
+    {
+        float: left;
+        display: table-cell;
+        width: auto;
+        height: auto;
+        vertical-align: middle;
+    }
+
+    .map_box
+    {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 600px;
+        border: 5px solid #20b5ff;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border;
+        -webkit-box-sizing: border-box;
+    }
+    .map_container
+    {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .map_right_panel
+    {
+        width: 23%;
+        height: auto;
+        float: right;
+        position: relative;
+    }
+    .map_nav
+    {
+        margin-bottom: 3%;
+    }
+    .map_nav ul li
+    {
+        width: 50%;
+        cursor: pointer;
+    }
+    .map_chat
+    {
+        float: left;
+        width: 100%;
+        height: auto;
+        max-height: 700px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+    }
+    .map_chat textarea
+    {
+        width: 97%;
+    }
+    .user_map_message
+    {
+        width: 100%;
+        height: auto;
+        padding: 1% 1% 1% 1%;
+        border-bottom: 1px solid lightgrey;
+        float: left;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+    .message_text
+    {
+        width: 70%;
+        float: left;
+    }
+    .message_text .author
+    {
+        width: 100%;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin: 1% 0 3% 0;
+    }
+    .message_text .text
+    {
+        width: 100%;
+        margin: 0 0 1.5% 0;
+    }
+    .message_text .date_sent
+    {
+        width: 100%;
+        color: lightgrey;
+        font-size: 0.83em;
+        margin: 0 0 1% 0;
+    }
+    .user_map_message .author_web_pic
+    {
+        width: 23%;
+        float: left;
+        position: relative;
+    }
+    .user_map_message .author_web_pic img
+    {
+        width: 100%;
+        border: 1px solid #d3d3d3;
+    }
+    .map_friends_list
+    {
+        float: left;
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        border: 1px solid blue;
+    }
+
+    .bubble_content
+    {
+        width: 200px;
+        height: auto;
+        margin: 0 0 0 0;
+    }
+    .bubble_content .web_profile_pic
+    {
+        width: 50px;
+        height: 50px;
+        float: left;
+        position: relative;
+    }
+    .bubble_content .web_profile_pic img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    .bubble_content .text
+    {
+        float: left;
+        width: 145px;
+        margin: 0 0 0 5px;
+    }
+    .bubble_content .text .username
+    {
+        font-weight: bold;
+        margin: 0 0 0 5px;
+    }
+    .bubble_content .text .comment
+    {
+        margin: 5px 0 0 10px;
+        white-space: normal;
+    }
+}

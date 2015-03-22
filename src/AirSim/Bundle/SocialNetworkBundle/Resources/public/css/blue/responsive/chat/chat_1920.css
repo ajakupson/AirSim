@@ -1,0 +1,431 @@
+@media screen and (max-width:1920px)
+{
+    /* ****** Available Chats ***** */
+    .available_chats_wrapper, .chat_room_wrapper
+    {
+        width: 98%;
+        height: auto;
+        float: left;
+        margin: 0 0 0 2%;
+        position: relative;
+        font-size: 0.9em;
+    }
+    .available_chats, .chat_room
+    {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
+        padding: 10px 30px 20px 30px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .available_chats ul
+    {
+        width: 100%;
+        height: auto;
+        float: left;
+        margin: 0 auto;
+        padding: 0 0 0 2%;
+        clear: both;
+    }
+    .available_chats ul a
+    {
+        font-size: 1em;
+        font-weight: normal;
+        text-decoration: none;
+        color: black;
+    }
+    .available_chats ul li
+    {
+        list-style: none;
+        float: left;
+        width: 23%;
+        height: 9.75em;
+        margin: 10px 0 0 10px;
+        padding: 10px;
+        border: 1px solid #e6e6e6;
+        position: relative;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    .available_chats ul li:hover
+    {
+        border: 1px solid #27a9ff;
+
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 0px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 0px 0px  rgba(0,0,0,0.2);
+    }
+    .available_chats ul li .toolbar
+    {
+        width: 100%;
+        height: 30px;
+        max-height: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        /*background-color: black;*/
+        background-color: #dddddd;
+        overflow: hidden;
+        opacity: 0.7;
+
+        transition: max-height .2s;
+    }
+    .available_chats ul li:hover .toolbar
+    {
+        max-height: 30px;
+    }
+    .availableChats ul li.unread
+    {
+        background-color: #f5f5f5;
+    }
+    input[type="button"].chat_delete_button
+    {
+        width: 20px;
+        height: 20px;
+        background: url('../../../../images/themes/blue/delete_button.png') no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+        border: 0;
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        display: none;
+        opacity: 0.5;
+    }
+    input[type="button"].chat_delete_button:hover
+    {
+        opacity: 1;
+    }
+    .available_chats ul li:hover .chat_delete_button
+    {
+        display: block;
+    }
+    .author_pic
+    {
+        width: 100px;
+        height: 100px;
+        float: right;
+        margin: 0 0 0 0;
+        border: 1px solid lightgrey;
+        background: white;
+    }
+    .author
+    {
+        font-weight: bold;
+        float: left;
+        padding-bottom: 15px;
+    }
+    .date_time
+    {
+        color: #d1d1d1;
+        float: left;
+        padding-bottom: 5px;
+        font-size: 0.9em;
+    }
+    .message
+    {
+        width: 55%;
+        max-width: 230px;
+        height: auto;
+        font-size: 0.8em;
+        float: left;
+    }
+    /* ****** End Of Available Chats ***** */
+
+    /* ***** Chat Room ***** */
+    .chat
+    {
+        float: left;
+        width: 75%;
+        height: auto;
+        min-height: 710px;
+        max-height: 710px;
+        position: relative;
+        padding: 10px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+
+        box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .chat_operations
+    {
+        width: 74%;
+        height: auto;
+        min-height: 30px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+    .chat_search
+    {
+        min-width: 200px;
+        max-height: 20px;
+        margin: 10px 3px 0 3px;
+        padding-right: 25px;
+        float: right;
+        background: url('../../../../images/themes/blue/search_icon_gray.png') no-repeat right;
+        background-size: 20px 20px;
+    }
+    input[type = "button"].selected_messages_delete
+    {
+        width: 20px;
+        height: 20px;
+        background: url('../../../../images/themes/blue/trash_icon_gray.png') no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+        float: right;
+        border: 0;
+        margin: 7px 3px 0 0;
+    }
+    input[type = "button"].favorite_messages
+    {
+        width: 20px;
+        height: 20px;
+        background: url('../../../../images/themes/blue/star_icon_gray.png') no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+        float: right;
+        border: 0;
+        margin: 7px 3px 0 5px;
+    }
+    .chat_participant_one, .chat_participant_two
+    {
+        width: auto;
+        width: 11%;
+        height: auto;
+        position: absolute;
+        top: 10px;
+    }
+    .chat_participant_one
+    {
+        left: 10px;
+    }
+    .chat_participant_two
+    {
+        right: 10px;
+    }
+    .chat_participant_one img.ava, .chat_participant_two img.ava
+    {
+        width: 100%;
+        height: 100%;
+        border: 1px solid lightgrey;
+    }
+    .participant_info
+    {
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+        margin: 5px 2px 0 2px;
+    }
+    .chat_messages
+    {
+        width: 74%;
+        height: auto;
+        height: 510px ;
+        min-height: 510px;
+        /*max-height: 510px;*/
+
+        margin: 0 auto;
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        /*overflow-x: hidden;*/
+        /*overflow-y: scroll;*/
+        overflow: auto;
+    }
+    .message_participant_one, .message_participant_two
+    {
+        width: 90%;
+        height: auto;
+        margin: 5px;
+        margin-right: 5%;
+        padding: 10px;
+        font-size: 1.1em;
+        border: 1px solid lightgrey;
+        clear: both;
+    }
+    .unread_message
+    {
+        background-color: #fafafa;
+    }
+    .message_participant_two
+    {
+        margin-right: 5px;
+        margin-left: 5%;
+    }
+    .message_date_time_one, .message_date_time_two
+    {
+        width: 80px;
+        text-align: center;
+        color: lightgrey;
+        font-weight: bold;
+        font-size: 0.85em;
+        float: left;
+    }
+    .message_text
+    {
+        float: left;
+        margin: 0 15px 0 15px;
+        font-size: 0.9em;
+        width: 72%;
+    }
+    .message_date_time_two
+    {
+        float: right;
+    }
+    input[type = "button"].delete_message_icon
+    {
+        width: 11px;
+        height: 11px;
+        float: right;
+        margin: 0;
+        padding: 0;
+        background: url('../../../../images/themes/blue/delete_icon_gray.png') no-repeat center;
+        background-size: contain;
+        border: 0;
+        cursor: pointer;
+        opacity: 0.6;
+    }
+    input[type = "checkbox"].message_select
+    {
+        float: right;
+        display: none;
+    }
+    input[type = "checkbox"].message_select + label
+    {
+        float: right;
+        max-width: 11px;
+        margin: 0 5px 0 0;
+        padding: 0;
+    }
+    input[type = "checkbox"].message_select + label span
+    {
+        display: inline-block;
+        float: right;
+        width: 11px;
+        height: 11px;
+        background: url('../../../../images/themes/blue/input_checkbox_gray.png') no-repeat center;
+        background-size: contain;
+    }
+    input[type = "checkbox"].message_select:checked + label span
+    {
+        background: url('../../../../images/themes/blue/input_checkbox_gray_checked.png') no-repeat center;
+        background-size: contain;
+    }
+
+    .delete_message_icon:hover
+    {
+        opacity: 1;
+    }
+    .chat_message_input_wrapper
+    {
+        width: 74%;
+        height: 115px;
+        height: auto;
+        margin: 0 auto;
+        border: 1px solid lightgrey;
+        padding: 10px;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    input[type = "button"].submit_button
+    {
+        margin: 5px 0 0 0;
+        font-size: 0.9em;
+    }
+    input[type = "button"].submit_button.right_button
+    {
+        margin-left: 10px;
+    }
+    .chat_rooms
+    {
+        width: auto;
+        width: 25%;
+        height: auto;
+        float: left;
+        position: relative;
+    }
+    .chat_rooms ul
+    {
+        width: auto;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+    .chat_rooms ul a
+    {
+        font-size: 0.9em;
+        font-weight: normal;
+        text-decoration: none;
+        color: black;
+    }
+    .chat_rooms ul li
+    {
+        list-style: none;
+        float: left;
+        width: 100%;
+        height: 8.250em;
+        margin: 0 0 10px 15px;
+        padding: 10px;
+        border: 1px solid #e6e6e6;
+        position: relative;
+
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -o-box-sizing: border-box;
+    }
+    .chat_rooms ul li:hover
+    {
+        border: 1px solid #27a9ff;
+
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
+        -o-box-shadow: 0px 0px 0px 0px  rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 0px 0px 0px  rgba(0,0,0,0.2);
+    }
+    .chat_delete_button.small
+    {
+        width: 17px;
+        height: 17px;
+    }
+    .chat_room ul li:hover .chat_delete_button
+    {
+        display: block;
+    }
+    .chat_rooms ul li.unread
+    {
+        background-color: #f5f5f5;
+    }
+    .chat_rooms .author_pic
+    {
+        width: 70px;
+        height: 70px;
+        float: right;
+        border: 1px solid lightgrey;
+        background: white;
+    }
+    /* ***** End Of Chat Room ***** */
+
+    .scroller-content
+    {
+        padding: 0;
+    }
+}

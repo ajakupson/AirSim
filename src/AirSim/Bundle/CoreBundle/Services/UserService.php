@@ -26,6 +26,7 @@ class UserService
 
         $this->userRepository = $this->entityManager->getRepository('AirSimCoreBundle:User');
         $this->friendsRepository = $this->entityManager->getRepository('AirSimCoreBundle:UserFriends');
+
     }
 
     public static function getInstance()
@@ -34,6 +35,7 @@ class UserService
         {
             self::$userServiceInstance = new self();
         }
+
         return self::$userServiceInstance;
     }
 
@@ -43,7 +45,6 @@ class UserService
 
         return $userCompleteData;
     }
-
 
     public function getUserIdByUsername($username)
     {
@@ -149,6 +150,14 @@ class UserService
         {
             $query->andWhere('FLOOR(DATE_DIFF(CURRENT_DATE(), contact.birthdate) / 365) <= :ageTo')
                 ->setParameter('ageTo', $searchParams->getAgeTo());
+        }
+        if(!$searchParams->getIsFriend())
+        {
+            $query->andWhere('contact.userId NOT IN
+            (
+                SELECT friend.friendId FROM AirSimCoreBundle:UserFriends AS friend
+                WHERE friend.userId = :userId AND friend.isAccepted = 1
+            ) AND contact.userId != :userId')->setParameter('userId', $searchParams->getUserId());
         }
 
         if($offset != null)

@@ -3,7 +3,7 @@ define
     'blue/common',
     [
         'jquery',
-        'jquery.autosize',
+        'jquery.autosize'
     ],
     function($)
     {

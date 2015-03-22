@@ -1,0 +1,129 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/options_min.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/options/options_1920.css'
+    %}
+     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
+
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+    <script type="text/javascript">require(['blue/options'])</script>
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+<div class = "options_wrapper">
+    <nav id = "options_tabs" class = "tabs_nav options_nav">
+        <ul>
+            <li class = "active" tab = "private_tab">Private</li>
+            <li tab = "synchronization_tab">Synchronization</li>
+            <li tab = "safety_tab">Safety</li>
+            <li tab = "personal_data_tab">Personal data</li>
+        </ul>
+        <div class = "clear"></div>
+    </nav>
+    <div id = "options_tabs_content" class = "tabs_content">
+        <div class = "options_content tab" id = "private_tab">
+            <section class = "options_configuration">
+                <div class = "options_header">Private settings:</div><div class = "clear"></div>
+                <label for = "phone_visibility">Phone is visible to:</label>
+                <select id = "phone_visibility">
+                    <option>all</option>
+                    <option>friends only</option>
+                </select><br/>
+
+                <label for = "search_by_phone_number">Allow search me by phone number:</label>
+                <select id = "search_by_phone_number">
+                    <option>yes</option>
+                    <option>no</option>
+                </select><br/>
+
+                <label for = "additional_info_visibility">Show additional info to:</label>
+                <select id = "additional_info_visibility">
+                    <option>all</option>
+                    <option>friends only</option>
+                </select><br/>
+
+                <label for = "friends_visibility">My friends are visible to:</label>
+                <select id = "friends_visibility">
+                    <option>friends only</option>
+                    <option>nobody</option>
+                </select><br/>
+            </section>
+            <section class = "options_description">
+                <article class = "tab_general_description">
+                    Tab general description
+                </article>
+                <article class = "hovered_item_description">
+                    Hovered item description
+                </article>
+            </section>
+            <div class = "clear"></div>
+        </div>
+        <div class = "options_content tab hidden" id = "synchronization_tab">
+            <section class = "options_configuration">
+                <div class = "options_header">Synchronization settings:</div><div class = "clear"></div>
+                <label for = "phone_visibility">Automatic synchronization between phone and website:</label>
+                <select id = "phone_visibility">
+                    <option>phone number</option>
+                    <option>phone number, N.F.</option>
+                    <option>phone number, additional information</option>
+                    <option>phone number, N.F., additional information</option>
+                </select><br/>
+            </section>
+            <section class = "options_description">
+                <article class = "tab_general_description">
+                    Tab general description
+                </article>
+                <article class = "hovered_item_description">
+                    Hovered item description
+                </article>
+            </section>
+            <div class = "clear"></div>
+        </div>
+        <div class = "options_content tab hidden" id = "safety_tab">
+            <section class = "options_configuration safety_configuration">
+                <div class = "options_header">Change phone number:</div><div class = "clear"></div>
+                <label for = "new_phone_number">New phone number:</label>
+                <input type = "text" id = "new_phone_number"/><br/>
+                <input type = "button" id = "get_confirmation_code" class = "stick_right width_auto" value = "Get confirmation code"/>
+                <div class = "clear"></div>
+
+                <label for = "confirmation_code">Confirmation code:</label>
+                <input type = "text" id = "confirmation_code"/><br/>
+
+                <input type = "button" id = "save_phone_number" class = "stick_right" value = "Save"/>
+                <div class = "clear"></div>
+            </section>
+            <section class = "options_configuration safety_configuration second">
+                <div class = "options_header">Change password:</div><div class = "clear"></div>
+                <label for = "old_password">Old password:</label>
+                <input type = "text" id = "old_password"/><br/>
+
+                <label for = "new_password">New password:</label>
+                <input type = "text" id = "new_password"/><br/>
+
+                <label for = "repeat_new_password">Repeat new password:</label>
+                <input type = "text" id = "repeat_new_password"/><br/>
+
+                <input type = "button" id = "save_password" class = "stick_right" value = "Save"/>
+                <div class = "clear"></div>
+            </section>
+            <section class = "options_description safety_description">
+                <article class = "tab_general_description">
+                    Tab general description
+                </article>
+                <article class = "hovered_item_description">
+                    Hovered item description
+                </article>
+            </section>
+            <div class = "clear"></div>
+        </div>
+        <div class = "options_content tab hidden" id = "personal_data_tab">
+            4
+        </div>
+    </div>
+</div>
+{% endblock pageContent %}

@@ -88,7 +88,7 @@ define
                     var photoDescription = response.data.photoData.photoDescription;
                     var dateAdded = response.data.photoData.photoDateAdded;
                     var photoLocation = response.data.photoData.photoAddress;
-                    var undefined = '..........';
+                    var undefined = 'Some item title';
                     var rating = response.data.photoData.averageRating;
                     if(rating === null)
                     {

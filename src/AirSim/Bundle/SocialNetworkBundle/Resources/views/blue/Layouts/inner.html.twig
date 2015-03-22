@@ -1,4 +1,4 @@
-
+{% spaceless %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns ="http://www.w3.org/1999/xhtml">
@@ -21,7 +21,7 @@
         <link href = "{{ asset('assets/css/blue/jquery.qtip.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
         <link href="{{ asset('assets/js/plugins/formstone/components/scroller/jquery.fs.scroller.css') }}" rel="stylesheet">#}
 
-        {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/responsive/minified/layout_inner_min.css'
+        {#{% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/responsive/minified/layout_inner_min.css'
         'assets/css/blue/fonts.css'
         'assets/css/blue/responsive/common/common_1920.css'
         'assets/css/blue/responsive/forms/forms_1920.css'
@@ -35,24 +35,33 @@
         %}
         <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
         {% endstylesheets %}
+        {% endblock %}#}
+
+            {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/layout_inner_min.css'
+                'bundles/airsimsocialnetwork/css/blue/fonts.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/common/common_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/forms/forms_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/tabs/tabs_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/layout_inner/layout_inner_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/dialog/dialog_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/gallery/gallery_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/selectric.css'
+                'bundles/airsimsocialnetwork/css/blue/responsive/map/map_1920.css'
+                'bundles/airsimsocialnetwork/css/blue/jquery.qtip.css'
+            %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+            {% endstylesheets %}
         {% endblock %}
 
         {% block pageStylesheets %}
         {% endblock pageStylesheets %}
         {# End Of Stylesheets #}
 
-        {# JavaScripts #}
-        {% block globalJavaScripts %}
-        {{ require_js_initialize() }}
-        <script type="text/javascript">require(['blue/inner'])</script>
-        {% endblock %}
-
-        {% block pageJavaScripts %}
-        {% endblock pageJavaScripts %}
-        {# End Of JavaScripts #}
+        {# JavaScript Global Variables #}
+        {# End Of JavaScript Global Variables #}
 
     </head>
-    <body class = "formstone_scroller">
+    <body>
         <div class = "page_cover" id = "page_cover">
             <div class = "loading_notification">
                 <div class = "loading_message">
@@ -61,30 +70,36 @@
             </div>
         </div>
         <div class = "wrapper">
+            {% if userPrivileges.isLoggedIn %}
             <input type = "hidden" id = "logged_in_user_id" value = "{{ app.session.get('sessionData')['userInfo']['id'] }}"/>
+            {% endif %}
             <header class = "header">
                 <div class = "header_content">
-                    <div class = "logo_text">AIRSIM</div>
+                    <div class = "logo">
+                        <div class = "logo_image"></div>
+                        <div class = "logo_text">AIRSIM</div>
+                    </div>
+                    {% if userPrivileges.isLoggedIn %}
                     <div class = "top_nav">
                         <div class = "user_top_data">
                             {% if app.session.get('sessionData')['userInfo']['webPic'] %}
-                            <img class = "user_ava" src = "{{ ('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~
-                                '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) | apply_filter('avatar') }}"/>
+                                <img class = "user_ava" src = "{{ ('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~
+                                    '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) | apply_filter('avatar') }}"/>
                             {% else %}
-                            <img class = "user_ava" src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
+                                <img class = "user_ava" src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
                             {% endif %}
                             <div class = "logged">
                                 You are logged in as<br/>
                                     <span class = "user">
-                                    {{ app.session.get('sessionData')['userInfo']['firstName'] }}
-                                    {{ app.session.get('sessionData')['userInfo']['lastName'] }}
+                                        {{ app.session.get('sessionData')['userInfo']['firstName'] }}
+                                        {{ app.session.get('sessionData')['userInfo']['lastName'] }}
                                     </span>
                             </div>
                         </div>
                         <ul class = "top_nav_menu">
                             <li><a href = "./../user/">Home page</a></li>
-                            <li><a href = "./../contacts/all_friends">Friends</a></li>
-                            <li><a href = "./../chat/available_chats">Messages</a></li>
+                            <li><a href = "./../contacts/all_friends">Friends<span class = "notification_bubble top_menu">+2</span></a></li>
+                            <li><a href = "./../chat/available_chats">Messages<span class = "notification_bubble top_menu">+100</span></a></li>
                             <li><a id = "log_out">Log out</a></li>
                         </ul>
                     </div>
@@ -97,10 +112,12 @@
                         </select>
                         <input type = "button" value = "Search"/>
                     </div>
+                    {% endif %}
                 </div>
             </header>
             <section class = "content inner" id = "content_inner">
                 <div class = "content_left">
+                    {% if userPrivileges.isLoggedIn %}
                     <nav class = "menu">
                         <ul>
                             <li>
@@ -113,17 +130,21 @@
                                 <a href = "./../contacts/friends">
                                     <span class = "menu_icon friends"></span>
                                     <span>Friends</span>
+                                    <span class = "notification_bubble">+2</span>
                                 </a>
                             </li>
                             <li>
                                 <a href = "./../chat/available_chats">
                                     <span class = "menu_icon messages"></span>
                                     <span>Messages</span>
+                                    <span class = "notification_bubble">+100</span>
                                 </a>
                             </li>
                             <li>
-                                <span class = "menu_icon photos"></span>
-                                <span>Photos</span>
+                                <a href = "./../photo_albums">
+                                    <span class = "menu_icon photos"></span>
+                                    <span>Photos</span>
+                                </a>
                             </li>
                             <li>
                                 <a href = "" id = "map_link">
@@ -155,6 +176,7 @@
                             </li>
                         </ul>
                     </nav>
+                    {% endif %}
                 </div>
                 <div class = "content_right">
                     {# Unique Page Content #}
@@ -202,9 +224,9 @@
                         Press esc to exit
                         <span id = "dialog_arrow" class = "dialog_arrow"></span>
                     </span>
-                    <div class = "dialog_content" id = "gallery_scroller" {#style = "padding-top: 0"#}>
+                    <div class = "dialog_content">
                         <div class = "photo_container">
-                            <img src = "{{ asset('public_files/app_default/social_graph.png') }}" class = "photo_to_show"/>
+                            <img src = "" class = "photo_to_show"/>
                             <div class = "previous_photo">
                                 <input type = "hidden" id = "previous_photo_id" value = "" />
                             </div>
@@ -246,7 +268,7 @@
                             <input type = "button" class = "comment_photo_button right" id = "comment_photo_button" value = "Comment photo"/>
                             <div id = "test_div" class = "attach_files_wrapper"></div>
                         </div><div class = "clear"></div>
-                        <div class = "photo_comments_wrapper hidden">
+                        <div class = "photo_comments_wrapper hidden" id = "gallery_comments_scroller">
                             <span class = "photo_block_title">Comments:</span><br/><br/>
                             <div class = "photo_comments_holder">
                             </div>
@@ -370,37 +392,67 @@
                 <!-- End of Map -->
 
                 <!-- Write Message Dialog -->
-                <div id = "write_message_dialog" class = "dialog scale">
-                    <div class = "dialog_title">Write Message</div>
-                    <div id = "dialog_close" class = "dialog_close">x</div>
-                    <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
-                        Press Esc to exit
-                        <span id = "dialog_arrow" class = "dialog_arrow"></span>
-                    </span>
-                    <div class = "dialog_content">
-                        <div class = "write_message_left_block">
-                            <div class = "user_info">
-                                Firstname Lastname / +372 546785432
+                {% if app.session.get('sessionData') is not null %}
+                    <div id = "write_message_dialog" class = "dialog scale">
+                        <div class = "dialog_title">Write Message</div>
+                        <div id = "dialog_close" class = "dialog_close">x</div>
+                        <span id = "dialog_close_tooltip" class = "dialog_close_tooltip">
+                            Press Esc to exit
+                            <span id = "dialog_arrow" class = "dialog_arrow"></span>
+                        </span>
+                        <div class = "dialog_content">
+                            <div class = "write_message_left_block">
+                                <div class = "user_info">
+                                {% if userData is defined %}
+                                    {{ userData.firstName }} {{ userData.lastName }} / {{ userData.phoneNumber }}
+                                {% endif %}
+                                </div>
+                                <div class = "message_wrapper">
+                                    <textarea placeholder = "What do You want to say?"></textarea>
+                                    <input type = "button" value = "Send" class = "right send_message_button" style = "margin-right: 0"/>
+                                </div>
                             </div>
-                            <div class = "message_wrapper">
-                                <textarea placeholder = "What do You want to say?"></textarea>
-                                <input type = "button" value = "Send" class = "right send_message_button" style = "margin-right: 0"/>
-                            </div>
-                        </div>
-                        <div class = "write_message_right_block">
-                            <div class = "profile_pics">
-                                <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
-                            </div>
-                            <div class = "user_menu">
-                                <input type = "button" value = "Add to friends" class = "add_contact_button"/><br/>
-                                <input type = "button" value = "User photos" class = "user_photos_button"/><br/>
-                                <input type = "button" value = "Common photos" class = "common_album_button"/><br/>
-                                <input type = "button" value = "Add to favorites" class = "add_to_favorites_button"/><br/>
-                                <input type = "button" value = "Block user" class = "block_user_button"/>
+                            <div class = "write_message_right_block">
+                                <div class = "profile_pics">
+                                {% if userData is defined %}
+                                    {% if userData.webProfilePic %}
+                                        <img src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
+                                    {% else %}
+                                        <img src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                                    {% endif %}
+                                {% endif %}
+                                </div>
+                                <div class = "user_menu">
+                                {% if userPrivileges is defined %}
+                                    {% if not userPrivileges.isFriend %}
+                                        {% if userPrivileges.addContactPrivilege %}
+                                            <input type = "button" value = "Add to friends" class = "add_contact_button"/><br/>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if userPrivileges.seePhotosPrivilege %}
+                                        <input type = "button" value = "User photos" class = "user_photos_button"/><br/>
+                                        <input type = "button" value = "Common photos" class = "common_album_button"/><br/>
+                                    {% endif %}
+                                    {% if app.session.get('sessionData')['userInfo']['id'] != userPrivileges.contactId %}
+                                        <input type = "button" value = "Add to favorites" class = "add_to_favorites_button"/><br/>
+                                    {% endif %}
+                                    {% if not userPrivileges.isBlocked and app.session.get('sessionData')['userInfo']['id'] != userPrivileges.contactId %}
+                                        <input type = "button" value = "Block user" class = "block_user_button"/>
+                                    {% elseif userPrivileges.isBlocked and app.session.get('sessionData')['userInfo']['id'] != userPrivileges.contactId %}
+                                        <input type = "button" value = "Unblock user" class = "block_user_button unblock_user_button"/>
+                                    {% endif %}
+                                {% else %}
+                                    <input type = "button" value = "Add to friends" class = "add_contact_button"/><br/>
+                                    <input type = "button" value = "User photos" class = "user_photos_button"/><br/>
+                                    <input type = "button" value = "Common photos" class = "common_album_button"/><br/>
+                                    <input type = "button" value = "Add to favorites" class = "add_to_favorites_button"/><br/>
+                                    <input type = "button" value = "Block user" class = "block_user_button"/>
+                                {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
                 <!-- End Of Write Message Dialog -->
 
                 <!-- Please wait notification -->
@@ -431,6 +483,42 @@
             <div class = "push"></div>
         </div>
         <footer class = "footer">
+            <div class = "footer_table">
+                <div class = "footer_content">
+                    <div class = "footer_left_block">
+                        <div class = "footer_block_content">
+                            AirSim © 2013<br/>
+                            <a href = "">Terms of use</a>
+                        </div>
+                    </div>
+                    <div class = "footer_middle_block">
+                        <div class = "footer_block_content">
+                            Mustamäe tee 181-120<br/>
+                            AirSim OÜ<br/>
+                            19129 Tallinn (<a href = "">Map</a>)
+                        </div>
+                    </div>
+                    <div class = "footer_right_block">
+                        <div class = "footer_block_content">
+                            E-post: upcooper@gmail.com<br/>
+                            Phone number: +372 57450322<br/>
+                            Fax: +372 9999 999<br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </footer>
+
+        {# JavaScripts #}
+        {% block globalJavaScripts %}
+        {{ require_js_initialize() }}
+            <script type="text/javascript">require(['blue/inner'])</script>
+        {% endblock %}
+
+        {% block pageJavaScripts %}
+        {% endblock pageJavaScripts %}
+        {# End Of JavaScripts #}
+
     </body>
 </html>
+{% endspaceless %}

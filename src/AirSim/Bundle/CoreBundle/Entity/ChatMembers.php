@@ -24,6 +24,16 @@ class ChatMembers
      */
     private $chat;
 
+    /**
+     * @var integer
+     */
+    private $chatId;
+
+    /**
+     * @var integer
+     */
+    private $userId;
+
 
     /**
      * Get recId
@@ -79,5 +89,37 @@ class ChatMembers
     public function getChat()
     {
         return $this->chat;
+    }
+
+    /**
+     * @param int $chatId
+     */
+    public function setChatId($chatId)
+    {
+        $this->chatId = $chatId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChatId()
+    {
+        return $this->chatId;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }

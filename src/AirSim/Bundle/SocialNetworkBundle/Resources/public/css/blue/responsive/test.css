@@ -1,0 +1,17 @@
+.blocked {
+    position: absolute;
+    top: 50%;
+    width: 500px;
+    height: auto;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #ff2716;
+
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+}

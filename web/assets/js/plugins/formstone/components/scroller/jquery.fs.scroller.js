@@ -565,4 +565,4 @@
 			pub.defaults.apply(this, Array.prototype.slice.call(arguments, 1));
 		}
 	};
-})($);
+})(jQuery);

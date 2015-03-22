@@ -42,11 +42,20 @@ air_sim_social_network_contacts:
 air_sim_social_network_contacts_search:
     path:     /contacts_search_contacts
     defaults: { _controller: AirSimSocialNetworkBundle:Contacts:searchContacts }
+air_sim_social_network_contacts_add:
+    path:     /contacts_add_contacts
+    defaults: { _controller: AirSimSocialNetworkBundle:Contacts:sendFriendRequest }
 
 # ***** Messages ***** #
 air_sim_social_network_messages:
     path:     /chat/{page}
     defaults: { _controller: AirSimSocialNetworkBundle:Chat:chat }
+# AJAX calls
+
+# ***** Photo Albums ***** #
+air_sim_social_network_photo_albums:
+    path:     /photo_albums/{user_id}
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:photoAlbums, user_id: null }
 # AJAX calls
 
 # ***** Map ***** #

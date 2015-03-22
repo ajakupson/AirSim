@@ -2,6 +2,7 @@
 
 namespace AirSim\Bundle\SocialNetworkBundle\Controller;
 
+use AirSim\Bundle\CoreBundle\Security\PrivilegeChecker;
 use AirSim\Bundle\CoreBundle\Services\FileService;
 use AirSim\Bundle\CoreBundle\Services\WallService;
 use AirSim\Bundle\SocialNetworkBundle\Utils\ResponseBuilder;
@@ -13,26 +14,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AirSim\Bundle\CoreBundle\Services\UserService;
 use AirSim\Bundle\CoreBundle\Tools\Constants;
 
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 class UserController extends Controller
 {
     public function userAction($username)
     {
+        $LOG = $this->get('logger');
+        $LOG->info('userAction executed in UserController');
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+        $sessionData = $session->get('sessionData');
+        $userId = $session->get('sessionData')['userInfo']['id'];
+
         $userService = UserService::getInstance();
-        $userId = $userService->getUserIdByUsername($username);
-        $userCompleteData = $userService->getUserData($userId);
-        $lastContacts = $userService->getUserFriends($userId, null, Constants::LAST_CONTACTS_LIMIT);
+        $contactId = $userService->getUserIdByUsername($username);
+        $userCompleteData = $userService->getUserData($contactId);
+        $lastContacts = $userService->getUserFriends($contactId, null, Constants::LAST_CONTACTS_LIMIT);
+
+        $privilegeChecker = PrivilegeChecker::getInstance();
+        $userPrivileges = $privilegeChecker->getUserPrivileges($userId, $contactId);
 
         $photosService = PhotoService::getInstance();
-        $lastPhotos = $photosService->getUserPhotos($userId, null, Constants::LAST_PHOTOS_LIMIT);
+        $lastPhotos = $photosService->getUserPhotos($contactId, null, Constants::LAST_PHOTOS_LIMIT);
 
         $wallService = WallService::getInstance();
-        $wallRecords = $wallService->getWallRecords($userId, 0, Constants::WALL_RECORDS_LIMIT);
+        $wallRecords = $wallService->getWallRecords($contactId, 0, Constants::WALL_RECORDS_LIMIT);
 
-        $randomContacts = $userService->getUserFriends($userId, null, Constants::RANDOM_CONTACTS_LIMIT, true);
+        $randomContacts = $userService->getUserFriends($contactId, null, Constants::RANDOM_CONTACTS_LIMIT, true);
 
         return $this->render('AirSimSocialNetworkBundle:blue/User:user.html.twig', array('userData' => $userCompleteData,
             'lastContacts' => $lastContacts, 'lastPhotos' => $lastPhotos, 'wallRecords' => $wallRecords,
-            'randomContacts' => $randomContacts));
+            'randomContacts' => $randomContacts, 'userPrivileges' => $userPrivileges));
     }
 
     /* ***** AJAX Calls ***** */
@@ -272,6 +286,11 @@ class UserController extends Controller
         $response = ResponseBuilder::BuildResponse(null, null, $receiverId, null, $eventData, $session->get('sessionData'));
 
         return new Response(json_encode($response));
+    }
+
+    public function getUserDataAction()
+    {
+
     }
 
 }

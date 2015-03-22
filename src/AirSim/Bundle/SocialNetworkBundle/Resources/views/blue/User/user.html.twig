@@ -1,484 +1,511 @@
-        {% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
 
-        {% block pageStylesheets %}
-        {#<link href = "{{ asset('assets/css/blue/accordion.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/user.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
+{% block pageStylesheets %}
+{#<link href = "{{ asset('assets/css/blue/accordion.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
+<link href = "{{ asset('assets/css/blue/user.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
 
-        {% stylesheets filter='yui_css' output='assets/css/responsive/minified/user_min.css'
-            'assets/css/blue/responsive/accordion/accordion_1920.css'
-            'assets/css/blue/responsive/user/user_1920.css'
-        %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
-        {% endstylesheets %}
-        {% endblock pageStylesheets %}
+{% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/user_min.css'
+    'bundles/airsimsocialnetwork/css/blue/responsive/accordion/accordion_1920.css'
+    'bundles/airsimsocialnetwork/css/blue/responsive/user/user_1920.css'
+    'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'
+    'bundles/airsimsocialnetwork/css/blue/responsive/test.css'
+%}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+{% endstylesheets %}
+{% endblock pageStylesheets %}
 
-        {% block pageJavaScripts %}
-        <script type="text/javascript">require(['blue/user'])</script>
-        {% endblock pageJavaScripts %}
+{% block pageJavaScripts %}
+    <script type="text/javascript">require(['blue/user'])</script>
+{% endblock pageJavaScripts %}
 
-        {% block pageContent %}
-            {% set counter = 0 %}
-            <input type = "hidden" id = "user_id" value = "{{ userData.userId }}"/>
-            <div class = "user_page_left_content">
-                <section class = "user_page_block user_main_info">
-                    <h1>User info<input type = "button" class = "edit_user_info_btn" value = ""/></h1>
-                        {% if userData.profileCover %}
-                            <div class = "profile" style = "background: url('{{ asset('public_files/user_'~userData.userId~'/albums/profile_covers/'~userData.profileCover) }}')
-                                no-repeat center; background-size: cover;">
-                        {% else %}
-                            <div class = "profile" style = "background: url('{{ asset('public_files/app_default/no_cover_male.jpg') }}')
-                                no-repeat center; background-size: cover;">
-                        {% endif %}
-                        <div class = "profile_main_info">
-                            <div class = "accordion" id = "accordion">
-                                <div class = "accordion_tab">
-                                    Main information
-                                    <input type = "button" class = "expand_button" value = ""/>
-                                </div>
-                                <div class = "accordion_content">
-                                    <div id = "main_info" class = "user_info">
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Phone operator:</div>
-                                            <span class = "info_line_data">{{ userData.operator }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Date of birth:</div>
-                                            <span class = "info_line_data">{{ userData.birthdate | date('d.m.Y') }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div id = "education_info" class = "user_info">
-                                                <div class = "info_line_title">High education:</div><div class = "clear"></div>
-                                                <div id = "degree" class = "user_info">
-                                                    {% for highEducation in userData.getHighEducations() %}
-                                                        <div class = "info_line_title underlined">Degree:</div><div class = "clear"></div>
-                                                        <div class = "info_line_title">University:</div>
-                                                        <span class = "info_line_data">{{ highEducation.university }}</span><div class = "clear"></div>
-                                                        <div class = "info_line_title">Faculty:</div>
-                                                        <span class = "info_line_data">{{ highEducation.faculty }}</span><div class = "clear"></div>
-                                                        <div class = "info_line_title">Speciality:</div>
-                                                        <span class = "info_line_data">{{ highEducation.speciality }}</span><div class = "clear"></div>
-                                                        <div class = "info_line_title">Degree:</div>
-                                                        <span class = "info_line_data">{{ highEducation.degree }}</span><div class = "clear"></div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div id = "work_info" class = "user_info">
-                                                <div class = "info_line_title">Career:</div><div class = "clear"></div>
-                                                <div id = "workplace" class = "user_info">
-                                                    {% for workplace in userData.getWorkplaces() %}
-                                                        <div class = "info_line_title underlined">Workplace:</div><div class = "clear"></div>
-                                                        <div class = "info_line_title">Company:</div>
-                                                        <span class = "info_line_data">{{ workplace.company }}</span><div class = "clear"></div>
-                                                        <div class = "info_line_title">Position:</div>
-                                                        <span class = "info_line_data">{{ workplace.position }}</span><div class = "clear"></div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                         </div>
-                                    </div>
-                                </div>
-                                <div class = "accordion_tab">
-                                    Additional information
-                                    <input type = "button" class = "expand_button" value = ""/>
-                                </div>
-                                <div class = "accordion_content">
-                                    <div id = "additional_info" class = "user_info">
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Email:</div>
-                                            <span class = "info_line_data">{{ userData.email }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Country:</div>
-                                            <span class = "info_line_data">{{ userData.country }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">City:</div>
-                                            <span class = "info_line_data">{{ userData.city }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Street:</div>
-                                            <span class = "info_line_data">{{ userData.address }}</span><div class = "clear"></div>
-                                        </div>
-                                        <div class = "info_line_wrap">
-                                            <div class = "info_line_title">Website:</div>
-                                            <span class = "info_line_data">{{ userData.website }}</span><div class = "clear"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class = "accordion_tab">
-                                    Hobbies
-                                    <input type = "button" class = "expand_button" value = ""/>
-                                </div>
-                                <div class = "accordion_content last">
-                                    <div id = "hobbies_info" class = "user_info">
-                                        TODO: Add hobbies functionality
-                                    </div>
-                                </div>
-                            </div>
+{% block pageContent %}
+{#{% if not userPrivileges.isBlocked %}#}
+    {% set counter = 0 %}
+    <input type = "hidden" id = "user_id" value = "{{ userData.userId }}"/>
+    <div class = "user_page_left_content">
+        <section class = "user_page_block user_main_info">
+            <h1>User info<input type = "button" class = "edit_user_info_btn" value = ""/></h1>
+                {% if userData.profileCover %}
+                    <div class = "profile" style = "background: url('{{ asset('public_files/user_'~userData.userId~'/albums/profile_covers/'~userData.profileCover) }}')
+                        no-repeat center; background-size: cover;">
+                {% else %}
+                    <div class = "profile" style = "background: url('{{ asset('public_files/app_default/no_cover_male.jpg') }}')
+                        no-repeat center; background-size: cover;">
+                {% endif %}
+                <div class = "profile_main_info">
+                    {% if not userPrivileges.isBlocked %}
+                    <div class = "accordion" id = "accordion">
+                        <div class = "accordion_tab">
+                            Main information
+                            <input type = "button" class = "expand_button" value = ""/>
                         </div>
-                        <div class = "profile_pics_wrapper">
-                            {% if userData.webProfilePic %}
-                                <img class = "user_ava" src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
-                            {% else %}
-                                <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
-                            {% endif %}
-                        </div>
-                        <p class = "clear"></p>
-                        <div class = "contact_menu">
-                            <input type = "button" class = "contact_menu_button add_contact_button" value = "Add to friends"/>
-                            <input type = "button" class = "contact_menu_button send_message_button write_message" value = "Send message"/>
-                            <input type = "button" class = "contact_menu_button user_photos_button" value = "User photos"/>
-                            <input type = "button" class = "contact_menu_button common_album_button" value = "Common photo album"/>
-                            <input type = "button" class = "contact_menu_button add_to_favorites_button" value = "Add to favorites"/>
-                            <input type = "button" class = "contact_menu_button block_user_button" value = "Block user"/>
-                        </div>
-                    </div>
-                </section>
-                <section class = "user_page_block user_last_contacts">
-                    <h1>Last added contacts</h1>
-                    <div class = "last_contacts_wrapper">
-                        <ul class = "last_contacts_list">
-                            {% for contact in lastContacts %}
-                                {% set counter = counter + 1 %}
-                                <li>
-                                    <a href = "{{ contact.login }}">
-                                        {% if contact.webProfilePic %}
-                                            <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
-                                        {% else %}
-                                            <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
-                                        {% endif %}
-                                        <span class = "name_family">
-                                            {{ contact.firstName }}<br/>{{ contact.lastName }}
-                                        </span>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                            {% for i in counter..7 %}<li></li>{% endfor %}
-                            {% set counter = 0 %}
-                        </ul>
-                    </div>
-                    <p class = "clear"></p>
-                </section>
-                <section class = "user_page_block user_last_photos">
-                    <h1>Last added photos</h1>
-                    <div class = "last_photos_wrapper">
-                        <ul class = "last_photos_list">
-                            {% for photo in lastPhotos|slice(0, 6) %}
-                                {% set counter = counter + 1 %}
-                                <li>
-                                    <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
-                                            class = "photo"/><br/>
-                                    <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
-                                </li>
-                            {% endfor %}
-                            {% if counter != 6 %}
-                                {% for i in counter..6 %}<li></li>{% endfor %}
-                            {% endif %}
-                            {% set counter = 0 %}
-                        </ul>
-                        <ul class = "last_photos_list">
-                            {% for photo in lastPhotos|slice(6, 11) %}
-                                {% set counter = counter + 1 %}
-                                <li>
-                                    <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
-                                         class = "photo"/>
-                                    <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
-                                </li>
-                            {% endfor %}
-                            {% if counter != 6 %}
-                                {% for i in counter..6 %}<li></li>{% endfor %}
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <p class = "clear"></p>
-                </section>
-                <section class = "user_page_block user_wall">
-                    <h1>Wall</h1>
-                    <div class = "wall_wrapper">
-                        <div class = "wall_record_add_wrapper">
-                            <input type = "text" class = "wall_record_title_input" placeholder = "Record title"/>
-                            <textarea id = "wall_record_text" placeholder = "Share Your thoughts ..."></textarea>
-                            <input type = "button" class = "post_wall_record_button" id = "post_wall_record_button" value = "Post"/>
-                            <div class = "attach_files_wrapper">
-                                <ul>
-                                    <li class = "has_sub attach_button attach_files_button">
-                                        Attach file
-                                        <ul>
-                                            <li class = "attach_button attach_images_button">
-                                                Attach image
-                                                <form id = "wall_record_attach_images_form">
-                                                    <input type = "file" multiple = "" accept = "image/*" class = "input_file_transparent"
-                                                        name = "wall_record_attached_images[]" id = "wall_record_attached_images" value = ""/>
-                                                </form>
-                                            </li>
-                                            <li class = "attach_button attach_documents_button">
-                                                 Attach document
-                                                 <form id = "wall_record_attach_documents_form">
-                                                     <input type = "file" multiple = "" accept = ".csv, application/msword,#}
-                                                         application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-                                                         application/vnd.ms-excel, application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-                                                         text/plain, application/pdf, .zip, .rar, .7zip" class = "input_file_transparent"
-                                                            name = "wall_record_attached_documents[]" id = "wall_record_attached_documents" value = ""/>
-                                                 </form>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class = "clear"></div>
-                            <div class = "wall_record_added_images" id = "wall_record_added_images">
-                                <ul>
-                                    {# Preview Image Template #}
-                                    <li class = "hidden">
-                                        <div class = "toolbar">
-                                            <input type = "button" class = "delete_button"/>
-                                            <input type = "checkbox" class = "toolbar_checkbox" id = "check_image_to_delete"/>
-                                            <label for = "check_image_to_delete">
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    {# End Of Preview Image Template#}
-                                </ul>
-                            </div>
-                            <div class = "clear"></div>
-                            <div class = "wall_record_added_documents">
-                                <ul></ul>
-                            </div>
-                        </div>
-                        <div class = "wall_records_wrapper">
-                            {# Wall record template #}
-                            <article class = "wall_record hidden" id = "wall_record_template">
-                                <input type = "hidden" class = "wall_record_id" value = ""/>
-                                <div class = "wall_record_date_time">
-                                    <span class = "date" ></span><br/>
-                                    <span class = "time"></span>
+                        <div class = "accordion_content">
+                            <div id = "main_info" class = "user_info">
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Phone operator:</div>
+                                    <span class = "info_line_data">{{ userData.operator }}</span><div class = "clear"></div>
                                 </div>
-                                <div class = "timeline">
-                                    <span class = "wall_record_icon text_icon"></span>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Date of birth:</div>
+                                    <span class = "info_line_data">{{ userData.birthdate | date('d.m.Y') }}</span><div class = "clear"></div>
                                 </div>
-                                <div class = "wall_record_content">
-                                    <input type = "button" class = "delete_button wall_record_delete"/>
-                                    <input type = "button" class = "edit_button wall_record_edit"/>
-                                    <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete"/>
-                                    <label for = "check_wall_record_to_delete">
-                                        <span></span>
-                                    </label>
-                                    <h1></h1>
-                                    <div class = "wall_record_author">
-                                        <img/>
-                                        <p class = "author_name"></p>
-                                    </div>
-                                    <div class = "wall_record_text">
-                                    </div>
-                                    <div class = "clear"></div>
-                                    <div class = "wall_record_images">
-                                        <ul>
-                                        </ul>
-                                        <div class = "clear"></div>
-                                    </div>
-                                    <div class = "wall_record_buttons">
-                                        <input type = "button" class = "like_button"/>
-                                        <div class = "likes">0</div>
-                                        <input type = "button" class = "dislike_button"/>
-                                        <div class = "dislikes">0</div>
-                                    </div>
-                                    <div class = "wall_record_replies_wrapper">
-                                    </div>
-                                    <textarea placeholder="Comment record ..." class = "wall_record_reply_text"></textarea>
-                                    <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
-                                    <p class = "clear"></p>
-                                </div>
-                                <p class = "clear"></p>
-                            </article>
-                            {# End of wall record template #}
-
-                            {# Wall record reply template #}
-                            <div id = "wall_record_reply_template" class = "hidden">
-                                <div class = "wall_record_reply">
-                                    <input type = "button" class = "delete_button wall_record_delete"/>
-                                    <input type = "button" class = "edit_button wall_record_edit"/>
-                                    <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete"/>
-                                    <label for = "check_wall_record_comment_to_delete">
-                                        <span></span>
-                                    </label>
-                                    <div class = "wall_record_reply_author">
-                                        <img/>
-                                        <p class = "author_name"></p>
-                                    </div>
-                                </div>
-                                <div class = "wall_record_text_reply">
-                                </div>
-                                <p class = "clear"></p>
-                            </div>
-                            {# End of wall record reply template #}
-
-                            {% for wallRecord in wallRecords %}
-                                <article class = "wall_record">
-                                    <input type = "hidden" class = "wall_record_id" value = "{{ wallRecord[0].wallRecId }}"/>
-                                    <div class = "wall_record_date_time">
-                                        <span class = "date">{{ wallRecord[0].dateAdded |date('d/m/Y') }}</span><br/>
-                                        <span class = "time">{{ wallRecord[0].dateAdded |date('H:i') }}</span>
-                                    </div>
-                                    <div class = "timeline">
-                                        <span class = "wall_record_icon text_icon"></span>
-                                    </div>
-                                    <div class = "wall_record_content">
-                                        {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
-                                            or app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
-                                            <input type = "button" class = "delete_button wall_record_delete"/>
-                                        {% endif %}
-                                        {% if app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
-                                            <input type = "button" class = "edit_button wall_record_edit record_edit"/>
-                                        {% endif %}
-                                        {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
-                                            or app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
-                                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}"/>
-                                        {% endif %}
-                                        <label for = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}">
-                                            <span></span>
-                                        </label>
-                                        <div class = "title_wrap">
-                                            <h1>Wall record title</h1>
-                                        </div><div class = "clear"></div>
-                                        <div class = "wall_record_author">
-                                            {% if wallRecord.webProfilePic %}
-                                            <img src = "{{ ('public_files/user_'~wallRecord.userId~'/albums/profile_pics/'~wallRecord.webProfilePic) | apply_filter('avatar') }}" />
-                                            {% else %}
-                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}" />
-                                            {% endif %}
-                                            <p class = "author_name">{{ wallRecord.firstName }} {{ wallRecord.lastName }}</p>
-                                        </div>
-                                        <div class = "wall_record_text">
-                                            {{ wallRecord[0].recordText }}
-                                        </div>
-                                        <div class = "clear"></div>
-                                        <div class = "wall_record_images">
-                                            <ul>
-                                                {% for wallRecordPicture in  wallRecord.wallRecordPictures %}
-                                                    <li>
-                                                        <img src = "{{ ('public_files/user_'~userData.userId~'/albums/wall_pics/'~wallRecordPicture.photoName) | apply_filter('wall_rec_img') }}"
-                                                                class = "photo"/>
-                                                        <br/>
-                                                        <input type = "hidden" class = "photo_id" value = "{{ wallRecordPicture.photoId }}"/>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                            <div class = "clear"></div>
-                                        </div>
-                                        <div class = "wall_record_buttons">
-                                            <input type = "button" class = "like_button"/>
-                                            <div class = "likes">{{ wallRecord.totalLikes }}</div>
-                                            <input type = "button" class = "dislike_button"/>
-                                            <div class = "dislikes">
-                                                {% if wallRecord.totalDislikes > 0 %}-{% endif %}{{ wallRecord.totalDislikes }}
-                                            </div>
-                                        </div>
-                                        <div class = "wall_record_replies_wrapper">
-                                            {% for wallRecordComment in  wallRecord.wallRecordComments %}
-                                                <div>
-                                                    <div class = "wall_record_reply">
-                                                        {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
-                                                            or app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
-                                                            <input type = "button" class = "delete_button wall_record_delete small"/>
-                                                        {% endif %}
-                                                        {% if app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
-                                                            <input type = "button" class = "edit_button wall_record_edit comment_edit small"/>
-                                                        {% endif %}
-                                                        {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
-                                                            or app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
-                                                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}"/>
-                                                        {% endif %}
-                                                        <label for = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}">
-                                                            <span class = "small"></span>
-                                                        </label>
-                                                        <div class = "wall_record_reply_author">
-                                                            {% if wallRecordComment.webProfilePic %}
-                                                                <img src = "{{ ('public_files/user_'~wallRecordComment.userId~'/albums/profile_pics/'~wallRecordComment.webProfilePic) | apply_filter('avatar') }}"/>
-                                                            {% else %}
-                                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
-                                                            {% endif %}
-                                                            <p class = "author_name">{{ wallRecordComment.firstName }} {{ wallRecordComment.lastName }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class = "wall_record_text_reply">
-                                                        {{ wallRecordComment[0].replyText }}
-                                                    </div>
-                                                    <p class = "clear"></p>
-                                                </div>
+                                <div class = "info_line_wrap">
+                                    <div id = "education_info" class = "user_info">
+                                        <div class = "info_line_title">High education:</div><div class = "clear"></div>
+                                        <div id = "degree" class = "user_info">
+                                            {% for highEducation in userData.getHighEducations() %}
+                                                <div class = "info_line_title underlined">Degree:</div><div class = "clear"></div>
+                                                <div class = "info_line_title">University:</div>
+                                                <span class = "info_line_data">{{ highEducation.university }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Faculty:</div>
+                                                <span class = "info_line_data">{{ highEducation.faculty }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Speciality:</div>
+                                                <span class = "info_line_data">{{ highEducation.speciality }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Degree:</div>
+                                                <span class = "info_line_data">{{ highEducation.degree }}</span><div class = "clear"></div>
                                             {% endfor %}
-                                            {% if wallRecord.wallRecordComments|length > 0 %}
-                                                <div class = "show_more show_more_comments">
-                                                    Show all comments
-                                                </div>
-                                            {% endif %}
                                         </div>
-                                        <textarea placeholder = "Comment record ..." class = "wall_record_reply_text"></textarea>
-                                        <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
-                                        <p class = "clear"></p>
                                     </div>
-                                    <p class = "clear"></p>
-                                </article>
-                            {% endfor %}
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div id = "work_info" class = "user_info">
+                                        <div class = "info_line_title">Career:</div><div class = "clear"></div>
+                                        <div id = "workplace" class = "user_info">
+                                            {% for workplace in userData.getWorkplaces() %}
+                                                <div class = "info_line_title underlined">Workplace:</div><div class = "clear"></div>
+                                                <div class = "info_line_title">Company:</div>
+                                                <span class = "info_line_data">{{ workplace.company }}</span><div class = "clear"></div>
+                                                <div class = "info_line_title">Position:</div>
+                                                <span class = "info_line_data">{{ workplace.position }}</span><div class = "clear"></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
                         </div>
-                        <div class = "show_more show_more_wall_records">
-                            Show 10 more wall records
+                        <div class = "accordion_tab">
+                            Additional information
+                            <input type = "button" class = "expand_button" value = ""/>
+                        </div>
+                        <div class = "accordion_content">
+                            <div id = "additional_info" class = "user_info">
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Email:</div>
+                                    <span class = "info_line_data">{{ userData.email }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Country:</div>
+                                    <span class = "info_line_data">{{ userData.country }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">City:</div>
+                                    <span class = "info_line_data">{{ userData.city }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Street:</div>
+                                    <span class = "info_line_data">{{ userData.address }}</span><div class = "clear"></div>
+                                </div>
+                                <div class = "info_line_wrap">
+                                    <div class = "info_line_title">Website:</div>
+                                    <span class = "info_line_data">{{ userData.website }}</span><div class = "clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "accordion_tab">
+                            Hobbies
+                            <input type = "button" class = "expand_button" value = ""/>
+                        </div>
+                        <div class = "accordion_content last">
+                            <div id = "hobbies_info" class = "user_info">
+                                TODO: Add hobbies functionality
+                            </div>
                         </div>
                     </div>
-                </section>
+                    {% else %}
+                        <div class="blocked">You are blocked by this user!</div>
+                    {% endif %}
+                </div>
+                <div class = "profile_pics_wrapper">
+                    {% if userData.webProfilePic %}
+                        <img class = "user_ava" src = "{{ asset('public_files/user_'~userData.userId~'/albums/profile_pics/'~userData.webProfilePic) }}"/>
+                    {% else %}
+                        <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                    {% endif %}
+                </div>
+                <p class = "clear"></p>
+                {% if not userPrivileges.isBlocked and (app.session.get('sessionData') is not null and userPrivileges.contactId != app.session.get('sessionData')['userInfo']['id']) %}
+                    <div class = "contact_menu">
+                        {% if not userPrivileges.isFriend %}
+                            <input type = "button" class = "contact_menu_button add_contact_button" value = "Add to friends"/>
+                        {% endif %}
+                        <input type = "button" class = "contact_menu_button send_message_button write_message" value = "Send message"/>
+                        <input type = "button" class = "contact_menu_button user_photos_button" value = "User photos"/>
+                        <input type = "button" class = "contact_menu_button common_album_button" value = "Common photo album"/>
+                        <input type = "button" class = "contact_menu_button add_to_favorites_button" value = "Add to favorites"/>
+                        <input type = "button" class = "contact_menu_button block_user_button" value = "Block user"/>
+                    </div>
+                {% endif %}
             </div>
-            <div class = "user_page_right_content">
-                <section class = "user_page_block user_location">
-                    <h1>User location</h1>
-                    <div class = "static_map">
-                        <img src = "http://maps.googleapis.com/maps/api/staticmap?center=Tallinn,Estonia&zoom=14&size=570x400&maptype=roadmap&sensor=false"/>
+        </section>
+        {% if not userPrivileges.isBlocked %}
+        <section class = "user_page_block user_last_contacts">
+            <h1>Last added contacts</h1>
+            <div class = "last_contacts_wrapper">
+                <ul class = "last_contacts_list">
+                    {% for contact in lastContacts %}
+                        {% set counter = counter + 1 %}
+                        <li>
+                            <a href = "{{ contact.login }}">
+                                {% if contact.webProfilePic %}
+                                    <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                {% else %}
+                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                {% endif %}
+                                <span class = "name_family">
+                                    {{ contact.firstName }}<br/>{{ contact.lastName }}
+                                </span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% for i in counter..7 %}<li></li>{% endfor %}
+                    {% set counter = 0 %}
+                </ul>
+            </div>
+            <p class = "clear"></p>
+        </section>
+        <section class = "user_page_block user_last_photos">
+            <h1>Last added photos</h1>
+            <div class = "last_photos_wrapper">
+                <ul class = "last_photos_list">
+                    {% for photo in lastPhotos|slice(0, 6) %}
+                        {% set counter = counter + 1 %}
+                        <li>
+                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                                    class = "photo"/><br/>
+                            <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
+                        </li>
+                    {% endfor %}
+                    {% if counter != 6 %}
+                        {% for i in counter..6 %}<li></li>{% endfor %}
+                    {% endif %}
+                    {% set counter = 0 %}
+                </ul>
+                <ul class = "last_photos_list">
+                    {% for photo in lastPhotos|slice(6, 11) %}
+                        {% set counter = counter + 1 %}
+                        <li>
+                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                                 class = "photo"/>
+                            <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
+                        </li>
+                    {% endfor %}
+                    {% if counter != 6 %}
+                        {% for i in counter..6 %}<li></li>{% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <p class = "clear"></p>
+        </section>
+        <section class = "user_page_block user_wall">
+            <h1>Wall</h1>
+            <div class = "wall_wrapper">
+                {% if userPrivileges.isLoggedIn %}
+                <div class = "wall_record_add_wrapper">
+                    <input type = "text" class = "wall_record_title_input" placeholder = "Record title"/>
+                    <textarea id = "wall_record_text" placeholder = "Share Your thoughts ..."></textarea>
+                    <input type = "button" class = "post_wall_record_button" id = "post_wall_record_button" value = "Post"/>
+                    <div class = "attach_files_wrapper">
+                        <ul>
+                            <li class = "has_sub attach_button attach_files_button">
+                                Attach file
+                                <ul>
+                                    <li class = "attach_button attach_images_button">
+                                        Attach image
+                                        <form id = "wall_record_attach_images_form">
+                                            <input type = "file" multiple = "" accept = "image/*" class = "input_file_transparent"
+                                                name = "wall_record_attached_images[]" id = "wall_record_attached_images" value = ""/>
+                                        </form>
+                                    </li>
+                                    <li class = "attach_button attach_documents_button">
+                                         Attach document
+                                         <form id = "wall_record_attach_documents_form">
+                                             <input type = "file" multiple = "" accept = ".csv, application/msword,#}
+                                                 application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                                                 application/vnd.ms-excel, application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                                                 text/plain, application/pdf, .zip, .rar, .7zip" class = "input_file_transparent"
+                                                    name = "wall_record_attached_documents[]" id = "wall_record_attached_documents" value = ""/>
+                                         </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                </section>
-                <div class="user_status_block">
-                    <div class="user_status_text">
-                        Уехал в Австралию с друзьями на 2 недели! :))
+                    <div class = "clear"></div>
+                    <div class = "wall_record_added_images" id = "wall_record_added_images">
+                        <ul>
+                            {# Preview Image Template #}
+                            <li class = "hidden">
+                                <div class = "toolbar">
+                                    <input type = "button" class = "delete_button"/>
+                                    <input type = "checkbox" class = "toolbar_checkbox" id = "check_image_to_delete"/>
+                                    <label for = "check_image_to_delete">
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </li>
+                            {# End Of Preview Image Template#}
+                        </ul>
                     </div>
-                    <div class="user_status_updated">
-                        Updated 2 days ago
+                    <div class = "clear"></div>
+                    <div class = "wall_record_added_documents">
+                        <ul></ul>
                     </div>
                 </div>
-                <section class = "user_page_block user_contacts">
-                    <h1>Contacts</h1>
-                    <ul class = "contacts_list">
-                        {% for contact in randomContacts %}
-                            <li>
-                                <a href = "{{ contact.login }}">
-                                    {% if contact.webProfilePic %}
-                                        <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                {% endif %}
+                <div class = "wall_records_wrapper">
+                    {# Wall record template #}
+                    <article class = "wall_record hidden" id = "wall_record_template">
+                        <input type = "hidden" class = "wall_record_id" value = ""/>
+                        <div class = "wall_record_date_time">
+                            <span class = "date" ></span><br/>
+                            <span class = "time"></span>
+                        </div>
+                        <div class = "timeline">
+                            <span class = "wall_record_icon text_icon"></span>
+                        </div>
+                        <div class = "wall_record_content">
+                            <input type = "button" class = "delete_button wall_record_delete"/>
+                            <input type = "button" class = "edit_button wall_record_edit"/>
+                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete"/>
+                            <label for = "check_wall_record_to_delete">
+                                <span></span>
+                            </label>
+                            <h1></h1>
+                            <div class = "wall_record_author">
+                                <img/>
+                                <p class = "author_name"></p>
+                            </div>
+                            <div class = "wall_record_text">
+                            </div>
+                            <div class = "clear"></div>
+                            <div class = "wall_record_images">
+                                <ul>
+                                </ul>
+                                <div class = "clear"></div>
+                            </div>
+                            <div class = "wall_record_buttons">
+                                <input type = "button" class = "like_button"/>
+                                <div class = "likes">0</div>
+                                <input type = "button" class = "dislike_button"/>
+                                <div class = "dislikes">0</div>
+                            </div>
+                            <div class = "wall_record_replies_wrapper">
+                            </div>
+                            <textarea placeholder="Comment record ..." class = "wall_record_reply_text"></textarea>
+                            <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
+                            <p class = "clear"></p>
+                        </div>
+                        <p class = "clear"></p>
+                    </article>
+                    {# End of wall record template #}
+
+                    {# Wall record reply template #}
+                    <div id = "wall_record_reply_template" class = "hidden">
+                        <div class = "wall_record_reply">
+                            <input type = "button" class = "delete_button wall_record_delete"/>
+                            <input type = "button" class = "edit_button wall_record_edit"/>
+                            <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete"/>
+                            <label for = "check_wall_record_comment_to_delete">
+                                <span></span>
+                            </label>
+                            <div class = "wall_record_reply_author">
+                                <img/>
+                                <p class = "author_name"></p>
+                            </div>
+                        </div>
+                        <div class = "wall_record_text_reply">
+                        </div>
+                        <p class = "clear"></p>
+                    </div>
+                    {# End of wall record reply template #}
+
+                    {% for wallRecord in wallRecords %}
+                        <article class = "wall_record">
+                            <input type = "hidden" class = "wall_record_id" value = "{{ wallRecord[0].wallRecId }}"/>
+                            <div class = "wall_record_date_time">
+                                <span class = "date">{{ wallRecord[0].dateAdded |date('d/m/Y') }}</span><br/>
+                                <span class = "time">{{ wallRecord[0].dateAdded |date('H:i') }}</span>
+                            </div>
+                            <div class = "timeline">
+                                <span class = "wall_record_icon text_icon"></span>
+                            </div>
+                            <div class = "wall_record_content">
+                            {% if userPrivileges.isLoggedIn %}
+                                {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
+                                    or app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
+                                    <input type = "button" class = "delete_button wall_record_delete"/>
+                                {% endif %}
+                                {% if app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
+                                    <input type = "button" class = "edit_button wall_record_edit record_edit"/>
+                                {% endif %}
+                                {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
+                                    or app.session.get('sessionData')['userInfo']['id'] == wallRecord[0].authorId %}
+                                    <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}"/>
+                                {% endif %}
+                            {% endif %}
+                                <label for = "check_wall_record_to_delete_{{ wallRecord[0].wallRecId }}">
+                                    <span></span>
+                                </label>
+                                <div class = "title_wrap">
+                                    <h1>Wall record title</h1>
+                                </div><div class = "clear"></div>
+                                <div class = "wall_record_author">
+                                    {% if wallRecord.webProfilePic %}
+                                    <img src = "{{ ('public_files/user_'~wallRecord.userId~'/albums/profile_pics/'~wallRecord.webProfilePic) | apply_filter('avatar') }}" />
                                     {% else %}
-                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}" />
                                     {% endif %}
-                                    <span class = "name_family">
-                                        {{ contact.firstName }}<br/>{{ contact.lastName }}
-                                    </span>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <p class = "clear"></p>
-                </section>
-                <section class = "user_page_block user_photos">
-                    <h1>User's photos</h1>
-                    <ul class = "contacts_list">
-                        {% for i in 1..16 %}
-                            <li>
-                                <a href = "#">
-                                    <img src = "{{ ('assets/images/formockup/img'~i~'.jpg') | apply_filter('users_photo') }}"/><br/>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
+                                    <p class = "author_name">{{ wallRecord.firstName }} {{ wallRecord.lastName }}</p>
+                                </div>
+                                <div class = "wall_record_text">
+                                    {{ wallRecord[0].recordText }}
+                                </div>
+                                <div class = "clear"></div>
+                                <div class = "wall_record_images">
+                                    <ul>
+                                        {% for wallRecordPicture in  wallRecord.wallRecordPictures %}
+                                            <li>
+                                                <img src = "{{ ('public_files/user_'~userData.userId~'/albums/wall_pics/'~wallRecordPicture.photoName) | apply_filter('wall_rec_img') }}"
+                                                        class = "photo"/>
+                                                <br/>
+                                                <input type = "hidden" class = "photo_id" value = "{{ wallRecordPicture.photoId }}"/>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class = "clear"></div>
+                                </div>
+                                {% if userPrivileges.isLoggedIn %}
+                                <div class = "wall_record_buttons">
+                                    <input type = "button" class = "like_button"/>
+                                    <div class = "likes">{{ wallRecord.totalLikes }}</div>
+                                    <input type = "button" class = "dislike_button"/>
+                                    <div class = "dislikes">
+                                        {% if wallRecord.totalDislikes > 0 %}-{% endif %}{{ wallRecord.totalDislikes }}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if wallRecord.wallRecordComments|length > 0 %}
+                                <div class = "wall_record_replies_wrapper">
+                                    {% for wallRecordComment in  wallRecord.wallRecordComments %}
+                                        <div>
+                                            <div class = "wall_record_reply">
+                                            {% if userPrivileges.isLoggedIn %}
+                                                {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
+                                                    or app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
+                                                    <input type = "button" class = "delete_button wall_record_delete small"/>
+                                                {% endif %}
+                                                {% if app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
+                                                    <input type = "button" class = "edit_button wall_record_edit comment_edit small"/>
+                                                {% endif %}
+                                                {% if app.session.get('sessionData')['userInfo']['id'] == userData.userId
+                                                    or app.session.get('sessionData')['userInfo']['id'] == wallRecordComment.userId %}
+                                                    <input type = "checkbox" class = "toolbar_checkbox wall_record_check" id = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}"/>
+                                                {% endif %}
+                                                <label for = "check_wall_record_comment_to_delete_{{ wallRecordComment[0].replyId }}">
+                                                    <span class = "small"></span>
+                                                </label>
+                                            {% endif %}
+                                                <div class = "wall_record_reply_author">
+                                                    {% if wallRecordComment.webProfilePic %}
+                                                        <img src = "{{ ('public_files/user_'~wallRecordComment.userId~'/albums/profile_pics/'~wallRecordComment.webProfilePic) | apply_filter('avatar') }}"/>
+                                                    {% else %}
+                                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
+                                                    {% endif %}
+                                                    <p class = "author_name">{{ wallRecordComment.firstName }} {{ wallRecordComment.lastName }}</p>
+                                                </div>
+                                            </div>
+                                            <div class = "wall_record_text_reply">
+                                                {{ wallRecordComment[0].replyText }}
+                                            </div>
+                                            <p class = "clear"></p>
+                                        </div>
+                                    {% endfor %}
+                                    {% if wallRecord.wallRecordComments|length > 0 %}
+                                        <div class = "show_more show_more_comments">
+                                            Show all comments
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                {% if userPrivileges.isLoggedIn %}
+                                <textarea placeholder = "Comment record ..." class = "wall_record_reply_text"></textarea>
+                                <input type = "button" class = "wall_rec_reply_button right" value = "Reply"/>
+                                {% endif %}
+                                <p class = "clear"></p>
+                            </div>
+                            <p class = "clear"></p>
+                        </article>
+                    {% endfor %}
+                </div>
+                <div class = "show_more show_more_wall_records">
+                    Show 10 more wall records
+                </div>
             </div>
+        </section>
+    </div>
+    <div class = "user_page_right_content">
+        <section class = "user_page_block user_location">
+            <h1>User location</h1>
+            <div class = "static_map">
+                <img src = "http://maps.googleapis.com/maps/api/staticmap?center=Tallinn,Estonia&zoom=14&size=570x400&maptype=roadmap&sensor=false"/>
+            </div>
+        </section>
+        <div class="user_status_block">
+            <div class="user_status_text">
+                Уехал в Австралию с друзьями на 2 недели! :))
+            </div>
+            <div class="user_status_updated">
+                Updated 2 days ago
+            </div>
+        </div>
+        <section class = "user_page_block user_contacts">
+            <h1>Contacts</h1>
+            <ul class = "contacts_list">
+                {% for contact in randomContacts %}
+                    <li>
+                        <a href = "{{ contact.login }}">
+                            {% if contact.webProfilePic %}
+                                <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                            {% else %}
+                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                            {% endif %}
+                            <span class = "name_family">
+                                {{ contact.firstName }}<br/>{{ contact.lastName }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p class = "clear"></p>
+        </section>
+        <section class = "user_page_block user_photos">
+            <h1>User's photos</h1>
+            <ul class = "contacts_list">
+                {% for i in 1..16 %}
+                    <li>
+                        <a href = "#">
+                            <img src = "{{ ('assets/images/formockup/img'~i~'.jpg') | apply_filter('users_photo') }}"/><br/>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+    {% endif %}
 
-            <!-- ********** Dialog Windows ********** -->
-            <!-- ********** End Of Dialog Windows ********** -->
-
-        {% endblock pageContent %}
+    <!-- ********** Dialog Windows ********** -->
+    <!-- ********** End Of Dialog Windows ********** -->
+{#{% else %}#}
+    {#<div class="blocked">You are blocked by this user!</div>#}
+{#{% endif %}#}
+{% endblock pageContent %}

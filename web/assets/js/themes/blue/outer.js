@@ -24,7 +24,7 @@ define(
         // About Us Dialog
         $('#about_dialog').dialog('init',
         {
-            top: '-151px',
+            top: '-191px',
             draggable: true
         });
         $('#about_us').click(function()
@@ -35,7 +35,7 @@ define(
         // Contact Dialog
         $('#contact_dialog').dialog('init',
         {
-            top: '-151px'
+            top: '-191px'
         });
         $('#contact').click(function()
         {
@@ -43,7 +43,10 @@ define(
         });
 
         // Select Language Dialog
-        $('#select_language_dialog').dialog('init');
+        $('#select_language_dialog').dialog('init',
+        {
+            top: '-191px'
+        });
         $('#choose_lang_btn').click(function()
         {
             $('#select_language_dialog').dialog('open');

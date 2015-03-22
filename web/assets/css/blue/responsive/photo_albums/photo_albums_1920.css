@@ -1,0 +1,99 @@
+.albums_wrapper
+{
+    height: auto;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 2%;
+}
+
+.albums_nav ul li
+{
+    width: 50%;
+}
+
+.albumTypes
+{
+    width: 100%;
+    height: auto;
+    background: #27a9ff;
+}
+.albumTypes ul
+{
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.albumTypes ul li
+{
+    width: 50%;
+    height: auto;
+    list-style: none;
+    float: left;
+    text-align: center;
+    padding: 15px 0 15px 0;
+    font-size: 0.8em;
+    color: white;
+    font-weight: bold;
+    border-bottom: 5px solid #279aff;
+
+    transition: background .3s;
+}
+.albumTypes ul li:hover
+{
+    background: #8fd2fe;
+}
+.albumTypes ul li.active
+{
+    background: #279aff;
+    line-height: 20px;
+    margin-top: -4px;
+}
+
+.albumsContainer
+{
+    font-size: 0.8em;
+}
+
+.album
+{
+    position: relative;
+    border-bottom: 1px solid #d3d3d3;
+}
+.album ul
+{
+    width: 80%;
+    height: auto;
+    float: right;
+    margin-bottom: 0;
+}
+.album ul li
+{
+    width: 11%;
+    height: 11%;
+    list-style: none;
+    float: right;
+    display: inline-block;
+    margin: 0 10px 10px 10px;
+}
+.album ul li img.photo
+{
+    width: 100%;
+    height: auto;
+}
+.albumTitle
+{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: lightgrey;
+}
+
+.photo
+{
+    cursor: pointer;
+    border: 1px solid #d3d3d3;
+}

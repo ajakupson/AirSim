@@ -1,0 +1,146 @@
+{% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
+
+{% block pageStylesheets %}
+    {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/photo_albums_min.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/photo_albums/photo_albums_1920.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    {% endstylesheets %}
+
+{% endblock pageStylesheets %}
+
+{% block pageJavaScripts %}
+    <script type="text/javascript">require(['blue/photo_albums'])</script>
+{% endblock pageJavaScripts %}
+
+{% block pageContent %}
+    <div class = "albums_wrapper">
+        <nav id = "albums_tabs" class = "tabs_nav albums_nav">
+            <ul>
+                <li class = "active" tab = "albums_tab">My Albums</li>
+                <li tab = "profile_pic_tab">Profile Pictures</li>
+            </ul>
+            <div class = "clear"></div>
+        </nav>
+        <div id = "albums_tabs_content" class = "tabs_content">
+            <div class = "albums_content tab" id = "albums_tab">
+                <section class = "albumsContainer">
+                    <input type = "button" class = "submitButton right" value = "Create album"/>
+                    <div class = "clear"></div>
+                    {% for record in albumsAndPhotos %}
+                        <div class = "album">
+                            <div class = "albumTitle">{{ record.album.albumTitle }}</div>
+                            <input type = "hidden" class = "albumId" value = "{{ record.album.albumId }}"/>
+                            <ul>
+                                {% for photo in record.photos %}
+                                    <li>
+                                        <img src = "./../../../../../AirSim/web/public_files/user_{{ record.album.userId }}/albums/{{ record.album.albumName }}/{{ photo.photoName }}"
+                                             class = "photo"/>
+                                        <input type = "hidden" class = "photoId" value = "{{ photo.photoId }}" />
+                                    </li>
+                                {% endfor %}
+                            </ul><div class = "clear"></div>
+                            <input type = "button" class = "submitButton right" value = "Delete album"/>
+                            <input type = "button" class = "submitButton right" value = "Upload photos"/>
+                            <div class = "clear"></div>
+                        </div>
+                    {% endfor %}
+                </section>
+            </div>
+            <div class = "albums_content tab hidden" id = "profile_pic_tab">
+                <div class = "profile_pic_change_wrapper">
+                    <div class = "profile_pic_change profile_pic_change_left">
+                        <div class = "profile_header">
+                            Photo for web page
+                        </div>
+                        <img id = "photo_to_cropq" class = "profile_photo" src = ""/><div class = "clear"></div>
+                            <input type = "button" class = "submit_button extend_icon" id = "profile_pic_web_upload" style = "width: 240px;" value = "Change profile pic for web"/><br/>
+                            <div class = "center_slideshow">
+                                Turn on/off slideshow<input type = "checkbox" style = "vertical-align: middle"/>
+                            </div>
+                    </div>
+                    <div class = "profile_pic_change">
+                        <div class = "profile_header">
+                            Photo for phone application
+                        </div>
+                        <img class = "profile_photo" src = ""/><div class = "clear"></div>
+                            <input type = "button" class = "submit_button extend_icon" style = "width: 240px;" value = "Change profile pic for phone application"/><br/>
+                    </div>
+                    <div class = "clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ********** PopUp Windows ********** -->
+
+    <!-- Create Album PopUp Window -->
+    <div id = "createAlbumPopUp" class = "popUpWindow">
+        <div class = "popUpWindowTitle">Create new album</div>
+        <div id = "popUpClose" class = "popUpClose"></div>
+                    <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
+                        Press Esc to close
+                        <span id = "popUpArrow" class = "popUpArrow"></span>
+                    </span>
+        <div class = "create_album_pop_up">
+            <table class = "create_album_table">
+                <tr>
+                    <td>New Album Title:</td>
+                    <td><input type = "text" class = "input_main" id = "album_title"/></td>
+                </tr>
+                <tr><td></td><td><input type = "button" id = "create_album_pop" class = "submit_button extend_icon right" value = "Create album"/></td></tr>
+                <tr><td></td><td>
+                        <div class = "success right album_created hidden_div">Album created</div>
+                        <div class = "required_field right title_required hidden_div">Album title required</div>
+                        <input type = "hidden" class = "up_album_id" value = "0"/>
+                        <input type = "hidden" class = "up_album_name" value = "0"/>
+                    </td></tr>
+                <tr><td></td><td><input type = "button" class = "submit_button extend_icon right up_photos" style = "display: none" value = "Upload photos"/></td></tr>
+            </table>
+        </div>
+    </div>
+    <!-- End Of Create Album PopUp Window -->
+
+    <!-- Upload Files PopUp Window -->
+    <div id = "uploadPhotosPopUp" class = "popUpWindow">
+        <div class = "popUpWindowTitle">Photos upload</div>
+        <div id = "popUpClose" class = "popUpClose"></div>
+        <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
+            Click to close
+            <span id = "popUpArrow" class = "popUpArrow"></span>
+        </span>
+        <div class = "upload_files_form">
+            <div id = "preview"></div>
+            <form id="image_form" method="post" enctype="multipart/form-data" action = "./../photos_upload_photos" style = "clear:both">
+                Select images:
+                <div id = "image_load_status" class = "ajaxWaitSmall"></div>
+                <div id = "image_load_button">
+                    <input type = "file" name = "photos[]" id = "photo_img" multiple = "true" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End Of Upload Files PopUp Window -->
+
+    <!-- Profile Pic Change PopUp Window -->
+    <div id = "profilePicChangePopUp" class = "popUpWindow">
+        <div class = "popUpWindowTitle">What's has happened?</div>
+        <div id = "popUpClose" class = "popUpClose"></div>
+            <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
+                Press Esc to close
+                <span id = "popUpArrow" class = "popUpArrow"></span>
+            </span>
+        <div id="thumbs" ></div>
+        <div class = "crop_image_block">
+            <img id = "photo_to_crop">
+            <form id="cropimage" method="post" enctype="multipart/form-data">
+                Upload your image <input type="file" name="photoimg" id="photoimg" />
+                <input type="hidden" name="image_name" id="image_name" value="" />
+            </form>
+            <input type = "button" class = "submit_button extend_icon right" style = "margin-right: 20px;" id = "action_save_cropped_image" value = "Save"/>
+        </div>
+    </div>
+    <!-- Profile Pic Change PopUp Window -->
+
+    <!-- ********** End Of PopUp Windows ********** -->
+{% endblock pageContent %}

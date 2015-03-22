@@ -64,6 +64,10 @@
     {
         margin: 3px;
     }
+    .friend table, .contact table
+    {
+        width: 100%;
+    }
     .friend table td, .contact table td
     {
         width: auto;

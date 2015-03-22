@@ -1,0 +1,7 @@
+ALTER TABLE user_blocked_contacts
+ADD CONSTRAINT user_blocked_contacts
+FOREIGN KEY (user_id)
+REFERENCES user(user_id)
+
+php app/console doctrine:mapping:import AirSimCoreBundle --filter="BlockedContacts"
+php app/console doctrine:generate:entities AirSimSocialNetworkBundle:UserBlockedContacts --path="C:/Bitnami/wampstack-5.4.25-0/apache2/htdocs/AirSim/src/AirSim/Bundle/CoreBundle/Entity/"

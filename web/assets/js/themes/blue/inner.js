@@ -5,7 +5,7 @@ define(
         'jquery.knob',
         'jquery.selectric',
 //        'jquery.qtip',
-//        'formstone.scroller',
+        'formstone.scroller',
         'blue/constants',
         'blue/common',
         'blue/notification',
@@ -48,11 +48,11 @@ define(
                 {
                     $('#gallery').dialog('open');
 
-                    $('#gallery_scroller').scroller('destroy');
+                    $('#gallery_comments_scroller').scroller('destroy');
                     setTimeout(function()
                     {
-                        $('#gallery_scroller').scroller();
-                    }, 50);
+                        $('#gallery_comments_scroller').scroller();
+                    }, 500);
 
                 }
             });
@@ -93,8 +93,10 @@ define(
             //$('#test_div').attachments('init');
 
             // Formstone
-            //$('.formstone_scroller').scroller();
+            $('.formstone_scroller').scroller();
 
+            // TODO: to chat.js
+            $('.scroller-content').css('padding', '0');
 
             function onMapDialogOpenEvent()
             {
