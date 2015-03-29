@@ -47,10 +47,18 @@ air_sim_social_network_contacts_add:
     defaults: { _controller: AirSimSocialNetworkBundle:Contacts:sendFriendRequest }
 
 # ***** Messages ***** #
-air_sim_social_network_messages:
-    path:     /chat/{page}
+air_sim_social_network_chats:
+    path:     /chat_rooms
     defaults: { _controller: AirSimSocialNetworkBundle:Chat:chat }
 # AJAX calls
+
+air_sim_social_network_messages:
+    path:     /chat_room/{chatId}
+    defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:chatRoom }
+# AJAX calls
+air_sim_social_network_messages_send_message:
+    path:     /messages_send_message
+    defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:sendMessage }
 
 # ***** Photo Albums ***** #
 air_sim_social_network_photo_albums:

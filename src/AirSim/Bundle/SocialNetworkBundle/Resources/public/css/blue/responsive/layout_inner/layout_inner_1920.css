@@ -1,17 +1,28 @@
 @media screen and (max-width:1920px)
 {
+    *
+    {
+        margin: 0;
+    }
     html, body
     {
-        height: 100%;
+        /*height: 100%;*/
     }
     .wrapper
     {
         position: relative;
         width: 100%;
-        min-height: 100%;
-        height: auto !important;
-        margin: 0 auto -75px;
+        /*min-height: 100%;*/
+        /*height: auto !important;*/
+        /*margin: 0 auto -75px;*/
+        margin: 0 auto 10px;
         padding: 0;
+    }
+    .wrapper:after
+    {
+        content: "";
+        display: block;
+        height: 74px;
     }
 
     .header
@@ -25,10 +36,11 @@
         padding: 0;
         background-color: #27a9ff;
         z-index: 98;
+        border-bottom: 1px solid rgb(56, 149, 209);
 
-        -webkit-box-shadow: 0px 3px 0px 0px rgba(50, 50, 50, 0.8);
-        -moz-box-shadow:    0px 3px 0px 0px rgba(50, 50, 50, 0.8);
-        box-shadow:         0px 3px 0px 0px rgba(50, 50, 50, 0.8);
+        /*-webkit-box-shadow: 0px 3px 0px 0px rgba(50, 50, 50, 0.8);*/
+        /*-moz-box-shadow:    0px 3px 0px 0px rgba(50, 50, 50, 0.8);*/
+        /*box-shadow:         0px 3px 0px 0px rgba(50, 50, 50, 0.8);*/
 
     }
     .header_content
@@ -42,7 +54,7 @@
     {
         float: left;
         margin-left: 40px;
-        padding: 10px 20px 0 20px;
+        padding: 13px 20px 0 20px;
     }
     .logo_image
     {
@@ -260,7 +272,7 @@
         width: 80%;
         height: auto;
         min-height: 500px;
-        margin: 90px auto 0 auto;
+        margin: 85px auto 0 auto;
         border: 1px solid white;
         font-size: 0.9em;
         position: relative;
@@ -396,6 +408,35 @@
         background-size: contain;
     }
 
+    .menu_triangle
+    {
+        border-color: #EDEDED transparent transparent transparent;
+        border-style: solid;
+        height:0;
+        width:0;
+        position:absolute;
+        border-top: 23px solid transparent;
+        border-bottom: 23px solid transparent;
+        border-right: 13px solid white;
+        top: 0;
+        right: -1px;
+        z-index: 20;
+    }
+    .menu_triangle_border
+    {
+        border-color: #EDEDED transparent transparent transparent;
+        border-style: solid;
+        height:0;
+        width:0;
+        position:absolute;
+        border-top: 23px solid transparent;
+        border-bottom: 23px solid transparent;
+        border-right: 14px solid lightgray;
+        top: 0;
+        right: -1px;
+        z-index: 19;
+    }
+
     .content_right
     {
         float: right;
@@ -411,12 +452,14 @@
     .footer
     {
         position: relative;
+        /*position: absolute;*/
+        /*bottom: 0;*/
         width: 100%;
         height: 75px;
         background-color: #2d2f33;
         color: white;
-        margin-top: -75px;
-        clear: both;
+        /*margin-top: -75px;*/
+        /*clear: both;*/
     }
     .footer_table
     {

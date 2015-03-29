@@ -108,7 +108,6 @@ class ContactsController extends Controller
             'event' => $requestData['event'],
             'messageText' => '',
             'friendRequestId' => $requestData['friendRequestId'],
-            'messageText' => '',
             'dateTime' => $requestData['dateTimeAdded']->format('d.m.Y h:i:s'),
             'notificationInfo' => $notificationInfoFormatted
         );

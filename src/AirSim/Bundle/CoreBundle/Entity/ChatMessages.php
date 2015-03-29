@@ -44,6 +44,11 @@ class ChatMessages
      */
     private $chatId;
 
+    /**
+     * @var integer
+     */
+    private $userId;
+
 
     /**
      * Set messageText
@@ -186,5 +191,20 @@ class ChatMessages
         return $this->chatId;
     }
 
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 
 }

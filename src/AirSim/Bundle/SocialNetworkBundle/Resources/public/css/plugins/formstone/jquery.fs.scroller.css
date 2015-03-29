@@ -99,7 +99,7 @@
 }
 .scroller-setup .scroller-content,
 .scroller-active .scroller-content {
-  padding: 20px;
+  /*padding: 20px;*/
 }
 .scroller-setup .scroller-bar,
 .scroller-active .scroller-bar {

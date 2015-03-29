@@ -16,35 +16,28 @@
     <div class = "available_chats_wrapper">
         <div class = "available_chats_content">
             <section class = "available_chats">
-                <input type = "button" class = "submit_button" value = "Create chat"/>
-                <input type = "button" class = "submit_button right_button" value = "Delete chats"/>
+                <div class="available_chats_toolbar">
+                    <input type = "button" class = "submit_button" value = "Create chat"/>
+                    <input type = "button" class = "submit_button right_button" value = "Delete chats"/>
+                </div>
                 <ul>
-                    {% for i in 1..15 %}
-                        <a href = "chat_room?id={{ i }}">
+                    {% for chat in availableChats %}
+                        <a href = "chat_room/{{ chat.chatId }}">
                             <li>
                                 {#<div class = "toolbar">#}
-                                    {#<input type = "button" class = "chatDeleteButton"/>#}
+                                    {#<input type = "button" class = "chat_delete_button"/>#}
                                 {#</div>#}
-                                <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "author_pic"/>
-                                <span class = "author">Name Family</span><br/><br/>
-                                <span class = "date_time">20.12.2014</span><br/>
-                                <span class = "message">Some message text</span>
+                                {% if chat.contactData.webProfilePic %}
+                                    <img src = "{{ ('public_files/user_'~chat.contactData.userId~'/albums/profile_pics/'~chat.contactData.webProfilePic) | apply_filter('avatar') }}" class = "author_pic"/>
+                                {% else %}
+                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}" class = "author_pic"/>
+                                {% endif %}
+                                <span class = "author">{{ chat.contactData.name }} {{ chat.contactData.family }}</span><br/><br/>
+                                <span class = "date_time">{{ chat.messageSentTime }}</span><br/>
+                                <span class = "message">{{ chat.chatLastMessage }}</span>
                             </li>
                         </a>
                     {% endfor %}
-{#                    {% for chat in availableChats %}
-                        <a href = "chat_room?id={{ chat.chatId }}">
-                            <li>
-                                &#123;&#35;<div class = "toolbar">
-                                    <input type = "button" class = "chat_delete_button"/>
-                                </div>&#35;&#125;
-                                <img src = "{{  asset('public_files/app_default/no_avatar_male.png') }}" class = "author_pic"/>
-                                <span class = "author">Name Family</span><br/><br/>
-                                <span class = "date_time">20.12.2014</span><br/>
-                                <span class = "message">Some message text</span>
-                            </li>
-                        </a>
-                    {% endfor %}#}
                 </ul>
                 <div class = "clear"></div>
             </section>

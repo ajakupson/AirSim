@@ -33,4 +33,5 @@ class Constants
     const DISLIKE = 'dislike';
 
     // Events
+    const SEND_MESSAGE = 'sendMessage';
 }

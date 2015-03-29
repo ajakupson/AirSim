@@ -3,10 +3,11 @@
     /* ****** Available Chats ***** */
     .available_chats_wrapper, .chat_room_wrapper
     {
-        width: 98%;
+        width: 100%;
         height: auto;
         float: left;
-        margin: 0 0 0 2%;
+        /*margin: 0 0 0 2%;*/
+        margin-left: 1px;
         position: relative;
         font-size: 0.9em;
     }
@@ -14,7 +15,7 @@
     {
         width: 100%;
         height: auto;
-        min-height: 500px;
+        min-height: 495px;
         padding: 10px 30px 20px 30px;
 
         box-sizing: border-box;
@@ -25,6 +26,10 @@
         box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
         -o-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
         -moz-box-shadow: 0px 0px 1px 0px  rgba(0,0,0,0.2);
+    }
+    .available_chats_toolbar
+    {
+        margin-left: 35px;
     }
     .available_chats ul
     {
@@ -85,7 +90,7 @@
     {
         max-height: 30px;
     }
-    .availableChats ul li.unread
+    .available_chats ul li.unread
     {
         background-color: #f5f5f5;
     }
@@ -124,7 +129,7 @@
     {
         font-weight: bold;
         float: left;
-        padding-bottom: 15px;
+        padding-bottom: 10px;
     }
     .date_time
     {
@@ -149,8 +154,8 @@
         float: left;
         width: 75%;
         height: auto;
-        min-height: 710px;
-        max-height: 710px;
+        /*min-height: 710px;*/
+        /*max-height: 710px;*/
         position: relative;
         padding: 10px;
 
@@ -174,8 +179,8 @@
     .chat_search
     {
         min-width: 200px;
-        max-height: 20px;
-        margin: 10px 3px 0 3px;
+        max-height: 30px;
+        margin: 0 3px 0 3px !important;
         padding-right: 25px;
         float: right;
         background: url('../../../../images/themes/blue/search_icon_gray.png') no-repeat right;
@@ -196,7 +201,7 @@
     {
         width: 20px;
         height: 20px;
-        background: url('../../../../images/themes/blue/star_icon_gray.png') no-repeat center;
+        background: url('../../../../images/themes/blue/bookmark_icon.png') no-repeat center;
         background-size: contain;
         cursor: pointer;
         float: right;
@@ -289,10 +294,10 @@
     }
     input[type = "button"].delete_message_icon
     {
-        width: 11px;
-        height: 11px;
+        width: 12px;
+        height: 12px;
         float: right;
-        margin: 0;
+        margin: 1.4px 0 0 0;
         padding: 0;
         background: url('../../../../images/themes/blue/delete_icon_gray.png') no-repeat center;
         background-size: contain;
@@ -308,7 +313,7 @@
     input[type = "checkbox"].message_select + label
     {
         float: right;
-        max-width: 11px;
+        max-width: 13px;
         margin: 0 5px 0 0;
         padding: 0;
     }
@@ -316,8 +321,8 @@
     {
         display: inline-block;
         float: right;
-        width: 11px;
-        height: 11px;
+        width: 13px;
+        height: 13px;
         background: url('../../../../images/themes/blue/input_checkbox_gray.png') no-repeat center;
         background-size: contain;
     }
@@ -344,6 +349,12 @@
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -o-box-sizing: border-box;
+    }
+    #chat_message_textarea
+    {
+        /*max-height: 70px !important;*/
+        /*max-height: 9999px !important;*/
+        overflow: auto !important;
     }
     input[type = "button"].submit_button
     {

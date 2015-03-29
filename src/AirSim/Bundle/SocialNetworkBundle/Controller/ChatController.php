@@ -10,9 +10,10 @@ use AirSim\Bundle\CoreBundle\Security\PrivilegeChecker;
 class ChatController extends Controller
 {
 
-    public function chatAction($page)
+    public function chatAction()
     {
         $LOG = $this->get('logger');
+        $LOG->info('chatAction executed in ChatController');
 
         $session = $this->get('request_stack')->getCurrentRequest()->getSession();
         $userId = $session->get('sessionData')['userInfo']['id'];
@@ -22,31 +23,10 @@ class ChatController extends Controller
 
         $chatService = ChatService::getInstance();
 
-        //$availableChats = $chatService->getAvailableChats($userId);
-        $availableChats = array();
+        $availableChats = $chatService->getAvailableChats($userId);
 
-
-        switch($page)
-        {
-            case 'available_chats':
-            {
-                $LOG->info('chatAction executed in ChatController with parameter = '.$page);
-
-                return $this->render('AirSimSocialNetworkBundle:blue/Chat:available_chats.html.twig',
-                    array('userPrivileges' => $userPrivileges, 'availableChats' => $availableChats));
-
-            }break;
-            case 'chat_room':
-            {
-                $LOG->info('chatAction executed in ChatController with parameter = '.$page);
-
-                return $this->render('AirSimSocialNetworkBundle:blue/Chat:chat.html.twig',
-                    array('userPrivileges' => $userPrivileges));
-
-            }break;
-            default : break;
-        }
-
+        return $this->render('AirSimSocialNetworkBundle:blue/Chat:available_chats.html.twig',
+            array('userPrivileges' => $userPrivileges, 'availableChats' => $availableChats));
 
     }
 

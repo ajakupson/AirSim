@@ -19,6 +19,11 @@ define
         this.LIKE = 'like';
         this.DISLIKE = 'dislike';
 
+        // Events
+        this.SEND_MESSAGE = 'sendMessage';
+        this.READ_MESSAGE = 'readMessage';
+        this.DELETE_MESSAGE = 'deleteMessage';
+
         // Elements settings
         this.TEXTAREA_MAX_HEIGHT = 300;
     }

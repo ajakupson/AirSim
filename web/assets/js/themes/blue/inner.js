@@ -95,9 +95,6 @@ define(
             // Formstone
             $('.formstone_scroller').scroller();
 
-            // TODO: to chat.js
-            $('.scroller-content').css('padding', '0');
-
             function onMapDialogOpenEvent()
             {
                 $.ajax

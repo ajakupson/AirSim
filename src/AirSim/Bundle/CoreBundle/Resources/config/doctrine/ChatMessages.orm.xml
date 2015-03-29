@@ -11,7 +11,8 @@
     <field name="messageText" type="string" column="message_text" length="2500" nullable="false"/>
     <field name="dateTimeSent" type="datetime" column="date_time_sent" nullable="false"/>
     <field name="isReaded" type="boolean" column="is_readed" nullable="false"/>
-      <field name="chatId" type="integer" column="chat_id" nullable="false"/>
+    <field name="chatId" type="integer" column="chat_id" nullable="false"/>
+    <field name="userId" type="integer" column="user_id" nullable="false"/>
     <many-to-one field="user" target-entity="User">
       <join-columns>
         <join-column name="user_id" referenced-column-name="user_id"/>

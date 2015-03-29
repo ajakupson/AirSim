@@ -61,7 +61,7 @@
         {# End Of JavaScript Global Variables #}
 
     </head>
-    <body>
+    <body class = "formstone_scroller_body">
         <div class = "page_cover" id = "page_cover">
             <div class = "loading_notification">
                 <div class = "loading_message">
@@ -134,10 +134,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a href = "./../chat/available_chats">
+                                <a href = "./../chat_rooms">
                                     <span class = "menu_icon messages"></span>
                                     <span>Messages</span>
                                     <span class = "notification_bubble">+100</span>
+                                    <div class = "arrow_holder">
+                                        <span class = "menu_triangle"></span>
+                                        <span class = "menu_triangle_border"></span>
+                                    </div>
                                 </a>
                             </li>
                             <li>
@@ -357,18 +361,20 @@
                             <div class = "map_chat">
                                 <textarea placeholder = "Comment" id = "map_chat_message_text"></textarea>
                                 <input type = "button" class = "right" value = "Comment"/>
-                                {% for i in 1..15 %}
-                                    <div class = "user_map_message">
-                                        <div class = "message_text">
-                                            <div class = "author">Incognito</div>
-                                            <div class = "text">Here is the area for message text ...</div>
-                                            <div class = "date_sent">21.04.2014 12:15</div>
+                                <div class = "formstone_scroller">
+                                    {% for i in 1..15 %}
+                                        <div class = "user_map_message">
+                                            <div class = "message_text">
+                                                <div class = "author">Incognito</div>
+                                                <div class = "text">Here is the area for message text ...</div>
+                                                <div class = "date_sent">21.04.2014 12:15</div>
+                                            </div>
+                                            <div class = "author_web_pic">
+                                                <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                                            </div>
                                         </div>
-                                        <div class = "author_web_pic">
-                                            <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
                             <div class = "map_friends_list hidden"></div>
                         </div>
@@ -480,7 +486,7 @@
 
                 <div class = "clear"></div>
             </section>
-            <div class = "push"></div>
+            {#<div class = "push"></div>#}
         </div>
         <footer class = "footer">
             <div class = "footer_table">
