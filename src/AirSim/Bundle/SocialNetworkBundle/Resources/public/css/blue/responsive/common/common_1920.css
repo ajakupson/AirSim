@@ -292,4 +292,8 @@
     {
         overflow: auto;
     }
+
+    .normal_text {
+        font-size: 0.9em;
+    }
 }

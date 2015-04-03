@@ -13,12 +13,12 @@ define
             $(el).hide(250);
         },
 
-        this.String.format = function()
+        this.String.prototype.format = function()
         {
-            var s = arguments[0];
-            for (var i = 0; i < arguments.length - 1; i++) {
+            var s = this;
+            for(var i = 0; i < arguments.length; i++) {
                 var reg = new RegExp("\\{" + i + "\\}", "gm");
-                s = s.replace(reg, arguments[i + 1]);
+                s = s.replace(reg, arguments[i]);
             }
 
             return s;

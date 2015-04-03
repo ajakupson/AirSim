@@ -63,7 +63,7 @@ class ChatRoomController extends Controller
         $chatId = $request->get('chatId');
         $receiverId = $request->get('receiverId');
         $messageText = $request->get('messageText');
-        $userId = $session->get('userSessionData')['userInfo']['id'];
+        $userId = $session->get('sessionData')['userInfo']['id'];
 
         $chatMessagesService = ChatMessagesService::getInstance();
         $newChatMessage = $chatMessagesService->addChatMessage($chatId, $userId, $messageText);
@@ -78,12 +78,82 @@ class ChatRoomController extends Controller
             'success' => $success,
             'page' => 'chat_'.$chatId,
             'event' => Constants::SEND_MESSAGE,
+            'messageId' => $newChatMessage->getMessageId(),
             'messageText' => $messageText,
             'dateTime' => $newChatMessage->getMessageDateTimeSent(),
             'notificationInfo' => $notificationInfoFormatted
         );
 
         $response = ResponseBuilder::BuildResponse(null, null, $receiverId, null, $eventData, $session->get('sessionData'));
+
+        return new Response(json_encode($response));
+    }
+
+    public function readMessageAction()
+    {
+        $LOG = $this->get('logger');
+        $LOG->info('readMessageAction executed in ChatRoomController');
+
+        $error = '';
+        $success = true;
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+
+        $chatId = $request->get('chatId');
+        $messageId = $request->get('messageId');
+        $userId = $session->get('sessionData')['userInfo']['id'];
+
+        $LOG->info('Updating message ' + $messageId + ' in chat ' + $chatId + ' by user ' + $userId);
+
+        $chatMessagesService = ChatMessagesService::getInstance();
+        $chatMessagesService->readChatMessage($messageId);
+
+        $eventData = array
+        (
+            'success' => $success,
+            'page' => 'chat_'.$chatId,
+            'event' => Constants::READ_MESSAGE,
+            'messageId' => $messageId
+        );
+
+        $response = ResponseBuilder::BuildResponse(null, null, null, null, $eventData, $session->get('sessionData'));
+
+        return new Response(json_encode($response));
+    }
+
+    public function deleteMessageAction()
+    {
+        $LOG = $this->get('logger');
+        $LOG->info('deleteMessageAction executed in ChatRoomController');
+
+        $error = '';
+        $success = true;
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $chatId = $request->get('chatId');
+        $messageId = $request->get('messageId');
+        $userId = $session->get('sessionData')['userInfo']['id'];
+
+        $LOG->info('Deleting message '.$messageId.' in chat '.$chatId.' by user '.$userId);
+
+        $chatMessagesService = ChatMessagesService::getInstance();
+        $chatMessagesService->deleteChatMessage($messageId);
+
+        $eventData = array
+        (
+            'success' => $success,
+            'page' => 'chat_'.$chatId,
+            'event' => Constants::DELETE_MESSAGE,
+            'messageId' => $messageId
+        );
+
+        $response = ResponseBuilder::BuildResponse(null, null, null, null, $eventData, $session->get('sessionData'));
 
         return new Response(json_encode($response));
     }

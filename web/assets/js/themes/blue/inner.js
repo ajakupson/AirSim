@@ -6,7 +6,9 @@ define(
         'jquery.selectric',
 //        'jquery.qtip',
         'formstone.scroller',
+        'blue/html_templates',
         'blue/constants',
+        'blue/common_functions',
         'blue/common',
         'blue/notification',
         'blue/dialog',
@@ -88,6 +90,14 @@ define(
             $('body').on('click', '.write_message', function()
             {
                 $('#write_message_dialog').dialog('open');
+            });
+
+            // Confirmation
+            $('#confirmation_dialog').dialog('init',
+            {   top: '-10px',
+                width: 300,
+                draggable: false,
+                isConfirmation: true
             });
 
             //$('#test_div').attachments('init');

@@ -8,11 +8,11 @@ define
     {
         var notificationConn = new ab.Session
         (
-            'ws://127.0.0.1:8080', // The host (our Ratchet WebSocket server) to connect to
+            'ws://80.66.252.45:8080', // The host (our Ratchet WebSocket server) to connect to
             function()
             {
                 // Once the connection has been established
-                console.log('WebSocket connection is opened');
+                console.log('NOTIFICATION WebSocket connection is opened');
 
                 var loggedInUserId = $('#logged_in_user_id').val();
                 notificationConn.subscribe('logged_in_user_' + loggedInUserId, function(topic, response)

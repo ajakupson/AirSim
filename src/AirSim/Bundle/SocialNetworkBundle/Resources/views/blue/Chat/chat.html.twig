@@ -52,24 +52,24 @@
                 <div class = "chat_messages" id = "chat_messages_container">
                     {% for message in chatMessages %}
                         {% if userPrivileges.userId == message.authorId %}
-                            <div class = "message_participant_two">
-                                <span class = "message_date_time_two">{{ message.messageDateTimeSent }}</span>
-                                <span class = "message_text">
-                                    {{ message.messageText }}
-                                </span>
-                                <input type = "hidden" class = "message_id" value = "{{ message.messageId }}"/>
-                                <div class = "clear"></div>
-                            </div>
-                        {% else %}
-                            <div class = "message_participant_one">
+                            <div class = "message_participant_one {% if message.isRead == 0 %}unread_message{% endif %}">
                                 <span class = "message_date_time_one">{{ message.messageDateTimeSent }}</span>
                                 <span class = "message_text">
                                     {{ message.messageText }}
                                 </span>
+                                <input type = "hidden" class = "message_id" value = "{{ message.messageId }}"/>
                                 <input type = "button" class = "delete_message_icon" value = ""/>
                                 <input type = "checkbox" class = "message_select" id = "m_{{ message.messageId }}" unchecked/>
                                 <label for = "m_{{ message.messageId }}"><span></span></label>
                                 <input type = "hidden" class = "message_id" value = "{{ message.messageId }}"/>
+                                <div class = "clear"></div>
+                            </div>
+                        {% else %}
+                            <div class = "message_participant_two {% if message.isRead == 0 %}unread_message{% endif %}">
+                                <span class = "message_date_time_two">{{ message.messageDateTimeSent }}</span>
+                                <span class = "message_text">
+                                    {{ message.messageText }}
+                                </span>
                                 <div class = "clear"></div>
                             </div>
                         {% endif %}

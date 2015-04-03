@@ -34,4 +34,6 @@ class Constants
 
     // Events
     const SEND_MESSAGE = 'sendMessage';
+    const READ_MESSAGE = 'readMessage';
+    const DELETE_MESSAGE = 'deleteMessage';
 }

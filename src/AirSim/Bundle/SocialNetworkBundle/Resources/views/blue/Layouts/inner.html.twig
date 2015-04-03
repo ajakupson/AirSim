@@ -461,6 +461,26 @@
                 {% endif %}
                 <!-- End Of Write Message Dialog -->
 
+                <!-- Confirmation Dialog -->
+                <div id = "confirmation_dialog" class = "dialog scale">
+                    <div class = "dialog_title">
+                        <span id = "confirmation_dialog_title_text">Confirmation</span>
+                        <div id = "dialog_close" class = "dialog_close">x</div>
+                    </div>
+                    <span id = "confirmation_dialog_close_tooltip" class = "dialog_close_tooltip">
+                        Press Esc to exit
+                        <span id = "confirmation_dialog_arrow" class = "dialog_arrow"></span>
+                    </span>
+                    <div class = "dialog_content" id = "confirmation_dialog_content">
+                        <div class = "confirmation_dialog_text" id = "confirmation_dialog_text">Are You sure?</div>
+                        <div class = "confirmation_dialog_buttons">
+                            <input type = "button" id = "confirmation_cancel" value = "Cancel"/>
+                            <input type = "button" id = "confirmation_ok" value = "Ok"/>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Of Confirmation Dialog -->
+
                 <!-- Please wait notification -->
                 <!-- End of please wait notification -->
 
@@ -486,8 +506,8 @@
 
                 <div class = "clear"></div>
             </section>
-            {#<div class = "push"></div>#}
         </div>
+        <div class = "clear"></div>
         <footer class = "footer">
             <div class = "footer_table">
                 <div class = "footer_content">

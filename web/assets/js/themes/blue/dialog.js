@@ -9,9 +9,14 @@ define(
         {
             top: '-1px',
             width: '100%',
+            height: 'auto',
             draggable: true,
             onDialogOpen: null,
-            onDialogClose: null
+            onDialogClose: null,
+            isConfirmation: false,
+            confirmationDialogTitle: null,
+            confirmationText: null,
+            onConfirmation: null
         }
 
         // Simple dialog
@@ -83,6 +88,10 @@ define(
                     {
                         dialog.dialog('close');
                     });
+                    $('#confirmation_cancel', dialog).click(function()
+                    {
+                        dialog.dialog('close');
+                    });
 
                     return dialog.css
                     ({
@@ -93,16 +102,31 @@ define(
 
                 });
             },
-            open: function()
+            open: function(options)
             {
                if($(this).not(':visible'))
                {
+                    var dialog = $(this);
                     var settings = $(this).data("settings");
+                    settings = $.extend(true, {}, defaults, options);
 
                     if(settings.onDialogOpen != null)
                     {
                         settings.onDialogOpen();
                     }
+
+                   if(settings.isConfirmation) {
+
+                        $('#confirmation_dialog_title_text', dialog).html(settings.confirmationDialogTitle);
+                       $('#confirmation_dialog_text', dialog).html(settings.confirmationText);
+                        $('#confirmation_ok', dialog).click(function()
+                        {
+                           if(settings.onConfirmation != null) {
+                               settings.onConfirmation();
+                           }
+                           dialog.dialog('close');
+                        });
+                   }
 
                     $('body').addClass('scrolling_of');
                     var dialogBackground = $('#dialog_background');

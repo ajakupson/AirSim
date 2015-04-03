@@ -4,9 +4,19 @@
     {
         margin: 0;
     }
-    html, body
+    html {
+        height: 100%;
+        position: relative;
+    }
+    body
     {
-        /*height: 100%;*/
+        position: relative;
+        min-height: -moz-calc(100% - 85px);
+        min-height: -webkit-calc(100% - 85px);
+        min-height: -o-calc(100% - 85px);
+        min-height: calc(100% - 85px);
+        height: auto !important;
+        height: 100%;
     }
     .wrapper
     {
@@ -15,7 +25,7 @@
         /*min-height: 100%;*/
         /*height: auto !important;*/
         /*margin: 0 auto -75px;*/
-        margin: 0 auto 10px;
+        margin: 0 auto 0;
         padding: 0;
     }
     .wrapper:after
@@ -460,6 +470,8 @@
         color: white;
         /*margin-top: -75px;*/
         /*clear: both;*/
+        position: absolute;
+        bottom:0;
     }
     .footer_table
     {
@@ -536,6 +548,7 @@
         right: 50px;
         width: auto;
         height: auto;
+        z-index: 9999;
     }
     .notification_box
     {

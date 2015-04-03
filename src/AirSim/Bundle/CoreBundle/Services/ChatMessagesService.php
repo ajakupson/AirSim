@@ -96,4 +96,19 @@ class ChatMessagesService
 
         return $messageDTO;
     }
+
+    public function readChatMessage($messageId) {
+
+        $messageEntity = $this->chatMessagesRepository->findOneByMessageId($messageId);
+        $messageEntity->setIsReaded(true);
+        $this->entityManager->persist($messageEntity);
+        $this->entityManager->flush();
+    }
+
+    public function deleteChatMessage($messageId) {
+
+        $messageEntity = $this->chatMessagesRepository->findOneByMessageId($messageId);
+        $this->entityManager->remove($messageEntity);
+        $this->entityManager->flush();
+    }
 }

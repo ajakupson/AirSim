@@ -59,6 +59,12 @@ air_sim_social_network_messages:
 air_sim_social_network_messages_send_message:
     path:     /messages_send_message
     defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:sendMessage }
+air_sim_social_network_messages_read_message:
+    path:     /messages_read_message
+    defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:readMessage }
+air_sim_social_network_messages_delete_message:
+    path:     /messages_delete_message
+    defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:deleteMessage }
 
 # ***** Photo Albums ***** #
 air_sim_social_network_photo_albums:

@@ -15,7 +15,7 @@ define(
             function()
             {
                 // Once the connection has been established
-                console.log('WebSocket connection is opened');
+                console.log('CHAT_ROOM WebSocket connection is opened');
 
                 var chatId = $('#chat_id').val();
                 conn.subscribe('chat_' + chatId, function(topic, response)
@@ -29,11 +29,11 @@ define(
                         }break;
                         case READ_MESSAGE:
                         {
-                            //readMessageSocket(response);
+                            readMessageSocket(response);
                         }break;
                         case DELETE_MESSAGE:
                         {
-                            //deleteMessageSocket(response);
+                            deleteMessageSocket(response);
                         }break;
                         default:break;
                     }
@@ -51,9 +51,15 @@ define(
             }
         );
 
+        var chatId = null;
+
         $(function()
         {
+            chatId = $('#chat_id').val();
+
             sendMessage();
+            readMessage();
+            deleteMessage();
         });
 
         function sendMessage()
@@ -61,7 +67,6 @@ define(
             $('#send_chat_message').click(function()
             {
                 var messageText = $('#chat_message_textarea').val();
-                var chatId = $('#chat_id').val();
                 var receiverId = $('#participant_id').val();
 
                 if(messageText.length > 0)
@@ -79,12 +84,12 @@ define(
                         },
                         success: function(response)
                         {
-                            if(response.success)
+                            if(response.eventData.success)
                             {
                                 setTimeout(function()
                                 {
                                     $('#chat_messages_container').scrollTop($('#chat_messages_container')[0].scrollHeight);
-                                }, 1000);
+                                }, 200);
 
                             }
                         }
@@ -97,36 +102,122 @@ define(
             });
         }
 
+        function readMessage()
+        {
+            $('.chat_messages').on('mouseover', '.message_participant_two.unread_message', function()
+            {
+                var $message = $(this);
+                var messageId = $message.find('.message_id').val();
+
+                $.ajax
+                ({
+                    url: './../messages_read_message',
+                    data:
+                    {
+                        chatId: chatId,
+                        messageId: messageId
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response)
+                    {
+                        if(response.eventData.success)
+                        {
+                            $message.removeClass('unread_message');
+                            // TODO: update unread messages bubbles
+                        }
+                    }
+                });
+            });
+        }
+
+        function deleteMessage()
+        {
+            var messageId = null;
+            var $messageContainer = null;
+
+            $('body').on('click', '.delete_message_icon', function()
+            {
+                $messageContainer = $(this).closest('.message_participant_one');
+                messageId = $messageContainer.find('.message_id').val();
+
+                $('#confirmation_dialog').dialog('open',
+                {
+                    isConfirmation: true,
+                    confirmationDialogTitle: 'Messages Delete Confirmation',
+                    confirmationText: 'Are You sure about deleting chosen message?',
+                    onConfirmation: onDeleteConfirm
+                });
+            });
+
+            function onDeleteConfirm() {
+
+                $.ajax
+                ({
+                    url: './../messages_delete_message',
+                    data:
+                    {
+                        chatId: chatId,
+                        messageId: messageId
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response)
+                    {
+                        if(response.eventData.success) {
+                            $messageContainer.html('<span class = "normal_text">Message has been deleted!</span>').parent().removeClass('unread_message');
+                        }
+                    }
+                });
+            }
+
+        }
+
         /*** WebSocket ***/
         function sendMessageSocket(response)
         {
             var messagesContainer = $('#chat_messages_container');
             var userId = $('#user_id').val();
 
-            var message = '<div class = "message_participant' + (userId == response.receiverData.receiverId ? '_two' : '_one') + ' unread_message">';
-            message += '<span class = "message_date_time' + (userId == response.receiverData.receiverId ? '_two' : '_one') + '">' + response.eventData.dateTime + '</span>';
-            message += '<span class = "message_text">' + response.eventData.messageText + '</span>';
-            if(userId != response.receiverData.receiverId)
-            {
-                message += '<input type = "button" class = "delete_message_icon" value = ""/><br/>';
-                message += '<input type = "checkbox" class = "message_select" id = "m_' + response.eventData.messageId + '" unchecked/>';
-                message += '<label for = "m_' + response.eventData.messageId + '"><span></span></label>';
+            var message;
+            if(userId !== response.receiverData.receiverId) {
+                message = TEMPLATE_CHAT_ROOM_MESSAGE_ONE.format(response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId,
+                    response.eventData.messageId, response.eventData.messageId);
+            } else {
+                message = TEMPLATE_CHAT_ROOM_MESSAGE_TWO.format(response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId,
+                    response.eventData.messageId, response.eventData.messageId);
             }
-            message += '<input type = "hidden" class = "message_id" value = "' + response.eventData.messageId + '"/>';
-            message += '<div class = "clear"></div>'
-            message += '</div>';
 
             messagesContainer.append(message);
             var height = messagesContainer[0].scrollHeight;
 
-            //$('#chat_messages_container').scroller('reset');
-            //$('#chat_messages_container').scroller('scroll', height, 500);
-
             $('#chat_messages_container').scroller('destroy');
             $('#chat_messages_container').scroller();
             $('#chat_messages_container').scroller('scroll', height, 500);
+        }
 
-            //messagesContainer.scrollTop(height);
+        function readMessageSocket(response)
+        {
+            $.each($('.message_participant_one.unread_message'), function()
+            {
+                var messageId = $(this).find('.message_id').val();
+                if(messageId == response.eventData.messageId)
+                {
+                    $(this).removeClass('unread_message');
+                }
+            });
+        }
+
+        function deleteMessageSocket(response)
+        {
+            $.each($('.message_participant_two'), function()
+            {
+                var messageId = $(this).find('.message_id').val();
+                if(messageId === response.eventData.messageId)
+                {
+                    $(this).html('<span class = "normal_text">Message has been deleted!</span>').parent().removeClass('unread_message');
+                }
+            });
         }
 
     }

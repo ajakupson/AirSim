@@ -246,4 +246,22 @@
         -moz-box-sizing: border-box;
         -o-box-sizing: border-box;
     }
+
+    /*
+     * Confirmation Dialog
+     */
+    .confirmation_dialog_text {
+        padding: 2px;
+    }
+    .confirmation_dialog_buttons {
+        display: block;
+        margin: 10px auto 0 auto;
+        width: 240px;
+    }
+    .confirmation_dialog_buttons input[type="button"] {
+        margin-bottom: 0 !important;
+    }
+    /*
+     * End Of Confirmation Dialog
+     */
 }
