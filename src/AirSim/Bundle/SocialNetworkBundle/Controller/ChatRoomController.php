@@ -31,7 +31,7 @@ class ChatRoomController extends Controller
         $chatService = ChatService::getInstance();
         $chatMessagesService = ChatMessagesService::getInstance();
 
-        $chatMessages = $chatMessagesService->getChatMessages($chatId);
+        $chatMessages = $chatMessagesService->getChatMessages($chatId, Constants::CHAT_MESSAGES_LIMIT);
         $availableChats = $chatService->getAvailableChats($userId);
 
         if(sizeof($chatMessages) > 0)
@@ -48,6 +48,41 @@ class ChatRoomController extends Controller
     }
 
     /* AJAX calls */
+    public function getMessagesAction() {
+
+        $LOG = $this->get('logger');
+        $LOG->info('getMessagesAction executed in ChatRoomController');
+
+        $error = '';
+        $success = true;
+        $response = '';
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $session = $request->getSession();
+
+        $chatId = $request->get('chatId');
+        $messagesOffset = $request->get('messagesOffset');
+
+        $chatMessagesService = ChatMessagesService::getInstance();
+        $chatMessages = $chatMessagesService->getChatMessages($chatId, Constants::CHAT_MESSAGES_LIMIT, $messagesOffset);
+
+        $doMoreMessagesExist = false;
+        $chatMessageInNextCall = $chatMessagesService->getChatMessages($chatId, Constants::SQL_OFFSET_TEST, ($messagesOffset += Constants::CHAT_MESSAGES_LIMIT));
+        if($chatMessageInNextCall != null || sizeof($chatMessageInNextCall) > 0) {
+            $doMoreMessagesExist = true;
+        }
+
+        $response = array
+        (
+            'success' => $success,
+            'error' => $error,
+            'chatMessages' => $chatMessages,
+            'doMoreMessagesExist' => $doMoreMessagesExist
+        );
+
+        return new Response(json_encode($response));
+    }
+
     public function sendMessageAction()
     {
         $LOG = $this->get('logger');

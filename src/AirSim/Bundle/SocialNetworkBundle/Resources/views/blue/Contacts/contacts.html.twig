@@ -73,9 +73,9 @@
                                         </td>
                                         <td>
                                             {% if friend.webProfilePic %}
-                                                <img src = "{{ ('public_files/user_'~friend.userId~'/albums/profile_pics/'~friend.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/user_'~friend.userId~'/albums/profile_pics/'~friend.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                                             {% else %}
-                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                                             {% endif %}
                                         </td>
                                         <td>
@@ -248,9 +248,9 @@
                                         </td>
                                         <td>
                                             {% if incomingFriendRequest.webProfilePic %}
-                                                <img src = "{{ ('public_files/user_'~incomingFriendRequest.userId~'/albums/profile_pics/'~incomingFriendRequest.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/user_'~incomingFriendRequest.userId~'/albums/profile_pics/'~incomingFriendRequest.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                                             {% else %}
-                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                                             {% endif %}
                                         </td>
                                         <td class="checkbox_td">
@@ -281,9 +281,9 @@
                                             </td>
                                             <td>
                                                 {% if outgoingFriendRequest.webProfilePic %}
-                                                    <img src = "{{ ('public_files/user_'~outgoingFriendRequest.userId~'/albums/profile_pics/'~outgoingFriendRequest.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                                    <img src = "{{ ('public_files/user_'~outgoingFriendRequest.userId~'/albums/profile_pics/'~outgoingFriendRequest.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                                                 {% else %}
-                                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                                                 {% endif %}
                                             </td>
                                             <td class="checkbox_td">

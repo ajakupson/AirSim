@@ -28,9 +28,9 @@
                                     {#<input type = "button" class = "chat_delete_button"/>#}
                                 {#</div>#}
                                 {% if chat.contactData.webProfilePic %}
-                                    <img src = "{{ ('public_files/user_'~chat.contactData.userId~'/albums/profile_pics/'~chat.contactData.webProfilePic) | apply_filter('avatar') }}" class = "author_pic"/>
+                                    <img src = "{{ ('public_files/user_'~chat.contactData.userId~'/albums/profile_pics/'~chat.contactData.webProfilePic) | imagine_filter('avatar') }}" class = "author_pic"/>
                                 {% else %}
-                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}" class = "author_pic"/>
+                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}" class = "author_pic"/>
                                 {% endif %}
                                 <span class = "author">{{ chat.contactData.name }} {{ chat.contactData.family }}</span><br/><br/>
                                 <span class = "date_time">{{ chat.messageSentTime }}</span><br/>

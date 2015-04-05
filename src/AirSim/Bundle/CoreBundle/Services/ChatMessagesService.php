@@ -48,11 +48,10 @@ class ChatMessagesService
             ->innerJoin('AirSimCoreBundle:ChatMembers', 'members', 'WITH', 'members.userId = messages.userId')
             ->where('messages.chatId = :chatId')
             ->setParameter('chatId', $chatId)
-            ->setFirstResult($offset)
-            ->orderBy('messages.dateTimeSent', 'ASC');
+            ->orderBy('messages.dateTimeSent', 'DESC');
 
         $messages = $query->getQuery()->getResult();
-        $messages = array_slice($messages, 0, $limit);
+        $messages = array_slice($messages, $offset, $limit);
 
         $messagesDTO = array();
         foreach($messages as $message)
@@ -64,10 +63,10 @@ class ChatMessagesService
             $messageDTO->setMessageDateTimeSent($message->getDateTimeSent()->format('d.m.Y h:i:s'));
             $messageDTO->setIsRead($message->getIsReaded());
 
-            $messagesDTO[] = $messageDTO;
+            $messagesDTO[] = $messageDTO->expose();
         }
 
-        return $messagesDTO;
+        return array_reverse($messagesDTO);
     }
 
     public function addChatMessage($chatId, $authorId, $messageText)

@@ -70,9 +70,9 @@
                                             </td>
                                             <td>
                                                 {% if friend.webProfilePic %}
-                                                <img src = "{{ ('public_files/user_'~friend.userId~'/albums/profile_pics/'~friend.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/user_'~friend.userId~'/albums/profile_pics/'~friend.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                                                 {% else %}
-                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                                                 {% endif %}
                                             </td>
                                             <td>

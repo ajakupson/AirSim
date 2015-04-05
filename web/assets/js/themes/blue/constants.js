@@ -6,6 +6,9 @@ define
         // Error codes
         this.ERR_WRONG_USERNAME_OR_PASS = 'ERR_WRONG_USERNAME_OR_PASS';
 
+        // SQL limits
+        this.CHAT_MESSAGES_LIMIT = 15;
+
         // Paths
         this.APP_DEFAULT_SETTINGS_PATH = '../../public_files/app_default/blue/';
         this.APP_DEFAULT_AVATAR_MALE = APP_DEFAULT_SETTINGS_PATH + 'no_avatar_male.png';

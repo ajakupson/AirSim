@@ -18,11 +18,11 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "avalanche123/imagine-bundle": "v2.1",
         "cboden/Ratchet": "0.3.*",
         "react/zmq": "0.2.*|0.3.*",
         "hearsay/require-js-bundle": "2.0.*@dev",
-        "matthecat/htmlcompressor-bundle": "dev-master"
+        "matthecat/htmlcompressor-bundle": "dev-master",
+        "liip/imagine-bundle": "~1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

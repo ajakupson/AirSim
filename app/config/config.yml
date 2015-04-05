@@ -83,21 +83,27 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-# Avalanche Imagine
-avalanche_imagine:
-    filters:
+# Liip Imagine
+liip_imagine:
+    filter_sets:
+        cache: ~
         avatar:
-            type:     thumbnail
-            options:  { size: [117, 117], mode: outbound, quality: 100, format: jpg, cache_type: private }
+            quality: 100
+            filters:
+                thumbnail:  { size: [117, 117], mode: outbound }
         last_photo:
-            type:     thumbnail
-            options:  { size: [280, 215], mode: outbound, quality: 100, format: jpg, cache_type: private }
+            quality: 100
+            filters:
+                thumbnail:  { size: [280, 215], mode: outbound }
         users_photo:
-            type:     thumbnail
-            options:  { size: [84, 84], mode: outbound, quality: 100, format: jpg, cache_type: private }
+            quality: 100
+            filters:
+                thumbnail:  { size: [84, 84], mode: outbound }
         wall_rec_img:
-            type:     thumbnail
-            options:  { size: [128, 128], mode: outbound, quality: 100, format: jpg, cache_type: private }
+            quality: 100
+            filters:
+                thumbnail:  { size: [128, 128], mode: outbound }
+
 # Services
 services:
     kernel.listener.air_sim_exception_listener:

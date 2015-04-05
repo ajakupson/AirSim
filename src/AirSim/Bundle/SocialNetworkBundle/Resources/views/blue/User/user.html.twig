@@ -157,9 +157,9 @@
                         <li>
                             <a href = "{{ contact.login }}">
                                 {% if contact.webProfilePic %}
-                                    <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                    <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                                 {% else %}
-                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                    <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                                 {% endif %}
                                 <span class = "name_family">
                                     {{ contact.firstName }}<br/>{{ contact.lastName }}
@@ -180,7 +180,7 @@
                     {% for photo in lastPhotos|slice(0, 6) %}
                         {% set counter = counter + 1 %}
                         <li>
-                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | imagine_filter('last_photo')}}"
                                     class = "photo"/><br/>
                             <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
                         </li>
@@ -194,7 +194,7 @@
                     {% for photo in lastPhotos|slice(6, 11) %}
                         {% set counter = counter + 1 %}
                         <li>
-                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | apply_filter('last_photo')}}"
+                            <img src = "{{ ('/public_files/user_'~userData.userId~'/albums/'~photo['albumName']~'/'~photo[0].photoName) | imagine_filter('last_photo')}}"
                                  class = "photo"/>
                             <input type = "hidden" class = "photo_id" value = "{{ photo[0].photoId }}" />
                         </li>
@@ -361,9 +361,9 @@
                                 </div><div class = "clear"></div>
                                 <div class = "wall_record_author">
                                     {% if wallRecord.webProfilePic %}
-                                    <img src = "{{ ('public_files/user_'~wallRecord.userId~'/albums/profile_pics/'~wallRecord.webProfilePic) | apply_filter('avatar') }}" />
+                                    <img src = "{{ ('public_files/user_'~wallRecord.userId~'/albums/profile_pics/'~wallRecord.webProfilePic) | imagine_filter('avatar') }}" />
                                     {% else %}
-                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}" />
+                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}" />
                                     {% endif %}
                                     <p class = "author_name">{{ wallRecord.firstName }} {{ wallRecord.lastName }}</p>
                                 </div>
@@ -375,7 +375,7 @@
                                     <ul>
                                         {% for wallRecordPicture in  wallRecord.wallRecordPictures %}
                                             <li>
-                                                <img src = "{{ ('public_files/user_'~userData.userId~'/albums/wall_pics/'~wallRecordPicture.photoName) | apply_filter('wall_rec_img') }}"
+                                                <img src = "{{ ('public_files/user_'~userData.userId~'/albums/wall_pics/'~wallRecordPicture.photoName) | imagine_filter('wall_rec_img') }}"
                                                         class = "photo"/>
                                                 <br/>
                                                 <input type = "hidden" class = "photo_id" value = "{{ wallRecordPicture.photoId }}"/>
@@ -417,9 +417,9 @@
                                             {% endif %}
                                                 <div class = "wall_record_reply_author">
                                                     {% if wallRecordComment.webProfilePic %}
-                                                        <img src = "{{ ('public_files/user_'~wallRecordComment.userId~'/albums/profile_pics/'~wallRecordComment.webProfilePic) | apply_filter('avatar') }}"/>
+                                                        <img src = "{{ ('public_files/user_'~wallRecordComment.userId~'/albums/profile_pics/'~wallRecordComment.webProfilePic) | imagine_filter('avatar') }}"/>
                                                     {% else %}
-                                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
+                                                        <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/>
                                                     {% endif %}
                                                     <p class = "author_name">{{ wallRecordComment.firstName }} {{ wallRecordComment.lastName }}</p>
                                                 </div>
@@ -475,9 +475,9 @@
                     <li>
                         <a href = "{{ contact.login }}">
                             {% if contact.webProfilePic %}
-                                <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | apply_filter('avatar') }}"/><br/>
+                                <img src = "{{ ('public_files/user_'~contact.userId~'/albums/profile_pics/'~contact.webProfilePic) | imagine_filter('avatar') }}"/><br/>
                             {% else %}
-                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/><br/>
+                                <img src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/><br/>
                             {% endif %}
                             <span class = "name_family">
                                 {{ contact.firstName }}<br/>{{ contact.lastName }}
@@ -494,7 +494,7 @@
                 {% for i in 1..16 %}
                     <li>
                         <a href = "#">
-                            <img src = "{{ ('assets/images/formockup/img'~i~'.jpg') | apply_filter('users_photo') }}"/><br/>
+                            <img src = "{{ ('assets/images/formockup/img'~i~'.jpg') | imagine_filter('users_photo') }}"/><br/>
                         </a>
                     </li>
                 {% endfor %}

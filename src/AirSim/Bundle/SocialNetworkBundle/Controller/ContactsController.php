@@ -66,8 +66,6 @@ class ContactsController extends Controller
 
         $foundContacts = $userService->searchContacts($contactSearchParams, Constants::CONTACTS_LIST_LIMIT, 0);
 
-
-
         $response = array
         (
             'success' => $success,

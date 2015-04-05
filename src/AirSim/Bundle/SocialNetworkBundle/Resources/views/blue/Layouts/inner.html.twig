@@ -84,9 +84,9 @@
                         <div class = "user_top_data">
                             {% if app.session.get('sessionData')['userInfo']['webPic'] %}
                                 <img class = "user_ava" src = "{{ ('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~
-                                    '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) | apply_filter('avatar') }}"/>
+                                    '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) | imagine_filter('avatar') }}"/>
                             {% else %}
-                                <img class = "user_ava" src = "{{ ('public_files/app_default/no_avatar_male.png') | apply_filter('avatar') }}"/>
+                                <img class = "user_ava" src = "{{ ('public_files/app_default/no_avatar_male.png') | imagine_filter('avatar') }}"/>
                             {% endif %}
                             <div class = "logged">
                                 You are logged in as<br/>

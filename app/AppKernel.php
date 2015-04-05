@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new AirSim\Bundle\CoreBundle\AirSimCoreBundle(),
             new AirSim\Bundle\SocialNetworkBundle\AirSimSocialNetworkBundle(),
             new AirSim\Bundle\AdminBundle\AirSimAdminBundle(),
-            new \Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
             new Hearsay\RequireJSBundle\HearsayRequireJSBundle(),
             new MatTheCat\HtmlCompressorBundle\MatTheCatHtmlCompressorBundle()
         );

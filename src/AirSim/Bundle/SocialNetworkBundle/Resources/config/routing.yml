@@ -56,6 +56,9 @@ air_sim_social_network_messages:
     path:     /chat_room/{chatId}
     defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:chatRoom }
 # AJAX calls
+air_sim_social_network_messages_get_messages:
+    path:     /messages_get_messages
+    defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:getMessages }
 air_sim_social_network_messages_send_message:
     path:     /messages_send_message
     defaults: { _controller: AirSimSocialNetworkBundle:ChatRoom:sendMessage }
@@ -89,4 +92,31 @@ air_sim_social_network_options:
     path:     /options/{type}
     defaults: { _controller: AirSimSocialNetworkBundle:Options:options }
 # AJAX calls
+air_sim_social_network_options_config_change:
+    pattern:  /options_config_change
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:configChange }
+#air_sim_social_network_options_personal_update_main_info:
+#    pattern:  /options_update_main_info
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateMainInfo }
+#air_sim_social_network_options_personal_update_additional_info:
+#    pattern:  /options_update_additional_info
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateAdditionalInfo }
+#air_sim_social_network_options_personal_add_high_education:
+#    pattern:  /options_add_high_education
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:addHighEducation }
+#air_sim_social_network_options_personal_edit_high_education:
+#    pattern:  /options_edit_high_education
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:editHighEducation }
+#air_sim_social_network_options_personal_delete_high_education:
+#    pattern:  /options_delete_high_education
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteHighEducation }
+#air_sim_social_network_options_personal_add_workplace:
+#    pattern:  /options_add_workplace
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:addWorkplace }
+#air_sim_social_network_options_personal_edit_workplace:
+#    pattern:  /options_edit_workplace
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:editWorkplace }
+#air_sim_social_network_options_personal_delete_workplace:
+#    pattern:  /options_delete_workplace
+#    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteWorkplace }
 

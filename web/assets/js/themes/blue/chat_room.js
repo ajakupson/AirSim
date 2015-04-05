@@ -52,15 +52,78 @@ define(
         );
 
         var chatId = null;
+        var messagesOffset = CHAT_MESSAGES_LIMIT;
+        var doMoreMessagesExist = true;
 
-        $(function()
-        {
+        $(function() {
+
             chatId = $('#chat_id').val();
 
+            var messagesContainerHeight = $('#chat_messages_container')[0].scrollHeight;
+            $('#chat_messages_container').scroller('scroll', messagesContainerHeight, 0);
+
+            getMessages();
             sendMessage();
             readMessage();
             deleteMessage();
         });
+
+        function getMessages() {
+
+            $('.scroller-content', '#chat_messages_container').scroll(function() {
+
+                if(doMoreMessagesExist && $('.scroller-content', '#chat_messages_container').scrollTop() == 0) {
+
+                    $.ajax({
+                        url: './../messages_get_messages',
+                        type: 'POST',
+                        data: {
+                            chatId: chatId,
+                            messagesOffset: messagesOffset
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if(response.success) {
+                                doMoreMessagesExist = response.doMoreMessagesExist;
+                                updateMessagesContainer(response.chatMessages);
+                                messagesOffset += CHAT_MESSAGES_LIMIT;
+                            }
+                            else {
+
+                            }
+                        }
+                    });
+                }
+            });
+
+            function updateMessagesContainer(data) {
+
+                var messagesContainer = $('.scroller-content', '#chat_messages_container');
+                var userId = $('#user_id').val();
+                var oldHeight = messagesContainer[0].scrollHeight;
+
+                var messages = '';
+
+                $.each(data, function(key, value) {
+                    var message = null;
+                    var unreadClass = value.isRead ? '' : 'unread_message';
+                    if(userId !== value.authorId) {
+                        message = TEMPLATE_CHAT_ROOM_MESSAGE_ONE.format(unreadClass, value.messageDateTimeSent, value.messageText, value.messageId);
+                    } else {
+                        message = TEMPLATE_CHAT_ROOM_MESSAGE_TWO.format(unreadClass, value.messageDateTimeSent, value.messageText, value.messageId);
+                    }
+
+                    messages += message;
+                });
+
+                messagesContainer.prepend(messages);
+                var newHeight = messagesContainer[0].scrollHeight;
+                var differenceInHeights = newHeight - oldHeight;
+
+                $('#chat_messages_container').scroller('reset');
+                $('#chat_messages_container').scroller('scroll', differenceInHeights, 0);
+            }
+        }
 
         function sendMessage()
         {
@@ -176,23 +239,20 @@ define(
         /*** WebSocket ***/
         function sendMessageSocket(response)
         {
-            var messagesContainer = $('#chat_messages_container');
+            var messagesContainer = $('.scroller-content', '#chat_messages_container');
             var userId = $('#user_id').val();
 
             var message;
             if(userId !== response.receiverData.receiverId) {
-                message = TEMPLATE_CHAT_ROOM_MESSAGE_ONE.format(response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId,
-                    response.eventData.messageId, response.eventData.messageId);
+                message = TEMPLATE_CHAT_ROOM_MESSAGE_ONE.format('unread_message', response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId);
             } else {
-                message = TEMPLATE_CHAT_ROOM_MESSAGE_TWO.format(response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId,
-                    response.eventData.messageId, response.eventData.messageId);
+                message = TEMPLATE_CHAT_ROOM_MESSAGE_TWO.format('unread_message',response.eventData.dateTime, response.eventData.messageText, response.eventData.messageId);
             }
 
             messagesContainer.append(message);
             var height = messagesContainer[0].scrollHeight;
 
-            $('#chat_messages_container').scroller('destroy');
-            $('#chat_messages_container').scroller();
+            $('#chat_messages_container').scroller('reset');
             $('#chat_messages_container').scroller('scroll', height, 500);
         }
 
