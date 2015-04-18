@@ -31,34 +31,34 @@
                 <div class = "ajax_wait hidden changing_config">Please wait. Changing configuration parameter...</div>
                 <label for = "phone_visibility">Phone number is visible to:</label>
                 <select id = "phone_visibility" data-alias = "PRIVATE_PHONE_VISIBILITY" class = "config_select">
-                    <option value = "0">all</option>
-                    <option value = "1">friends only</option>
+                    <option value = "0" {% if userConfig.privPhoneVisibility == 0 %}selected{% endif %}>all</option>
+                    <option value = "1" {% if userConfig.privPhoneVisibility == 1 %}selected{% endif %}>friends only</option>
                 </select><br/>
 
                 <label for = "additional_info_visibility">Additional info is visible to:</label>
                 <select id = "additional_info_visibility" data-alias = "PRIVATE_ADDITIONAL_INFO_VISIBILITY" class = "config_select">
-                    <option value = "0">all</option>
-                    <option value = "1">friends only</option>
+                    <option value = "0" {% if userConfig.privAddInfoVisibility == 0 %}selected{% endif %}>all</option>
+                    <option value = "1" {% if userConfig.privAddInfoVisibility == 1 %}selected{% endif %}>friends only</option>
                 </select><br/>
 
                 <label for = "friends_visibility">Friends are visible to:</label>
                 <select id = "friends_visibility" data-alias = "PRIVATE_FRIENDS_VISIBILITY" class = "config_select">
-                    <option value = "0">all</option>
-                    <option value = "1">friends only</option>
-                    <option value = "2">nobody</option>
+                    <option value = "0" {% if userConfig.privFriendsVisibility == 0 %}selected{% endif %}>all</option>
+                    <option value = "1" {% if userConfig.privFriendsVisibility == 1 %}selected{% endif %}>friends only</option>
+                    <option value = "2" {% if userConfig.privFriendsVisibility == 2 %}selected{% endif %}>nobody</option>
                 </select><br/>
 
                 <label for = "search_by_phone_number">Allow search me by phone number:</label>
                 <select id = "search_by_phone_number" data-alias = "PRIVATE_SEARCH_BY_PHONE_NUMBER" class = "config_select">
-                    <option value = "1">yes</option>
-                    <option value = "0">no</option>
+                    <option value = "1" {% if userConfig.privSearchByPhone == 0 %}selected{% endif %}>yes</option>
+                    <option value = "0" {% if userConfig.privSearchByPhone == 1 %}selected{% endif %}>no</option>
                 </select><br/>
 
                 <label for = "sending_messages">Sending messages is allowed to:</label>
                 <select id = "sending_messages" data-alias = "PRIVATE_SENDING_MESSAGES" class = "config_select">
-                    <option value = "0">all</option>
-                    <option value = "1">friends only</option>
-                    <option value = "2">nobody</option>
+                    <option value = "0" {% if userConfig.privWhoAllowedWrite == 0 %}selected{% endif %}>all</option>
+                    <option value = "1" {% if userConfig.privWhoAllowedWrite == 1 %}selected{% endif %}>friends only</option>
+                    <option value = "2" {% if userConfig.privWhoAllowedWrite == 2 %}selected{% endif %}>nobody</option>
                 </select><br/>
             </section>
             <section class = "options_description">
@@ -77,10 +77,10 @@
                 <div class = "ajax_wait hidden changing_config">Please wait. Changing configuration parameter...</div>
                 <label for = "phone_visibility">Automatic synchronization between phone and website:</label>
                 <select id = "phone_visibility" data-alias = "SYNCHRONIZATION_AUTO_BETWEEN_PHONE_SITE" class = "config_select">
-                    <option value = "0">phone number</option>
-                    <option value = "1">phone number, N.F.</option>
-                    <option value = "2">phone number, additional information</option>
-                    <option value = "3">phone number, N.F., additional information</option>
+                    <option value = "0" {% if userConfig.syncAutoSync == 0 %}selected{% endif %}>phone number</option>
+                    <option value = "1" {% if userConfig.syncAutoSync == 1 %}selected{% endif %}>phone number, N.F.</option>
+                    <option value = "2" {% if userConfig.syncAutoSync == 2 %}selected{% endif %}>phone number, additional information</option>
+                    <option value = "3" {% if userConfig.syncAutoSync == 3 %}selected{% endif %}>phone number, N.F., additional information</option>
                 </select><br/>
             </section>
             <section class = "options_description">
@@ -132,7 +132,133 @@
             <div class = "clear"></div>
         </div>
         <div class = "options_content tab hidden" id = "personal_data_tab">
-            4
+            <div class = "personal_data_forms_wrapper">
+                <div class = "main_additional_info_wrapper">
+                    <section class = "options_configuration info_block">
+                        <span class = "options_header">Main information</span>
+                        <div class = "clear"></div>
+                        <div class = "ajax_wait hidden changing_config">Please wait. Updating main information...</div>
+                        <div class = "success hidden">Successfully updated!</div>
+                        <form class = "personal_data_form">
+                            <label for = "user_name">Name:<span class = "required">*</span></label>
+                            <input type = "text" name = "user_name" value = "{{ userData.firstName }}"/><br/>
+                            <label for = "user_family">Family:<span class = "required">*</span></label>
+                            <input type = "text" name = "user_family" value = "{{ userData.lastName }}"/><br/>
+                            <label for = "user_birth_date">Birthdate:</label>
+                            <input type = "text" name = "user_birth_date" class = "input_date" value = "{{ userData.birthdate | date('Y.m.d') }}"/><br/>
+                            <label for = "user_gender">Gender:</label>
+                            <select name = "user_gender">
+                                <option value = "M" {% if userData.gender == "M" %}selected{% endif %}>Male</option>
+                                <option value = "F" {% if userData.gender == "F" %}selected{% endif %}>Female</option>
+                                <option value = "U" {% if userData.gender == "U" %}selected{% endif %}>Undefined</option>
+                            </select><br/>
+                            <label for = "phone_operator">Phone operator:<span class = "required">*</span></label>
+                            <input type = "text" name = "phone_operator" value = "{{ userData.operator }}"/><br/>
+                            <input type = "button" class = "right save" id = "update_main_info_btn" value = "Save"/>
+                            <div class = "clear"></div>
+                            <div class = "errors hidden">Please fill all required fields!</div>
+                        </form>
+                    </section>
+                    <section class = "options_configuration info_block">
+                        <span class = "options_header">Additional information</span>
+                        <div class = "clear"></div>
+                        <div class = "ajax_wait hidden changing_config">Please wait. Updating additional information...</div>
+                        <div class = "success hidden">Successfully updated!</div>
+                        <form class = "personal_data_form">
+                            <label for = "email">E-mail:</label>
+                            <input type = "text" name = "email" value = "{{ userData.email }}"/><br/>
+                            <label for = "country">Country:</label>
+                            <input type = "text" name = "country" value = "{{ userData.country }}"/><br/>
+                            <label for = "city">City:</label>
+                            <input type = "text" name = "city" value = "{{ userData.city }}"/><br/>
+                            <label for = "address">Address:</label>
+                            <input type = "text" name = "address" value = "{{ userData.address }}"/><br/>
+                            <label for = "website">Website:</label>
+                            <input type = "text" name = "website" value = "{{ userData.website }}"/><br/>
+                            <input type = "button" class = "right save" id = "update_add_info_btn" value = "Save"/>
+                        </form>
+                    </section>
+                </div>
+                <section class = "options_configuration info_block">
+                    <span class = "options_header">Education</span>
+                    <div class = "clear"></div>
+                    <div class = "ajax_wait hidden changing_config">Please wait. Updating high education...</div>
+                    <div class = "options_add_place">
+                        Add high education:
+                        <span class = "plus_icon right" id = "add_high_education_btn"></span>
+                    </div>
+                    <div id = "high_education_wrapper">
+                        {% for degree in userHighEducation %}
+                            <div class = "high_education">
+                                <form name = "high_education_form">
+                                    <div class = "options_sub_header">Degree:</div>
+                                    <input type = "hidden" class = "high_education_record_id" value = "{{ degree.recId }}"/>
+                                    <div class = "success hidden">Successfully updated!</div>
+                                    <label for = "university">University:<span class = "required">*</span></label>
+                                    <input type = "text" name = "university" value = "{{ degree.university }}"/><br/>
+                                    <label for = "faculty">Faculty:</label>
+                                    <input type = "text" name = "faculty" value = "{{ degree.faculty }}"/><br/>
+                                    <label for = "speciality">Speciality:<span class = "required">*</span></label>
+                                    <input type = "text" name = "speciality" value = "{{ degree.speciality }}"/><br/>
+                                    <label for = "degree">Degree:<span class = "required">*</span></label>
+                                    <input type = "text" name = "degree" value = "{{ degree.degree }}"/><br/>
+                                    <label for = "start_year">Start year:<span class = "required">*</span></label>
+                                    <input type = "text" class = "input_date" name = "start_year" value = "{{ degree.startDate | date('Y.m.d') }}"/><br/>
+                                    <label for = "end_year">End year:</label>
+                                    <input type = "text" class = "input_date" name = "end_year" value = "{{ degree.endDate | date('Y.m.d') }}"/><br/>
+                                    <input type = "button" class = "right save save_high_education" value = "Save"/>
+                                    <input type = "button" class = "right delete_high_education" value = "Delete"/>
+                                    <div class = "clear"></div>
+                                    <div class = "errors hidden">Please fill all required fields!</div><br/>
+                                </form>
+                                <div class = "clear"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                <section class = "options_configuration info_block">
+                    <span class = "options_header">Workplaces</span>
+                    <div class = "clear"></div>
+                    <div class = "ajax_wait hidden changing_config">Please wait. Updating workplaces...</div>
+                    <div class = "options_add_place">
+                        Add workplace:
+                        <span class = "plus_icon right" id = "add_workplace"></span>
+                    </div>
+                    <div id = "workplaces_wrapper">
+                        {% for workplace in userWorkplaces %}
+                            <div class = "workplaces">
+                                <form name = "workplaces_form">
+                                    <div class = "options_sub_header">Workplace:</div>
+                                    <input type = "hidden" class = "workplace_record_id" value = "{{ workplace.recId }}"/>
+                                    <div class = "success hidden">Successfully updated!</div>
+                                    <label for = "workplace">Workplace:<span class = "required">*</span></label>
+                                    <input type = "text" name = "workplace" value = "{{ workplace.company }}"/><br/>
+                                    <label for = "position">Position:<span class = "required">*</span></label>
+                                    <input type = "text" name = "position" value = "{{ workplace.position }}"/><br/>
+                                    <label for = "start_year">Start year:<span class = "required">*</span></label>
+                                    <input type = "text" class = "input_date" name = "start_year" value = "{{ workplace.startDate | date('Y.m.d') }}"/><br/>
+                                    <label for = "end_year">End year:</label>
+                                    <input type = "text" class = "input_date" name = "end_year" value = "{{ workplace.endDate | date('Y.m.d') }}"/><br/>
+                                    <input type = "button" class = "right save save_workplace" value = "Save"/>
+                                    <input type = "button" class = "right delete_workplace" value = "Delete"/>
+                                    <div class = "clear"></div>
+                                    <div class = "errors hidden">Please fill all required fields!</div><br/>
+                                </form>
+                                <div class = "clear"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+            <section class = "options_description personal_data_description">
+                <article class = "tab_general_description">
+                    Personal data settings general description
+                </article>
+                <article class = "hovered_item_description">
+                    Personal data selected option detailed description
+                </article>
+            </section>
+            <div class = "clear"></div>
         </div>
     </div>
 </div>

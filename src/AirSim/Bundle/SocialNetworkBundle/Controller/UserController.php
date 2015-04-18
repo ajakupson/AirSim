@@ -94,8 +94,6 @@ class UserController extends Controller
         $wallService = WallService::getInstance();
         $addedWallRecord = $wallService->addWallRecord($receiverId, $authorId, $text, $attachedPictures);
 
-        $photoService = PhotoService::getInstance();
-
         // TODO: Add localization
         $notificationInfo = 'User <span class = "author">%s %s</span> has sent you a message!';
         $notificationInfoFormatted = sprintf($notificationInfo, $sessionData['userInfo']['firstName'],

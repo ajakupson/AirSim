@@ -3,40 +3,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns ="http://www.w3.org/1999/xhtml">
     <head xmlns="http://www.w3.org/1999/html">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0"/>
         {# Stylesheets #}
         {% block globalStylesheets %}
-        {# Fonts #}
-        {#<link href = "{{ asset('assets/css/blue/fonts.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
-        {# End Of Fonts #}
-        {#<link href = "{{ asset('assets/css/blue/common.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/forms.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/tabs.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/layout_inner.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/dialog.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/gallery.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/selectric.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/map.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href = "{{ asset('assets/css/blue/jquery.qtip.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-        <link href="{{ asset('assets/js/plugins/formstone/components/scroller/jquery.fs.scroller.css') }}" rel="stylesheet">#}
-
-        {#{% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/responsive/minified/layout_inner_min.css'
-        'assets/css/blue/fonts.css'
-        'assets/css/blue/responsive/common/common_1920.css'
-        'assets/css/blue/responsive/forms/forms_1920.css'
-        'assets/css/blue/responsive/tabs/tabs_1920.css'
-        'assets/css/blue/responsive/layout_inner/layout_inner_1920.css'
-        'assets/css/blue/responsive/dialog/dialog_1920.css'
-        'assets/css/blue/responsive/gallery/gallery_1920.css'
-        'assets/css/blue/selectric.css'
-        'assets/css/blue/responsive/map/map_1920.css'
-        'assets/css/blue/jquery.qtip.css'
-        %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
-        {% endstylesheets %}
-        {% endblock %}#}
-
             {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/layout_inner_min.css'
                 'bundles/airsimsocialnetwork/css/blue/fonts.css'
                 'bundles/airsimsocialnetwork/css/blue/responsive/common/common_1920.css'
@@ -48,8 +19,10 @@
                 'bundles/airsimsocialnetwork/css/blue/selectric.css'
                 'bundles/airsimsocialnetwork/css/blue/responsive/map/map_1920.css'
                 'bundles/airsimsocialnetwork/css/blue/jquery.qtip.css'
+                'bundles/airsimsocialnetwork/css/blue/jquery-ui-1.10.4.css'
             %}
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+            <link href = "{{ asset('assets/css/plugins/formstone/jquery.fs.scroller.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
             {% endstylesheets %}
         {% endblock %}
 
@@ -187,6 +160,7 @@
                     {% block pageContent %}
                     {% endblock pageContent %}
                     {# End Of Unique Page Content #}
+                    <div class = "clear"></div>
                 </div>
 
                 {# Notification Box #}
@@ -537,7 +511,7 @@
 
         {# JavaScripts #}
         {% block globalJavaScripts %}
-        {{ require_js_initialize() }}
+            {{ require_js_initialize() }}
             <script type="text/javascript">require(['blue/inner'])</script>
         {% endblock %}
 

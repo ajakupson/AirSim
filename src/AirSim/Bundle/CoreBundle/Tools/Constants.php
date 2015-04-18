@@ -2,8 +2,7 @@
 namespace AirSim\Bundle\CoreBundle\Tools;
 
 
-class Constants
-{
+class Constants {
     // Error Codes
     const ERR_WRONG_USERNAME_OR_PASS = 'ERR_WRONG_USERNAME_OR_PASS';
 
@@ -24,6 +23,18 @@ class Constants
 
     // Paths
     const TMP_FILES_DIRECTORY_PATH = './../web/public_files/tmp/';
+    const USER_FILES_DIRECTORY_PATH = './../web/public_files/user_';
+    const USER_ALBUM_PICTURE_PATH = './../web/public_files/user_%d/albums/%s/%s';
+    const IMAGINE_FILE_PATH = 'public_files/user_%d/albums/%s/%s';
+    const IMAGINE_CACHE_PATH = 'media/cache/%s/public_files/user_%d/albums/%s/%s';
+
+    const APP_DEFAULT_PROFILE_PICS_ALBUM_NAME = 'profile_pics';
+
+    // LiipImagineBundle filter names
+    const IMAGE_FILTER_LAST_PHOTO = 'last_photo';
+
+    const MAX_PROFILE_PIC_WIDTH = 240;
+    const MAX_PROFILE_PIC_HEIGHT = 240;
 
     // Default folders
     const WALL_PICTURES_ALBUM_NAME = 'wall_pics';

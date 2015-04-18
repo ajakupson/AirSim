@@ -71,9 +71,21 @@ air_sim_social_network_messages_delete_message:
 
 # ***** Photo Albums ***** #
 air_sim_social_network_photo_albums:
-    path:     /photo_albums/{user_id}
-    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:photoAlbums, user_id: null }
+    path:     /photo_albums/{contactId}
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:photoAlbums, contactId: null }
 # AJAX calls
+air_sim_social_network_photo_albums_create_album:
+    path:     /photos_create_album
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:createAlbum }
+air_sim_social_network_photo_albums_delete_album:
+    path:     /photos_delete_album
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:deleteAlbum }
+air_sim_social_network_photo_albums_save_photos:
+    path:     /photos_save_photos
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:savePhotos }
+air_sim_social_network_photo_albums_save_cropped_image:
+    path:     /photos_save_cropped_image
+    defaults: { _controller: AirSimSocialNetworkBundle:PhotoAlbums:saveCroppedProfilePicture }
 
 # ***** Map ***** #
 # AJAX calls
@@ -95,28 +107,34 @@ air_sim_social_network_options:
 air_sim_social_network_options_config_change:
     pattern:  /options_config_change
     defaults: { _controller: AirSimSocialNetworkBundle:Options:configChange }
-#air_sim_social_network_options_personal_update_main_info:
-#    pattern:  /options_update_main_info
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateMainInfo }
-#air_sim_social_network_options_personal_update_additional_info:
-#    pattern:  /options_update_additional_info
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateAdditionalInfo }
-#air_sim_social_network_options_personal_add_high_education:
-#    pattern:  /options_add_high_education
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:addHighEducation }
-#air_sim_social_network_options_personal_edit_high_education:
-#    pattern:  /options_edit_high_education
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:editHighEducation }
-#air_sim_social_network_options_personal_delete_high_education:
-#    pattern:  /options_delete_high_education
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteHighEducation }
-#air_sim_social_network_options_personal_add_workplace:
-#    pattern:  /options_add_workplace
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:addWorkplace }
-#air_sim_social_network_options_personal_edit_workplace:
-#    pattern:  /options_edit_workplace
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:editWorkplace }
-#air_sim_social_network_options_personal_delete_workplace:
-#    pattern:  /options_delete_workplace
-#    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteWorkplace }
+air_sim_social_network_personal_data_update_main_info:
+    pattern:  /personal_data_update_main_info
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateMainInformation }
+air_sim_social_network_personal_data_update_additional_info:
+    pattern:  /personal_data_update_additional_info
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:updateAdditionalInformation }
+air_sim_social_network_personal_data_add_high_education:
+    pattern:  /personal_data_add_high_education
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:addHighEducation }
+air_sim_social_network_personal_data_edit_high_education:
+    pattern:  /personal_data_edit_high_education
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:editHighEducation }
+air_sim_social_network_personal_data_delete_high_education:
+    pattern:  /personal_data_delete_high_education
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteHighEducation }
+air_sim_social_network_personal_data_add_workplace:
+    pattern:  /personal_data_add_workplace
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:addWorkplace }
+air_sim_social_network_personal_data_edit_workplace:
+    pattern:  /personal_data_edit_workplace
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:editWorkplace }
+air_sim_social_network_personal_data_delete_workplace:
+    pattern:  /personal_data_delete_workplace
+    defaults: { _controller: AirSimSocialNetworkBundle:Options:deleteWorkplace }
+
+# ***** Utils ***** #
+# AJAX calls
+air_sim_social_network_utils_upload_tmp_images:
+    path:     /utils_upload_tmp_images
+    defaults: { _controller: AirSimSocialNetworkBundle:Utils:uploadTmpImages }
 

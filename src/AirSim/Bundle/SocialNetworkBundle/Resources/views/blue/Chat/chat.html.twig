@@ -3,11 +3,12 @@
 {% block pageStylesheets %}
     {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/chat_min.css'
         'bundles/airsimsocialnetwork/css/blue/responsive/chat/chat_1920.css'
-        'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
     {% endstylesheets %}
 {% endblock pageStylesheets %}
+
+{#'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'#}
 
 {% block pageJavaScripts %}
     <script type="text/javascript">require(['blue/chat_room'])</script>

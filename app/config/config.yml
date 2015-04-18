@@ -113,16 +113,19 @@ services:
 
 # Hearsay RequireJS
 hearsay_require_js:
-    require_js_src:  ./../assets/js/plugins/require-js-2.1.15.js
+    require_js_src:  %kernel.root_dir%/../web/assets/js/plugins/require-js-2.1.15.js
     initialize_template: HearsayRequireJSBundle::initialize.html.twig
     # Folder with JavaScript modules
-    base_url:  ./assets/js/themes
+    base_url:  %kernel.root_dir%/../web/assets/js/themes
     # Folder for r.js optimizer
     base_dir: %kernel.root_dir%/../web/assets/js/optimized # Required
     # Paths for plugins
     paths :
         jquery:
             location: ./../../../assets/js/plugins/jquery-1.11.1
+            external: true
+        jquery.ui:
+            location: ./../../../assets/js/plugins/jquery-ui-1.10.4
             external: true
         jquery.form:
             location: ./../../../assets/js/plugins/jquery-form
@@ -141,6 +144,9 @@ hearsay_require_js:
             external: true
         jquery.autosize:
             location: ./../../../assets/js/plugins/jquery.autosize
+            external: true
+        jquery.imgareaselect:
+            location: ./../../../assets/js/plugins/jquery.imgareaselect
             external: true
         autobahn:
             location: ./../../../assets/js/plugins/autobahn-wamp1
@@ -167,9 +173,13 @@ hearsay_require_js:
             external: true
     # Shim config (dependencies of plugins / modules, their exports )
     shim:
+        jquery.ui:
+          deps: [jquery]
         jquery.selectric:
             deps: [jquery]
         jquery.autosize:
+            deps: [jquery]
+        jquery.imgareaselect:
             deps: [jquery]
         here:
             deps: [jquery]

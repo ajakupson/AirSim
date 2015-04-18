@@ -1,15 +1,12 @@
 {% extends 'AirSimSocialNetworkBundle:blue/Layouts:inner.html.twig' %}
 
 {% block pageStylesheets %}
-{#<link href = "{{ asset('assets/css/blue/accordion.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
-<link href = "{{ asset('assets/css/blue/user.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />#}
-
-{% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/user_min.css'
-    'bundles/airsimsocialnetwork/css/blue/responsive/accordion/accordion_1920.css'
-    'bundles/airsimsocialnetwork/css/blue/responsive/user/user_1920.css'
-    'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'
-    'bundles/airsimsocialnetwork/css/blue/responsive/test.css'
-%}
+    {% stylesheets filter='yui_css' filter='cssrewrite' output='assets/css/blue/responsive/minified/user_min.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/accordion/accordion_1920.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/user/user_1920.css'
+        'bundles/airsimsocialnetwork/css/plugins/formstone/jquery.fs.scroller.css'
+        'bundles/airsimsocialnetwork/css/blue/responsive/test.css'
+    %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
 {% endstylesheets %}
 {% endblock pageStylesheets %}

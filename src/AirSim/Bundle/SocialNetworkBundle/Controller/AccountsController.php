@@ -65,7 +65,8 @@ class AccountsController extends Controller
                 'username' => $username,
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
-                'webPic' => $user->getWebProfilePic()
+                'webPic' => $user->getWebProfilePic(),
+                'phonePic' => null
             );
             $session->set('sessionData', array('userInfo' => $userInfo));
 

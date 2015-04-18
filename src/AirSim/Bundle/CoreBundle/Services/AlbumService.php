@@ -19,8 +19,7 @@ class AlbumService
         $this->userPhotoAlbumsRepository = $this->entityManager->getRepository('AirSimCoreBundle:UserPhotoAlbums');
     }
 
-    public static function getInstance()
-    {
+    public static function getInstance() {
         if(self::$albumServiceInstance == null)
         {
             self::$albumServiceInstance = new self();
@@ -28,8 +27,7 @@ class AlbumService
         return self::$albumServiceInstance;
     }
 
-    public function getWallPicsAlbum($userId)
-    {
+    public function getWallPicsAlbum($userId) {
         return $this->userPhotoAlbumsRepository->findOneBy(array('userId' => $userId, 'albumName' => Constants::WALL_PICTURES_ALBUM_NAME));
     }
 }

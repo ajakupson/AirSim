@@ -3,30 +3,33 @@
 namespace AirSim\Bundle\CoreBundle\Services;
 
 use AirSim\Bundle\CoreBundle\AirSimCoreBundle;
-use AirSim\Bundle\CoreBundle\DataTransferObjects\PhotoDTO;
 use AirSim\Bundle\CoreBundle\DataTransferObjects\CommentDTO;
+use AirSim\Bundle\CoreBundle\DataTransferObjects\PhotoDTO;
 use AirSim\Bundle\CoreBundle\Entity\PhotoRatings;
+use AirSim\Bundle\CoreBundle\Tools\Constants;
+use AirSim\Bundle\CoreBundle\Services\FileService;
+use AirSim\Bundle\CoreBundle\Entity\UserPhotos;
 
-class PhotoService
-{
+class PhotoService {
     private static $photoServiceInstance;
 
     // dependencies
     private $entityManager = null;
     private $photosRepository = null;
     private $photoRatingsRepository = null;
+    private $photoAlbumsService = null;
+    private $fileService;
 
-    private function __construct()
-    {
+    private function __construct() {
         $this->entityManager = AirSimCoreBundle::getContainer()->get('doctrine')->getManager();
         $this->photosRepository = $this->entityManager->getRepository('AirSimCoreBundle:UserPhotos');
         $this->photoRatingsRepository = $this->entityManager->getRepository('AirSimCoreBundle:PhotoRatings');
+        $this->photoAlbumsService = PhotoAlbumsService::getInstance();
+        $this->fileService = FileService::getInstance();
     }
 
-    public static function getInstance()
-    {
-        if(is_null(self::$photoServiceInstance))
-        {
+    public static function getInstance() {
+        if(is_null(self::$photoServiceInstance)) {
             self::$photoServiceInstance = new self();
         }
         return self::$photoServiceInstance;
@@ -223,5 +226,98 @@ class PhotoService
         $averageRating = $query->getQuery()->getResult();
 
         return $averageRating[0]['pictureAverageRating'];
+    }
+
+    public function savePhotos($userId, $albumId, $albumTitle, $attachedPictures, $diContainer) {
+
+        $userAlbumDirectory = Constants::USER_FILES_DIRECTORY_PATH.$userId.'/albums/'.$albumTitle.'/';
+        $albumEntity = $this->photoAlbumsService->getAlbumById($albumId);
+        $dateTime = new \DateTime();
+        $uploadedPictures = array();
+        global $kernel;
+
+        foreach($attachedPictures as $picture) {
+
+            $this->fileService->moveFile(Constants::TMP_FILES_DIRECTORY_PATH.$picture, $userAlbumDirectory.$picture);
+
+            $imagePath = sprintf(Constants::IMAGINE_FILE_PATH, $userId, $albumTitle, $picture);
+            $cachedImagePath = sprintf(Constants::IMAGINE_CACHE_PATH, Constants::IMAGE_FILTER_LAST_PHOTO, $userId, $albumTitle, $picture);
+            $this->LiipWriteThumbnailImage($imagePath, $cachedImagePath, Constants::IMAGE_FILTER_LAST_PHOTO, $diContainer);
+
+            $userPicture = new UserPhotos();
+            $userPicture->setAlbum($albumEntity);
+            $userPicture->setPhotoName($picture);
+            $userPicture->setPhotoTitle(null);
+            $userPicture->setPhotoDescription(null);
+            $userPicture->setDateAdded($dateTime);
+            $userPicture->setIsCover(false);
+            $userPicture->setLatitude(null);
+            $userPicture->setLongitude(null);
+            $this->entityManager->persist($userPicture);
+            $this->entityManager->flush();
+
+            $pictureData = array();
+            $pictureData['id'] = $userPicture->getPhotoId();
+            $pictureData['name'] = $picture;
+            $pictureData['userId'] = $userId;
+
+            $uploadedPictures[] = $pictureData;
+        }
+
+        $this->entityManager->flush();
+
+        return $uploadedPictures;
+    }
+
+    /**
+     * Write a thumbnail image using the LiipImagineBundle
+     *
+     * @param string $fullSizeImgWebPath path where full size upload is stored e.g. uploads/attachments
+     * @param string $thumbAbsPath full absolute path to attachment directory e.g. /var/www/projectName/images/thumbs/
+     * @param string $filter filter defined in config e.g. my_thumb
+     * @param Object $diContainer Dependency Injection Object, if calling from controller just pass $this
+     */
+    public function LiipWriteThumbnailImage($fullSizeImgWebPath, $thumbAbsPath, $filter, $diContainer) {
+
+        $container = $diContainer;                                       // the DI container, if keeping this function in controller just use $container = $this
+        $dataManager = $container->get('liip_imagine.data.manager');     // the data manager service
+        $filterManager = $container->get('liip_imagine.filter.manager'); // the filter manager service
+        $image = $dataManager->find($filter, $fullSizeImgWebPath);       // find the image and determine its type
+        $response = $filterManager->applyFilter($image, $filter);
+
+        $thumb = $response->getContent();                                // get the image from the response
+
+        $f = fopen($thumbAbsPath, 'w');                                  // create thumbnail file
+        fwrite($f, $thumb);                                              // write the thumbnail
+        fclose($f);                                                      // close the file
+    }
+
+    public function cropAndSaveImage($xAxis, $x2Axis, $yAxis, $y2Axis, $thumbWidth, $thumbHeight, $fromDirectory, $toDirectory,
+        $imageName) {
+
+        $tWidth = Constants::MAX_PROFILE_PIC_WIDTH; // Maximum thumbnail width
+        $tHeight = Constants::MAX_PROFILE_PIC_HEIGHT; // Maximum thumbnail height
+
+        $ratio = ($tWidth / $thumbWidth);
+        $newW = ceil($thumbWidth * $ratio);
+        $newH = ceil($thumbHeight * $ratio);
+        $newImg = imagecreatetruecolor($newW ,$newH);
+        $imageSrc = imagecreatefromjpeg($fromDirectory.$imageName);
+        imagecopyresampled($newImg, $imageSrc, 0, 0, $xAxis, $yAxis, $newW, $newH, $thumbWidth, $thumbHeight);
+        imagejpeg($newImg, $toDirectory, 90);
+    }
+
+    public function updateProfilePicture($userId, $xAxis, $x2Axis, $yAxis, $y2Axis, $thumbWidth, $thumbHeight, $fromDirectory, $toDirectory,
+        $imageName) {
+
+        $this->cropAndSaveImage($xAxis, $x2Axis, $yAxis, $y2Axis, $thumbWidth, $thumbHeight, $fromDirectory, $toDirectory,
+            $imageName);
+
+        $userEntity = $this->photoAlbumsService->getUserRepository()->findOneByUserId($userId);
+        /*if(sizeof($userEntity) != 0) {
+            $userEntity->setWebProfilePic($imageName);
+            $this->entityManager->persist($userEntity);
+            $this->entityManager->flush();
+        }*/
     }
 }

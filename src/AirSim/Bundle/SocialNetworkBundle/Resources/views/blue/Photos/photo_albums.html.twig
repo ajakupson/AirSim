@@ -5,8 +5,8 @@
         'bundles/airsimsocialnetwork/css/blue/responsive/photo_albums/photo_albums_1920.css'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen"/>
+    <link href = "{{ asset('assets/css/plugins/jquery_image_area_select/imgareaselect-animated.css') }}" type = "text/css" rel = "stylesheet" media = "screen" />
     {% endstylesheets %}
-
 {% endblock pageStylesheets %}
 
 {% block pageJavaScripts %}
@@ -24,24 +24,26 @@
         </nav>
         <div id = "albums_tabs_content" class = "tabs_content">
             <div class = "albums_content tab" id = "albums_tab">
-                <section class = "albumsContainer">
-                    <input type = "button" class = "submitButton right" value = "Create album"/>
-                    <div class = "clear"></div>
+                <input type = "button" class = "right" id = "create_album_btn" value = "Create album"/>
+                <div class = "clear"></div>
+                <section class = "albumsContainer" id = "photo_albums_container">
                     {% for record in albumsAndPhotos %}
                         <div class = "album">
-                            <div class = "albumTitle">{{ record.album.albumTitle }}</div>
-                            <input type = "hidden" class = "albumId" value = "{{ record.album.albumId }}"/>
+                            <div class = "photo_album_title">{{ record.album.albumTitle }}</div>
+                            <input type = "hidden" class = "album_id" value = "{{ record.album.albumId }}"/>
+                            <input type = "hidden" class = "album_name" value = "{{ record.album.albumName }}"/>
                             <ul>
                                 {% for photo in record.photos %}
                                     <li>
-                                        <img src = "./../../../../../AirSim/web/public_files/user_{{ record.album.userId }}/albums/{{ record.album.albumName }}/{{ photo.photoName }}"
+                                        <img src = '{{ ("public_files/user_"~record.album.userId~"/albums/"~record.album.albumName~"/"~photo.photoName) | imagine_filter('last_photo') }}'
                                              class = "photo"/>
-                                        <input type = "hidden" class = "photoId" value = "{{ photo.photoId }}" />
+                                        <input type = "hidden" class = "photo_id" value = "{{ photo.photoId }}" />
                                     </li>
                                 {% endfor %}
                             </ul><div class = "clear"></div>
-                            <input type = "button" class = "submitButton right" value = "Delete album"/>
-                            <input type = "button" class = "submitButton right" value = "Upload photos"/>
+                            <input type = "button" class = "right delete_album_btn" value = "Delete album"/>
+                            <input type = "button" class = "right upload_photos_btn" value = "Upload photos"/>
+                            <input type = "button" class = "right watch_album_btn" value = "Watch album"/>
                             <div class = "clear"></div>
                         </div>
                     {% endfor %}
@@ -51,22 +53,34 @@
                 <div class = "profile_pic_change_wrapper">
                     <div class = "profile_pic_change profile_pic_change_left">
                         <div class = "profile_header">
-                            Photo for web page
+                            Photo for web application
                         </div>
-                        <img id = "photo_to_cropq" class = "profile_photo" src = ""/><div class = "clear"></div>
-                            <input type = "button" class = "submit_button extend_icon" id = "profile_pic_web_upload" style = "width: 240px;" value = "Change profile pic for web"/><br/>
+                        {% if app.session.get('sessionData') is not null %}
+                            {% if app.session.get('sessionData')['userInfo']['webPic'] is not null %}
+                                <img id = "web_photo_to_crop" class = "profile_photo" src = "{{ asset('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~'/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) }}"/>
+                            {% else %}
+                                <img id = "web_photo_to_crop class = "profile_photo" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                            {% endif %}
+                        {% endif %}
+                        <div class = "clear"></div>
+                            <input type = "button" id = "profile_pic_web_upload" style = "width: 240px;" value = "Web profile image"/><br/>
                             <div class = "center_slideshow">
-                                Turn on/off slideshow<input type = "checkbox" style = "vertical-align: middle"/>
+                                <input type = "checkbox" id = "slide_show_switch" unchecked/>
+                                <label for = "slide_show_switch">Turn on / off slideshow<span></span></label>
                             </div>
                     </div>
                     <div class = "profile_pic_change">
                         <div class = "profile_header">
                             Photo for phone application
                         </div>
-                        <img class = "profile_photo" src = ""/><div class = "clear"></div>
-                            <input type = "button" class = "submit_button extend_icon" style = "width: 240px;" value = "Change profile pic for phone application"/><br/>
+                        {% if app.session.get('sessionData')['userInfo']['phonePic'] is not null %}
+                            <img id = "phone_photo_to_crop" class = "profile_photo" src = "{{ asset('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~'/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['phonePic']) }}"/>
+                        {% else %}
+                            <img id = "phone_photo_to_crop" class = "profile_photo" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+                        {% endif %}
+                        <div class = "clear"></div>
+                        <input type = "button" style = "width: 240px;" value = "Phone profile image"/><br/>
                     </div>
-                    <div class = "clear"></div>
                 </div>
             </div>
         </div>
@@ -75,69 +89,88 @@
     <!-- ********** PopUp Windows ********** -->
 
     <!-- Create Album PopUp Window -->
-    <div id = "createAlbumPopUp" class = "popUpWindow">
-        <div class = "popUpWindowTitle">Create new album</div>
-        <div id = "popUpClose" class = "popUpClose"></div>
-                    <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
-                        Press Esc to close
-                        <span id = "popUpArrow" class = "popUpArrow"></span>
-                    </span>
-        <div class = "create_album_pop_up">
+    <div id = "create_photo_album_dialog" class = "dialog scale">
+        <div class = "dialog_title">Create new photo album</div>
+        <div id = "dialog_close" class = "dialog_close">x</div>
+        <span id = "dialog_close_tooltip" class="dialog_close_tooltip">
+            Press Esc to close
+            <span id = "dialog_arrow" class = "dialog_arrow"></span>
+        </span>
+        <div class = "dialog_content">
             <table class = "create_album_table">
                 <tr>
-                    <td>New Album Title:</td>
+                    <td>New Album Title:<span class = "required">*</span></td>
                     <td><input type = "text" class = "input_main" id = "album_title"/></td>
                 </tr>
-                <tr><td></td><td><input type = "button" id = "create_album_pop" class = "submit_button extend_icon right" value = "Create album"/></td></tr>
-                <tr><td></td><td>
-                        <div class = "success right album_created hidden_div">Album created</div>
-                        <div class = "required_field right title_required hidden_div">Album title required</div>
-                        <input type = "hidden" class = "up_album_id" value = "0"/>
-                        <input type = "hidden" class = "up_album_name" value = "0"/>
-                    </td></tr>
-                <tr><td></td><td><input type = "button" class = "submit_button extend_icon right up_photos" style = "display: none" value = "Upload photos"/></td></tr>
+                <tr><td></td><td><input type = "button" id = "create_album_dialog_btn" class = "submit_button extend_icon right" value = "Create album"/></td></tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class = "success right hidden">Album created</div>
+                        <div class = "errors right hidden">Album title required</div>
+                        <input type = "hidden" class = "upload_album_id" value = "0"/>
+                        <input type = "hidden" class = "upload_album_name" value = "0"/>
+                    </td>
+                </tr>
+                <tr><td></td><td><input type = "button" class = "hidden upload_photos_btn right" value = "Upload photos"/></td></tr>
             </table>
         </div>
     </div>
     <!-- End Of Create Album PopUp Window -->
 
     <!-- Upload Files PopUp Window -->
-    <div id = "uploadPhotosPopUp" class = "popUpWindow">
-        <div class = "popUpWindowTitle">Photos upload</div>
-        <div id = "popUpClose" class = "popUpClose"></div>
-        <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
+    <div id = "upload_photos_dialog" class = "dialog scale">
+        <div class = "dialog_title">Photos upload</div>
+        <div id = "dialog_close" class = "dialog_close">x</div>
+        <span id = "dialog_close_tooltip" class="dialog_close_tooltip">
             Click to close
-            <span id = "popUpArrow" class = "popUpArrow"></span>
+            <span id = "dialog_arrow" class = "dialog_arrow"></span>
         </span>
-        <div class = "upload_files_form">
-            <div id = "preview"></div>
-            <form id="image_form" method="post" enctype="multipart/form-data" action = "./../photos_upload_photos" style = "clear:both">
-                Select images:
-                <div id = "image_load_status" class = "ajaxWaitSmall"></div>
-                <div id = "image_load_button">
-                    <input type = "file" name = "photos[]" id = "photo_img" multiple = "true" />
-                </div>
-            </form>
+        <div class = "dialog_content">
+            <div class = "upload_files_form">
+                <form id = "images_form" method = "post" enctype = "multipart/form-data" style = "clear:both">
+                    <div class = "ajax_wait hidden" id = "image_upload_status">Please wait. Uploading photos... </div>
+                    <label for = "attached_images" class = "left">Select images:</label>
+                    <input type = "file" name = "attached_images[]" id = "photo_imgs" multiple = "true" class = "left"/>
+                    <div class = "clear"></div>
+                    <input type = "button" class = "hidden left" id = "start_upload_photos_btn" value = "Start upload"/>
+                </form>
+                <div id = "preview" class = "images_preview formstone_scroller"><ul></ul><div class = "clear"></div></div>
+            </div>
         </div>
     </div>
     <!-- End Of Upload Files PopUp Window -->
 
     <!-- Profile Pic Change PopUp Window -->
-    <div id = "profilePicChangePopUp" class = "popUpWindow">
-        <div class = "popUpWindowTitle">What's has happened?</div>
-        <div id = "popUpClose" class = "popUpClose"></div>
-            <span id = "popUpCloseTooltip" class="popUpCloseTooltip">
-                Press Esc to close
-                <span id = "popUpArrow" class = "popUpArrow"></span>
+    <div id = "profile_pic_change_dialog" class = "dialog scale">
+        <div class = "dialog_title">Change profile picture</div>
+        <div id = "dialog_close" class = "dialog_close">x</div>
+        <span id = "dialog_close_tooltip" class="dialog_close_tooltip">
+            Press Esc to close
+            <span id = "dialog_arrow" class = "dialog_arrow"></span>
+        </span>
+        <div id = "thumbs">
+            {% if app.session.get('sessionData')['userInfo']['webPic'] %}
+                <img class = "user_ava" src = "{{ asset('public_files/user_'~app.session.get('sessionData')['userInfo']['id']~
+                '/albums/profile_pics/'~app.session.get('sessionData')['userInfo']['webPic']) }}"/>
+            {% else %}
+                <img class = "user_ava" src = "{{ asset('public_files/app_default/no_avatar_male.png') }}"/>
+            {% endif %}
+        </div>
+        <div class = "photo_change_guide">
+            <span>
+                Please select or drag'n'drop image you want to be Your profile picture and crop for wanted area.
+                Maximum width and heigh of a profile picture is limited to 240px.
             </span>
-        <div id="thumbs" ></div>
+        </div>
+        <div class = "clear"></div>
         <div class = "crop_image_block">
-            <img id = "photo_to_crop">
-            <form id="cropimage" method="post" enctype="multipart/form-data">
-                Upload your image <input type="file" name="photoimg" id="photoimg" />
-                <input type="hidden" name="image_name" id="image_name" value="" />
+            <img id = "photo_to_crop" class = "photo_to_crop"/>
+            <form id = "crop_image" method = "post" enctype = "multipart/form-data" class = "drag_n_drop_form">
+                <input type = "file" name = "attached_images[]" id = "photo_img" class = "drag_n_drop_file"/>
+                <input type = "hidden" name = "image_name" id = "image_name" value = ""/>
             </form>
-            <input type = "button" class = "submit_button extend_icon right" style = "margin-right: 20px;" id = "action_save_cropped_image" value = "Save"/>
+            <input type = "button" class = "right" style = "margin-right: 20px;" id = "action_save_cropped_image" value = "Save"/>
         </div>
     </div>
     <!-- Profile Pic Change PopUp Window -->

@@ -60,9 +60,6 @@ class OptionsService {
             case Constants::PRIVATE_SENDING_MESSAGES : {
                 $userConfig->setPrivWhoAllowedWrite($configValue);
             } break;
-            case Constants::PRIVATE_SENDING_MESSAGES : {
-                $userConfig->setPrivWhoAllowedWrite($configValue);
-            } break;
             case Constants::SYNCHRONIZATION_AUTO_BETWEEN_PHONE_SITE : {
                 $userConfig->setSyncAutoSync($configValue);
             } break;
